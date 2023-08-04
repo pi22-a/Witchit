@@ -1,0 +1,71 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PEA_Camera : MonoBehaviour
+{
+    // 카메라 이동에 관한 변수
+    private float posLerpSpeed = 10f;
+
+    // 플레이어 상태에 관한 변수
+    private bool isChanged = false;                                  // 변신하면 화면상 마녀의 위치가 달라짐
+    private Vector3 defaultCamPos = Vector3.zero;                    // 마녀 모습일 때 각 축의 플레이어와 카메라의 거리
+    private Vector3 probModeCamPos = Vector3.zero;                   // 프랍으로 변신했을 때 각 축의 플레이어와 카메라의 거리
+
+    // 마우스 입력값 받을 변수
+    private float mouseX = 0f;
+    private float mouseY = 0f;
+
+    // 에디터에서 연결해줄 변수
+    public Transform player;
+
+    void Start()
+    {
+        // 마녀일 때와 프랍으로 변신했을 때의 위치값 설정
+        defaultCamPos = transform.localPosition - player.transform.position;
+        probModeCamPos = new Vector3(0, defaultCamPos.y, defaultCamPos.z);
+    }
+
+    void Update()
+    {
+        FollowPlayer();
+        Rotate();
+        //if (Input.GetKeyDown(KeyCode.O))
+        //{
+        //    isChanged = !isChanged;
+        //    SetCamPos();
+        //    print(isChanged);
+        //}
+    }
+
+    // 마녀 <-> 프랍 상태가 변하면 호출
+    // 마녀의 화면상 위치를 조절
+    private void SetCamPos()
+    {
+        if (!isChanged)
+        {
+            Camera.main.transform.localPosition = defaultCamPos; 
+        }
+        else
+        {
+            Camera.main.transform.localPosition = probModeCamPos;
+        }
+    }
+
+    private void FollowPlayer()
+    {
+        if (!isChanged)
+        {
+            //Vector3 fixedPos = player.position + defaultCamPos;
+            transform.position = Vector3.Lerp(transform.position, player.position, posLerpSpeed * Time.deltaTime);
+        }
+    }
+
+    private void Rotate()
+    {
+        mouseX = Input.GetAxis("Mouse X");
+        mouseY = Input.GetAxis("Mouse Y");
+
+        transform.localEulerAngles += new Vector3(-mouseY, mouseX, 0);
+    }
+}
