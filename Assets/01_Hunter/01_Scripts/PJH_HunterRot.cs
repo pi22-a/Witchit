@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class PJH_HunterRot : MonoBehaviour
 {
-    float rx;
-    float ry;
-    public float rotSpeed = 200;
-    // Start is called before the first frame update
+    //누적된 회전 값
+    float rotX;
+    float rotY;
+
+    //회전 속력
+    float rotSpeed = 200;
+
+    //카메라 Transform
+    public Transform trCam;
     void Start()
     {
 
@@ -16,15 +21,22 @@ public class PJH_HunterRot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 1. 사용자의 입력에따라
+        
+
+
+        //마우스의 움직임따라 플레이를 좌우 회전하고
+        //카메라를 위아래 회전하고 싶다.
+
+        //1. 마우스 입력을 받자.
         float mx = Input.GetAxis("Mouse X");
         float my = Input.GetAxis("Mouse Y");
-        // 2. X와 Y축의 값을 누적하고
-        rx += my * rotSpeed * Time.deltaTime;
-        ry += mx * rotSpeed * Time.deltaTime;
-        // 3. rx에대해 각도를 제한하고싶다.
-        rx = Mathf.Clamp(rx, -75, 75);
-        // 4. 그 누적값으로 회전을 하고싶다.
-        transform.eulerAngles = new Vector3(-rx, ry, 0);
+
+        //2. 마우스의 움직임 값을 누적
+        rotX += mx * rotSpeed * Time.deltaTime;
+        rotY += my * rotSpeed * Time.deltaTime;
+
+        //3. 누적된 값만큼 회전 시키자.
+        transform.localEulerAngles = new Vector3(0, rotX, 0);
+        trCam.localEulerAngles = new Vector3(-rotY, 0, 0);
     }
 }
