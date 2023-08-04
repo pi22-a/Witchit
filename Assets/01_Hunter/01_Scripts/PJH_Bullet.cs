@@ -5,7 +5,7 @@ using UnityEngine;
 public class PJH_Bullet : MonoBehaviour
 {
     //총알 속력
-    float speed = 10;
+    public float speed = 20;
 
     //폭발효과공장
     //public GameObject exploFactory;

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 public class PJH_HunterFire : MonoBehaviour
 {
-    //폭탄 공장
-    public GameObject bombFactory;
-    //파편 공장
-    //public GameObject fragmentFactory;
+    //감자 공장
+    public GameObject potatoFactory;
+    //닭 공장
+    public GameObject chickenFactory;
+    //흡수 공장
 
     //발사 위치
     public Transform firePosition;
@@ -17,31 +18,37 @@ public class PJH_HunterFire : MonoBehaviour
 
     void Update()
     {
-        //1번키를 누르면
+        //좌클릭시
         if (Input.GetButtonDown("Fire1"))
-        {
-            //FireBulletByInstantiate();
-
-
-            GameObject potato = Instantiate(bombFactory);
+        {           
+            GameObject potato = Instantiate(potatoFactory);
             potato.transform.position = firePosition.position;
             potato.transform.forward = firePosition.forward;
-
-            //폭탄공장에서 폭탄을 만든다
-
+        }
+        //우클릭시
+        if (Input.GetButtonDown("Fire2"))
+        {
+            GameObject chicken = Instantiate(chickenFactory);
+            chicken.transform.position = firePosition.position;
+            chicken.transform.forward = firePosition.forward;
+        }
+        //Q클릭시
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            GameObject chicken = Instantiate(chickenFactory);
+            chicken.transform.position = firePosition.position;
+            chicken.transform.forward = firePosition.forward;
+        }
+        //좌 Ctrl 클릭시
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            GameObject chicken = Instantiate(chickenFactory);
+            chicken.transform.position = firePosition.position;
+            chicken.transform.forward = firePosition.forward;
         }
     }
 
-    void FireBulletByInstantiate()
-    {
-        //만들어진 폭탄을 카메라 앞방향으로 1만큼 떨어진 지점에 놓는다.
-        Vector3 pos = Camera.main.transform.position + Camera.main.transform.forward * 1;
-
-        //만들어진 총알의 앞방향을 카메라가 보는 방향으로 설정
-        Quaternion rot = Camera.main.transform.rotation;
-
-       
-    }
+   
 
 
 }

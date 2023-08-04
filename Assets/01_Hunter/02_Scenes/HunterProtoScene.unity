@@ -428,8 +428,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1402255043}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.7066664, y: 0.44333315, z: 0.54599994}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.07, y: 0, z: 1.044}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -758,7 +758,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6375ddd11f2504194827a76fd987ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombFactory: {fileID: 1001088422710450197, guid: 84d66b191d012804abb60c2ae47d1bd6, type: 3}
+  potatoFactory: {fileID: 1001088422710450197, guid: 84d66b191d012804abb60c2ae47d1bd6, type: 3}
+  chickenFactory: {fileID: 1258045782622361247, guid: 17c9f67b15840d24e820fc9c61d4afec, type: 3}
+  firePosition: {fileID: 1402255044}
 --- !u!114 &1612771624
 MonoBehaviour:
   m_ObjectHideFlags: 0
