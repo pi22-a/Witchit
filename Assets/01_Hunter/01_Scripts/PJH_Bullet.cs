@@ -7,6 +7,9 @@ public class PJH_Bullet : MonoBehaviour
     //총알 속력
     public float speed = 20;
 
+    // 데미지 계산을 위한 PEA_WitchHP 스크립트
+    public GameObject Witch;
+
     //폭발효과공장
     //public GameObject exploFactory;
 
@@ -35,15 +38,26 @@ public class PJH_Bullet : MonoBehaviour
         //2초뒤에 explo 를 파괴하자.
         //Destroy(explo, 2);
 
+        // tag가 Witch일때
+        if(other.transform.tag == "Witch")
+        {
+            // 데미지를 n 만큼 주고싶다.
+            int n = 5;
+            Witch.GetComponent<PEA_WitchHP>().Damage(n);
+            print("데미지를 주었습니다.");
+        }
+        
         //나를 파괴하자
         Destroy(gameObject);
 
-        ////내가 쏜 총알만 
-        //if (photonView.IsMine)
-        //{
-        //    //나를 파괴하자
-        //    PhotonNetwork.Destroy(gameObject);
-        //}
+        /*
+        //내가 쏜 총알만 
+        if (photonView.IsMine)
+        {
+            //나를 파괴하자
+            PhotonNetwork.Destroy(gameObject);
+        }
+        */
     }
 }
 
