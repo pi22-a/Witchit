@@ -13,36 +13,76 @@ public class PJH_HunterFire : MonoBehaviour
     public Transform firePosition;      // 감자/스킬이 나가는 위치
     //Witch 가져오기
     public GameObject Witch;
+
+    private int potatoGauge = 0;
+
+    private void Awake()
+    {
+
+        
+    }
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        StartCoroutine(PotatoGauge());
     }
+
+    IEnumerator PotatoGauge()
+    {
+        while (true)
+        {
+            Potato();
+            yield return new WaitForSecondsRealtime(0.05f);
+        }
+        
+    }
+    void Potato()
+    {
+        if (potatoGauge > 0)
+        {
+            potatoGauge -= 1;
+            print(potatoGauge);
+        }
+       
+    }
+
+
 
     void Update()
     {
-        //좌클릭시
+       
+        //좌클릭시 감자발사
         if (Input.GetButtonDown("Fire1"))
-        {           
-            GameObject potato = Instantiate(potatoFactory);
-            potato.transform.position = firePosition.position;
-            potato.transform.forward = firePosition.forward;
+        {
+            if (potatoGauge > 1000) //게이지가 100 이상일때 쏠수없음
+            {
+                print("쏠 수 없습니다." + potatoGauge);
+            }
+            else
+            {
+                GameObject potato = Instantiate(potatoFactory);
+                potato.transform.position = firePosition.position;
+                potato.transform.forward = firePosition.forward;
+                potatoGauge = potatoGauge + 50;
+            }
+            print(potatoGauge);
         }
-        //우클릭시
+        //우클릭시 치킨발사
         if (Input.GetButtonDown("Fire2"))
         {
             GameObject chicken = Instantiate(chickenFactory);
             chicken.transform.position = firePosition.position;
             chicken.transform.forward = firePosition.forward;
         }
-        //Q클릭시
+        //Q클릭시 흡수 발사
         if (Input.GetKeyDown(KeyCode.Q))
         {
             GameObject vacuumTrap = Instantiate(vacuumTrapFactory);
             vacuumTrap.transform.position = firePosition.position;
             vacuumTrap.transform.forward = firePosition.forward;
         }
-        //좌 Ctrl 클릭시
+        //좌 Ctrl 클릭시 바디슬램
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             //잠깐 멈추고
@@ -57,14 +97,14 @@ public class PJH_HunterFire : MonoBehaviour
             {
                 // 데미지를 n 만큼 주고싶다.
                 int n = 5;
-                Witch.GetComponent<PEA_WitchHP>().Damage(n);
+                HitWitch(n);
             }
         }
     }
 
-    public void HitWitch()
+    public void HitWitch(int n)
     {
-        Witch.GetComponent<PEA_WitchHP>().Damage(1);
+        Witch.GetComponent<PEA_WitchHP>().Damage(n);
     }
 
    

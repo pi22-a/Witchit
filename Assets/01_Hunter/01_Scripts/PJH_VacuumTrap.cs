@@ -21,7 +21,7 @@ public class PJH_VacuumTrap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 닭이 우는 함수 시작
+        // 흡수하는 함수 호출
         StartCoroutine(FindWitch());
     }
     void DeathVacuumTrap()
