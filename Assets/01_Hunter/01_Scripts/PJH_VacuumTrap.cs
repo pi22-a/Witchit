@@ -7,7 +7,6 @@ public class PJH_VacuumTrap : MonoBehaviour
     public GameObject VacuumFactory;    //흡수 이펙트    
     public float speed = 15;            //흡수 스피드
     public float deathTime = 8;         //흡수 수명
-    //public GameObject Witch;            //흡수 당할 대상 : 마녀
     public float range = 5;             //흡수 범위
 
     Rigidbody rb;
@@ -19,7 +18,6 @@ public class PJH_VacuumTrap : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * speed, ForceMode.Impulse);
-        //Witch = GameObject.Find("Witch");
         // Witch레이어 설정
         witchLayer = LayerMask.NameToLayer("Witch");
         // deathTime초 후에 흡수 파괴
@@ -33,12 +31,12 @@ public class PJH_VacuumTrap : MonoBehaviour
     {
         if(b)
         {
-            // 반경 3.5M 안의 충돌체중에 마녀를 찾는다.
+            // 반경 range 안의 충돌체중에 마녀를 찾는다.
             int layerMask = (1 << witchLayer);
-            Collider[] cols = Physics.OverlapSphere(transform.position, 3.5f, layerMask);
+            Collider[] cols = Physics.OverlapSphere(transform.position, range, layerMask);
             for (int i=0; i < cols.Length; i++)
             {
-                // 마녀를 초당 n만큼 흡수 위치로 당긴다.
+                // 마녀를 흡수 위치로 당긴다.
                 cols[i].transform.position = Vector3.MoveTowards(cols[i].transform.position, gameObject.transform.position, 0.1f);
             }
             
