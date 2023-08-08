@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PotalIN : MonoBehaviour
 {
-    void Start()
+    public Transform PotalPosition;
+    private void OnTriggerEnter(Collider other)
     {
-        
-    }
+        Transform ParentTransform = other.transform;
+        while (true)
+        {
 
-    void Update()
-    {
-        
+        }
     }
 }
