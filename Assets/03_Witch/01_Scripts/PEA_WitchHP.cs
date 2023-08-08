@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PEA_WitchHP : MonoBehaviour
 {
@@ -9,13 +10,14 @@ public class PEA_WitchHP : MonoBehaviour
 
     private readonly int maxHp = 50;
 
-    // Start is called before the first frame update
+    public Image hpImage;
+
     void Start()
     {
         hp = maxHp;
+        hpImage.fillAmount = 1;
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -24,11 +26,11 @@ public class PEA_WitchHP : MonoBehaviour
     public void Damage(int damage)
     {
         hp -= damage;
+        hpImage.fillAmount = hp / maxHp;
 
         if(hp <= 0)
         {
             isDead = true;
-            print("Witch Die");
         }
     }
 }

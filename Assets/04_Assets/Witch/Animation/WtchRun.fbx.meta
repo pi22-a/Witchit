@@ -16,7 +16,8 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 1
     motionNodeName: 
-    rigImportErrors: 
+    rigImportErrors: "Avatar creation failed:\n\tTransform 'WitchRArmPalm' is not
+      an ancestor of 'WitchRArm22Scale'\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
@@ -24,7 +25,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -80,7 +81,557 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: WtchRun(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Base
+      parentName: WtchRun(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+    - name: WitchPelvis
+      parentName: Base
+      position: {x: 0.02232706, y: 0.000070154674, z: 0.5014601}
+      rotation: {x: -0.56122166, y: 0.46631697, z: 0.577741, w: 0.36577883}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: WitchLLeg1
+      parentName: WitchPelvis
+      position: {x: 0.028078035, y: -0.010739236, z: 0.22703093}
+      rotation: {x: 0.45652157, y: 0.88436246, z: -0.09505551, w: 0.02134376}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+    - name: WitchLLeg21
+      parentName: WitchLLeg1
+      position: {x: -0.27846652, y: -0.000000048446655, z: -0.000000024223327}
+      rotation: {x: 0.047580678, y: -0.048680652, z: -0.2791055, w: 0.9578447}
+      scale: {x: 1, y: 0.9999999, z: 0.99999994}
+    - name: WitchLLeg22
+      parentName: WitchLLeg21
+      position: {x: -0.1060084, y: 0, z: 0}
+      rotation: {x: -0.0066835578, y: -4.7187554e-10, z: -9.2585534e-10, w: 0.9999777}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: WitchLLegAnkle
+      parentName: WitchLLeg22
+      position: {x: -0.106008254, y: 0, z: 0}
+      rotation: {x: -0.6666985, y: 0.25999117, z: 0.0028079064, w: 0.69850546}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: WitchLLegToe1
+      parentName: WitchLLegAnkle
+      position: {x: -0.31581178, y: 0.000000048446655, z: 0}
+      rotation: {x: 0.053710394, y: 0.08166129, z: 0.874296, w: -0.47545043}
+      scale: {x: 1.0000004, y: 1.0000008, z: 1.0000001}
+    - name: WitchLLegAnkleScale
+      parentName: WitchLLegAnkle
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.076642886, y: 0.061086085, z: 0.68289, w: -0.72391695}
+      scale: {x: 1.0000002, y: 1.0000007, z: 1}
+    - name: WitchLLeg22Scale
+      parentName: WitchLLeg22
+      position: {x: 0.011309871, y: 0, z: 0.0000056440354}
+      rotation: {x: 0.14650774, y: -0.008359179, z: 0.5927153, w: -0.7919307}
+      scale: {x: 1.0000002, y: 1, z: 1.0000001}
+    - name: WitchLLeg21Scale
+      parentName: WitchLLeg21
+      position: {x: 0.007816674, y: 0, z: 0.000005583477}
+      rotation: {x: 0.1330507, y: 0.009621645, z: 0.5926961, w: -0.79430246}
+      scale: {x: 1.0000008, y: 1.0000005, z: 1.0000001}
+    - name: WitchLLeg1Scale
+      parentName: WitchLLeg1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.10904002, y: 0.04859314, z: 0.5652591, w: -0.8162298}
+      scale: {x: 1.0000005, y: 1.0000005, z: 1}
+    - name: WitchSpine0
+      parentName: WitchPelvis
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.08713033, y: -9.905574e-14, z: -6.7952686e-13, w: 0.9961969}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: WitchSpine1
+      parentName: WitchSpine0
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.0011291848, y: -0.025482956, z: -0.04165776, w: 0.9988063}
+      scale: {x: 1, y: 1, z: 1}
+    - name: WitchSpine2
+      parentName: WitchSpine1
+      position: {x: -0.34788245, y: -0.000000012111664, z: 0}
+      rotation: {x: -0.000824, y: 0.010193181, z: 0.015808593, w: 0.99982274}
+      scale: {x: 1.0000001, y: 1, z: 1.0000001}
+    - name: WitchSpine3
+      parentName: WitchSpine2
+      position: {x: -0.34788245, y: 0, z: 0.000000001513958}
+      rotation: {x: -0.0006408885, y: 0.010193182, z: -0.07135225, w: 0.9973989}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1}
+    - name: WitchChest
+      parentName: WitchSpine3
+      position: {x: -0.34788245, y: 0, z: -0.000000001513958}
+      rotation: {x: -0.08911405, y: 0.0031128877, z: -0.099032566, w: 0.991081}
+      scale: {x: 0.99999994, y: 0.9999999, z: 1}
+    - name: WitchChestScale
+      parentName: WitchChest
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.08682369, y: 0.006896335, z: -0.1952691, w: -0.9768747}
+      scale: {x: 0.9999999, y: 1.0000002, z: 1.0000005}
+    - name: WitchNeck1
+      parentName: WitchChest
+      position: {x: -0.1484358, y: -0.055569768, z: 0}
+      rotation: {x: -0.08673299, y: -0.0079541085, z: -0.02646945, w: -0.9958482}
+      scale: {x: 1, y: 1.0000005, z: 1.0000004}
+    - name: WitchNeck2
+      parentName: WitchNeck1
+      position: {x: -0.25898176, y: 0, z: 0}
+      rotation: {x: 0.0000000010352765, y: 8.05294e-10, z: 0.08764913, w: 0.9961514}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: WitchNeck2Scale
+      parentName: WitchNeck2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.00000015951184, y: 0.0000002946153, z: 0.000015236438, w: 1}
+      scale: {x: 1, y: 0.9999999, z: 0.99999994}
+    - name: WitchHead
+      parentName: WitchNeck2
+      position: {x: -0.34965986, y: 0, z: -0.000000012111664}
+      rotation: {x: 0.000000105456174, y: 0.00000019100953, z: 0.08286069, w: 0.99656117}
+      scale: {x: 0.9999999, y: 0.99999976, z: 0.99999994}
+    - name: WitchHair
+      parentName: WitchHead
+      position: {x: -0.12124066, y: -0.28515935, z: 0}
+      rotation: {x: 0.0000005723509, y: -0.0000026207335, z: -0.9914449, w: -0.13052605}
+      scale: {x: 1.0000007, y: 1.0000005, z: 1.0000007}
+    - name: WitchHairTips
+      parentName: WitchHair
+      position: {x: -0.38399768, y: 0, z: 0}
+      rotation: {x: -0.00000007230638, y: 0.00000003037666, z: 0.00000013411189, w: 1}
+      scale: {x: 0.9999998, y: 0.9999997, z: 1}
+    - name: WitchJaw
+      parentName: WitchHead
+      position: {x: 0.027779894, y: 0.09577843, z: 0}
+      rotation: {x: 0.0000005142295, y: -0.0000012178742, z: -0.9063078, w: 0.42261833}
+      scale: {x: 1.0000005, y: 1.0000007, z: 1.0000007}
+    - name: WitchTounge
+      parentName: WitchJaw
+      position: {x: -0.1306986, y: 0.02742003, z: 0}
+      rotation: {x: -0.00000022497537, y: 0.00000012878395, z: 0.38268313, w: 0.9238796}
+      scale: {x: 1, y: 1.0000002, z: 1.0000004}
+    - name: WitchLLip
+      parentName: WitchJaw
+      position: {x: -0.18084128, y: -0.06451234, z: 0.19363882}
+      rotation: {x: -0.73521096, y: 0.024403626, z: -0.47060332, w: -0.48723912}
+      scale: {x: 0.9999998, y: 0.9999996, z: 0.9999998}
+    - name: WitchLowerLip
+      parentName: WitchJaw
+      position: {x: -0.29396218, y: -0.07305019, z: 0}
+      rotation: {x: -0.00000026688016, y: 0.000001002799, z: 0.84339166, w: 0.5372994}
+      scale: {x: 0.9999998, y: 1, z: 0.99999994}
+    - name: WitchRLip
+      parentName: WitchJaw
+      position: {x: -0.18084167, y: -0.06451467, z: -0.19363959}
+      rotation: {x: -0.73521036, y: 0.024403468, z: 0.47060356, w: 0.48723966}
+      scale: {x: 0.99999994, y: 0.9999998, z: 0.99999994}
+    - name: WitchHat
+      parentName: WitchHead
+      position: {x: -0.44606173, y: -0.000000024223327, z: 0}
+      rotation: {x: 0.000004878057, y: 0.000000566065, z: -0.08715575, w: -0.9961948}
+      scale: {x: 1.0000007, y: 1.0000008, z: 1.000001}
+    - name: WitchLNose
+      parentName: WitchHead
+      position: {x: -0.0660762, y: 0.3191771, z: 0.14204213}
+      rotation: {x: 0.05287255, y: 0.052505903, z: -0.5995695, w: 0.79684645}
+      scale: {x: 1.0000004, y: 1.000001, z: 1.0000007}
+    - name: WitchLEar
+      parentName: WitchHead
+      position: {x: -0.1521223, y: -0.02453605, z: 0.29145572}
+      rotation: {x: 0.021407688, y: 0.750277, z: 0.09311373, w: 0.6541835}
+      scale: {x: 1.0000005, y: 1.0000006, z: 1.0000007}
+    - name: WitchLEyeBrow
+      parentName: WitchHead
+      position: {x: -0.3003708, y: 0.30115166, z: 0.16656023}
+      rotation: {x: 0.23420691, y: 0.0726559, z: -0.660223, w: 0.7099112}
+      scale: {x: 1.0000005, y: 1.0000011, z: 1.0000011}
+    - name: WitchUpperLip
+      parentName: WitchHead
+      position: {x: 0.04722696, y: 0.3812206, z: 0}
+      rotation: {x: 0.0000007664732, y: -0.0000017256253, z: -0.9961947, w: 0.08715578}
+      scale: {x: 1.0000005, y: 1.0000006, z: 1.0000007}
+    - name: WitchRNose
+      parentName: WitchHead
+      position: {x: -0.06607581, y: 0.31917602, z: -0.142046}
+      rotation: {x: -0.052872185, y: -0.05250621, z: -0.59956944, w: 0.7968464}
+      scale: {x: 1.0000006, y: 1.0000008, z: 1.0000011}
+    - name: WitchREar
+      parentName: WitchHead
+      position: {x: -0.15212114, y: -0.02453869, z: -0.2914554}
+      rotation: {x: 0.021407759, y: 0.75027764, z: -0.09311355, w: -0.65418273}
+      scale: {x: 1.0000008, y: 1.0000008, z: 1.0000004}
+    - name: WitchREyeBrow
+      parentName: WitchHead
+      position: {x: -0.30036983, y: 0.3011503, z: -0.16656369}
+      rotation: {x: -0.23420641, y: -0.07265618, z: -0.6602229, w: 0.7099114}
+      scale: {x: 1.0000004, y: 1.0000011, z: 1.0000007}
+    - name: WitchLArmCollarbone
+      parentName: WitchChest
+      position: {x: -0.12685922, y: 0.13155892, z: 0.011651651}
+      rotation: {x: -0.39407524, y: 0.6466163, z: -0.047334276, w: 0.65142274}
+      scale: {x: 1, y: 1, z: 1.0000002}
+    - name: WitchLArm11
+      parentName: WitchLArmCollarbone
+      position: {x: -0.30854392, y: 0, z: 0}
+      rotation: {x: 0.119694784, y: 0.025720472, z: -0.15158367, w: 0.9808333}
+      scale: {x: 0.99999994, y: 0.9999999, z: 0.9999998}
+    - name: WitchLArm12
+      parentName: WitchLArm11
+      position: {x: -0.2963264, y: 0.000000048446655, z: -0.00000009689331}
+      rotation: {x: -0.004272597, y: 0.000000007498264, z: 0.0000000037570898, w: 0.9999909}
+      scale: {x: 0.9999999, y: 0.99999994, z: 0.99999994}
+    - name: WitchLArm21
+      parentName: WitchLArm12
+      position: {x: -0.29632634, y: 0, z: 0}
+      rotation: {x: -0.003021307, y: -0.041261017, z: -0.7030549, w: 0.70993114}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: WitchLArm22
+      parentName: WitchLArm21
+      position: {x: -0.24789669, y: 0.00000009689331, z: 0}
+      rotation: {x: -0.091891274, y: 3.4232164e-10, z: -0.000000010443945, w: 0.9957691}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: WitchLArm22Scale
+      parentName: WitchLArm22
+      position: {x: -0.0032928707, y: 0, z: -0.00000009689331}
+      rotation: {x: 0.0746436, y: 0.20324875, z: -0.6916451, w: -0.6890177}
+      scale: {x: 0.99999946, y: 1.0000001, z: 0.99999994}
+    - name: WitchLHandCloth
+      parentName: WitchLArm22
+      position: {x: -0.21501909, y: 0, z: -0.00000009689331}
+      rotation: {x: 0.0746436, y: 0.20324875, z: -0.6916451, w: -0.6890177}
+      scale: {x: 0.99999946, y: 1.0000001, z: 0.99999994}
+    - name: WitchLArmPalm
+      parentName: WitchLArm22
+      position: {x: -0.24789666, y: 0, z: -0.00000009689331}
+      rotation: {x: 0.5910807, y: 0.6582933, z: -0.31933784, w: -0.3395538}
+      scale: {x: 0.99999976, y: 1, z: 1.0000005}
+    - name: WitchLArmDigit21
+      parentName: WitchLArmPalm
+      position: {x: -0.23414421, y: 0.017419674, z: 0.079947054}
+      rotation: {x: -0.008936076, y: 0.15193318, z: -0.06401842, w: 0.9862749}
+      scale: {x: 1.0000001, y: 1.0000006, z: 1.0000002}
+    - name: WitchLArmDigit22
+      parentName: WitchLArmDigit21
+      position: {x: -0.14239055, y: 0, z: 0}
+      rotation: {x: 0.00047004397, y: -0.00078426284, z: 0.12051163, w: 0.9927115}
+      scale: {x: 1, y: 0.9999996, z: 1.0000001}
+    - name: WitchLArmDigit23
+      parentName: WitchLArmDigit22
+      position: {x: -0.13989834, y: 0, z: 0}
+      rotation: {x: 0.008321362, y: 0.009441748, z: 0.2040555, w: 0.9788785}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1.0000002}
+    - name: WitchLArmDigit31
+      parentName: WitchLArmPalm
+      position: {x: -0.2439876, y: 0.026040561, z: 0.0031001982}
+      rotation: {x: -0.031982753, y: 0.2680773, z: 0.20908552, w: 0.939891}
+      scale: {x: 1.0000001, y: 1, z: 0.99999994}
+    - name: WitchLArmDigit32
+      parentName: WitchLArmDigit31
+      position: {x: -0.1536784, y: -0.00000019378662, z: -0.00000009689331}
+      rotation: {x: 0.0027178829, y: 0.003935529, z: 0.03865233, w: 0.9992413}
+      scale: {x: 1.0000004, y: 1.0000002, z: 1.0000002}
+    - name: WitchLArmDigit33
+      parentName: WitchLArmDigit32
+      position: {x: -0.1496568, y: 0, z: 0}
+      rotation: {x: 0.0017810506, y: 0.009275181, z: 0.18883835, w: 0.9819628}
+      scale: {x: 1.0000008, y: 1.0000005, z: 1}
+    - name: WitchLArmDigit41
+      parentName: WitchLArmPalm
+      position: {x: -0.24359697, y: 0.0021458962, z: -0.0915914}
+      rotation: {x: -0.0845942, y: -0.031180076, z: -0.037619792, w: 0.9952167}
+      scale: {x: 1.0000004, y: 1.0000006, z: 1.0000004}
+    - name: WitchLArmDigit42
+      parentName: WitchLArmDigit41
+      position: {x: -0.13475028, y: -0.00000009689331, z: -0.00000009689331}
+      rotation: {x: 0.0000003650783, y: -0.0000010561195, z: 0.0375474, w: 0.9992949}
+      scale: {x: 1.0000006, y: 1, z: 1.0000001}
+    - name: WitchLArmDigit43
+      parentName: WitchLArmDigit42
+      position: {x: -0.12226705, y: 0, z: 0}
+      rotation: {x: 0.00000014732913, y: 0.00000019232567, z: 0.14158064, w: 0.9899268}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000002}
+    - name: WitchLArmDigit11
+      parentName: WitchLArmPalm
+      position: {x: -0.06316935, y: -0.029625613, z: 0.093519874}
+      rotation: {x: 0.48559862, y: 0.34798947, z: -0.18427652, w: 0.7804739}
+      scale: {x: 1, y: 1, z: 1.0000004}
+    - name: WitchLArmDigit12
+      parentName: WitchLArmDigit11
+      position: {x: -0.14129461, y: -0.00000009689331, z: 0}
+      rotation: {x: 0.0035623903, y: -0.017451046, z: 0.1999534, w: 0.9796435}
+      scale: {x: 1.0000005, y: 0.99999994, z: 1.0000002}
+    - name: WitchLArmDigit13
+      parentName: WitchLArmDigit12
+      position: {x: -0.12576546, y: 0, z: 0}
+      rotation: {x: 0.008628923, y: -0.0036080652, z: 0.21934408, w: 0.97560275}
+      scale: {x: 1.0000002, y: 0.9999997, z: 0.99999994}
+    - name: WitchLArm21Scale
+      parentName: WitchLArm21
+      position: {x: 0.004537853, y: 0.000000048446655, z: -0.00000009689331}
+      rotation: {x: 0.06982467, y: 0.06822618, z: -0.71765447, w: -0.6895229}
+      scale: {x: 0.9999998, y: 1, z: 0.9999998}
+    - name: WitchLArm12Scale
+      parentName: WitchLArm12
+      position: {x: 0.009511047, y: 0, z: 0}
+      rotation: {x: 0.11851079, y: -0.039487906, z: -0.26748836, w: -0.9554297}
+      scale: {x: 1, y: 1.0000002, z: 1.0000001}
+    - name: WitchLArm11Scale
+      parentName: WitchLArm11
+      position: {x: -0.007672303, y: 0, z: -0.00000009689331}
+      rotation: {x: 0.10900499, y: -0.04442638, z: -0.26671273, w: -0.95656085}
+      scale: {x: 0.9999999, y: 0.99999994, z: 0.9999999}
+    - name: WitchLShoulder
+      parentName: WitchLArmCollarbone
+      position: {x: -0.28674674, y: -0.21531428, z: 0.13213263}
+      rotation: {x: -0.6070746, y: -0.36091328, z: 0.30180287, w: 0.6404038}
+      scale: {x: 1.0000001, y: 0.99999976, z: 1.0000005}
+    - name: WitchRArmCollarbone
+      parentName: WitchChest
+      position: {x: -0.12685902, y: 0.13155907, z: -0.011652051}
+      rotation: {x: -0.0611486, y: -0.6929028, z: 0.35645124, w: 0.6237702}
+      scale: {x: 1.0000001, y: 0.99999994, z: 0.9999999}
+    - name: WitchRArm11
+      parentName: WitchRArmCollarbone
+      position: {x: -0.308544, y: 0, z: 0}
+      rotation: {x: -0.41101336, y: -0.022374319, z: 0.15311812, w: 0.8983999}
+      scale: {x: 0.99999994, y: 1, z: 1.0000001}
+    - name: WitchRArm12
+      parentName: WitchRArm11
+      position: {x: -0.2963265, y: -0.000000048446655, z: 0}
+      rotation: {x: 0.02301094, y: 0.00000000753433, z: 0.000000011344356, w: 0.99973524}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: WitchRArm21
+      parentName: WitchRArm12
+      position: {x: -0.2963264, y: 0.000000048446655, z: 0}
+      rotation: {x: 0.023022946, y: 0.0015880219, z: -0.011396063, w: 0.9996687}
+      scale: {x: 1, y: 0.9999999, z: 1}
+    - name: WitchRArm22
+      parentName: WitchRArm21
+      position: {x: -0.24789673, y: 0.000000048446655, z: -0.00000009689331}
+      rotation: {x: -0.0093386825, y: -0.000000022420348, z: 0.0000000075198345, w: 0.9999564}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000001}
+    - name: WitchRArm22Scale
+      parentName: WitchRArm22
+      position: {x: -0.003293234, y: -0.000000048446655, z: 0.00000009689331}
+      rotation: {x: 0.0924426, y: 0.2814613, z: 0.7209071, w: 0.62651974}
+      scale: {x: 1, y: 0.9999998, z: 0.9999998}
+    - name: WitchRHandCloth
+      parentName: WitchRArm22
+      position: {x: -0.21501918, y: -0.000000048446655, z: 0.00000009689331}
+      rotation: {x: 0.0924426, y: 0.2814613, z: 0.7209071, w: 0.62651974}
+      scale: {x: 1, y: 0.9999998, z: 0.9999998}
+    - name: WitchRArmPalm
+      parentName: WitchRArm22
+      position: {x: -0.24789661, y: -0.000000048446655, z: 0}
+      rotation: {x: 0.17878741, y: 0.36313513, z: -0.5129858, w: -0.75697654}
+      scale: {x: 1.0000001, y: 0.9999997, z: 0.99999994}
+    - name: WitchBroom
+      parentName: WitchRArmPalm
+      position: {x: -0.26458466, y: -0.07190927, z: -0.18097907}
+      rotation: {x: 0.13613501, y: -0.50043625, z: 0.3006673, w: 0.8003937}
+      scale: {x: 0.99999994, y: 1, z: 0.9999999}
+    - name: WitchBroomUpperpart
+      parentName: WitchBroom
+      position: {x: -1.1870456, y: 0, z: -0.00000019378662}
+      rotation: {x: 0.00000020116565, y: 0.00000017881392, z: -0.00000024586913, w: 1}
+      scale: {x: 0.99999994, y: 1.0000004, z: 1.0000002}
+    - name: WitchBroomLowerpart
+      parentName: WitchBroom
+      position: {x: 0.70444703, y: -0.00000009689331, z: 0.03107836}
+      rotation: {x: -0.0000007674098, y: 1, z: -0, w: -0.00000011920929}
+      scale: {x: 1, y: 1, z: 1}
+    - name: WitchRArmDigit21
+      parentName: WitchRArmPalm
+      position: {x: -0.2341451, y: 0.017420061, z: -0.07994585}
+      rotation: {x: 0.0089359125, y: -0.15193199, z: -0.06401899, w: 0.986275}
+      scale: {x: 0.9999997, y: 1.0000002, z: 1.0000001}
+    - name: WitchRArmDigit22
+      parentName: WitchRArmDigit21
+      position: {x: -0.14239058, y: 0, z: 0.000000048446655}
+      rotation: {x: -0.00047028152, y: 0.0007842927, z: 0.12051087, w: 0.99271166}
+      scale: {x: 1.0000005, y: 1.0000001, z: 0.9999998}
+    - name: WitchRArmDigit23
+      parentName: WitchRArmDigit22
+      position: {x: -0.13989843, y: -0.000000048446655, z: 0}
+      rotation: {x: -0.008320923, y: -0.009441299, z: 0.20405687, w: 0.97887814}
+      scale: {x: 1.0000002, y: 0.99999994, z: 1}
+    - name: WitchRArmDigit31
+      parentName: WitchRArmPalm
+      position: {x: -0.24398908, y: 0.026041143, z: -0.0031001982}
+      rotation: {x: 0.0067029805, y: -0.56025815, z: 0.49892887, w: 0.66116244}
+      scale: {x: 0.9999998, y: 0.99999994, z: 1}
+    - name: WitchRArmDigit32
+      parentName: WitchRArmDigit31
+      position: {x: -0.15367827, y: -0.00000009689331, z: -0.000000048446655}
+      rotation: {x: -0.0027177352, y: -0.003934947, z: 0.03865353, w: 0.99924123}
+      scale: {x: 0.9999998, y: 1.0000001, z: 0.9999998}
+    - name: WitchRArmDigit33
+      parentName: WitchRArmDigit32
+      position: {x: -0.14965704, y: 0, z: 0}
+      rotation: {x: -0.0017808402, y: -0.009274799, z: 0.18884452, w: 0.9819616}
+      scale: {x: 1.0000004, y: 0.99999946, z: 1.0000005}
+    - name: WitchRArmDigit41
+      parentName: WitchRArmPalm
+      position: {x: -0.24359903, y: 0.0021464776, z: 0.09159058}
+      rotation: {x: 0.060958333, y: -0.5151574, z: 0.54826635, w: 0.6559734}
+      scale: {x: 1, y: 0.99999994, z: 1.0000002}
+    - name: WitchRArmDigit42
+      parentName: WitchRArmDigit41
+      position: {x: -0.1347503, y: 0, z: 0}
+      rotation: {x: 0.000000011175863, y: -0.0000012516966, z: 0.037545003, w: 0.99929494}
+      scale: {x: 0.9999998, y: 1.0000002, z: 0.9999998}
+    - name: WitchRArmDigit43
+      parentName: WitchRArmDigit42
+      position: {x: -0.12226715, y: 0, z: 0}
+      rotation: {x: 0.000000050738524, y: -0.00000022834027, z: 0.14158562, w: 0.989926}
+      scale: {x: 1.0000007, y: 1.0000001, z: 0.99999994}
+    - name: WitchRArmDigit11
+      parentName: WitchRArmPalm
+      position: {x: -0.06316984, y: -0.02962542, z: -0.09351726}
+      rotation: {x: -0.5850018, y: -0.4890657, z: 0.19007891, w: 0.61843157}
+      scale: {x: 0.9999999, y: 1, z: 0.9999996}
+    - name: WitchRArmDigit12
+      parentName: WitchRArmDigit11
+      position: {x: -0.14129472, y: 0.000000048446655, z: 0}
+      rotation: {x: -0.0036344507, y: 0.0029030128, z: 0.033269715, w: 0.9994356}
+      scale: {x: 1, y: 0.9999996, z: 1}
+    - name: WitchRArmDigit13
+      parentName: WitchRArmDigit12
+      position: {x: -0.12576546, y: 0, z: 0}
+      rotation: {x: -0.008628918, y: 0.0036077385, z: 0.21934405, w: 0.97560275}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1.0000005}
+    - name: WitchRArm21Scale
+      parentName: WitchRArm21
+      position: {x: 0.004537659, y: 0.00000009689331, z: 0}
+      rotation: {x: 0.024149135, y: 0.21577035, z: 0.7432162, w: 0.63284254}
+      scale: {x: 1.0000002, y: 0.9999997, z: 1.0000001}
+    - name: WitchRArm12Scale
+      parentName: WitchRArm12
+      position: {x: 0.009511338, y: 0, z: 0}
+      rotation: {x: 0.25716433, y: 0.102438286, z: 0.44402617, w: 0.8521817}
+      scale: {x: 0.99999994, y: 1.0000002, z: 0.99999994}
+    - name: WitchRArm11Scale
+      parentName: WitchRArm11
+      position: {x: -0.0076723997, y: 0, z: 0}
+      rotation: {x: 0.2646514, y: 0.085840724, z: 0.44753116, w: 0.84988636}
+      scale: {x: 1.0000002, y: 1.0000007, z: 1.0000001}
+    - name: WitchRShoulder
+      parentName: WitchRArmCollarbone
+      position: {x: -0.29669324, y: -0.19511782, z: -0.14899245}
+      rotation: {x: 0.60707444, y: 0.36091375, z: 0.30180305, w: 0.6404036}
+      scale: {x: 1.0000002, y: 1, z: 1.0000004}
+    - name: WitchLBreast
+      parentName: WitchSpine3
+      position: {x: -0.060724102, y: 0.305064, z: 0.2186021}
+      rotation: {x: -0.20079994, y: -0.19059204, z: 0.4643724, w: -0.84125644}
+      scale: {x: 1, y: 1.0000006, z: 1.0000006}
+    - name: WitchSpine3Scale
+      parentName: WitchSpine3
+      position: {x: 0.021737045, y: 0, z: 0}
+      rotation: {x: -0.00078214094, y: 0.005063567, z: 0.15556829, w: 0.98781186}
+      scale: {x: 1.0000004, y: 1.0000005, z: 1.0000007}
+    - name: WitchRBreast
+      parentName: WitchSpine3
+      position: {x: -0.06072381, y: 0.3050638, z: -0.21860237}
+      rotation: {x: 0.20794746, y: 0.1838202, z: 0.46179307, w: -0.84244597}
+      scale: {x: 1, y: 1.0000012, z: 1.0000012}
+    - name: WitchSpine2Scale
+      parentName: WitchSpine2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.001064343, y: 0.015247178, z: 0.11925933, w: 0.99274546}
+      scale: {x: 1.0000005, y: 1.0000004, z: 1.0000008}
+    - name: WitchSpine1Scale
+      parentName: WitchSpine1
+      position: {x: -0.011817883, y: -0.000000012111664, z: 0}
+      rotation: {x: -0.00011733243, y: 0.025507897, z: 0.082737826, w: 0.9962449}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1.0000007}
+    - name: WitchBelly
+      parentName: WitchSpine1
+      position: {x: -0.32318762, y: 0.12918651, z: -0.000000006055832}
+      rotation: {x: 0.01731989, y: -0.018726392, z: 0.61205274, w: -0.7904054}
+      scale: {x: 1.0000004, y: 1.0000007, z: 1.0000002}
+    - name: WitchRLeg1
+      parentName: WitchPelvis
+      position: {x: 0.028078083, y: -0.010739376, z: -0.22703093}
+      rotation: {x: -0.61832, y: 0.7475295, z: -0.2315287, w: 0.07262593}
+      scale: {x: 1, y: 0.99999994, z: 0.9999999}
+    - name: WitchRLeg21
+      parentName: WitchRLeg1
+      position: {x: -0.2784666, y: 0.000000048446655, z: 0}
+      rotation: {x: -0.050963316, y: 0.045575775, z: 0.6082035, w: 0.79083127}
+      scale: {x: 0.9999999, y: 1, z: 1.0000001}
+    - name: WitchRLeg22
+      parentName: WitchRLeg21
+      position: {x: -0.10600835, y: 0.000000024223327, z: 0.000000012111664}
+      rotation: {x: -0.02398756, y: -2.234015e-11, z: -0.0000000027931646, w: 0.9997123}
+      scale: {x: 1, y: 0.99999994, z: 1.0000001}
+    - name: WitchRLegAnkle
+      parentName: WitchRLeg22
+      position: {x: -0.106008306, y: 0, z: 0.000000012111664}
+      rotation: {x: 0.21809812, y: 0.28444368, z: -0.63998485, w: 0.67966485}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: WitchRLegToe1
+      parentName: WitchRLegAnkle
+      position: {x: -0.31581196, y: -0.000000048446655, z: -0.000000006055832}
+      rotation: {x: 0.10191034, y: -0.06584465, z: 0.09808035, w: -0.9877546}
+      scale: {x: 0.9999998, y: 1, z: 1}
+    - name: WitchRLegAnkleScale
+      parentName: WitchRLegAnkle
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.07643923, y: -0.094745435, z: -0.21431428, w: -0.96914893}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: WitchRLeg22Scale
+      parentName: WitchRLeg22
+      position: {x: 0.011309484, y: 0, z: -0.00000553503}
+      rotation: {x: -0.077706434, y: -0.23491618, z: -0.1553881, w: -0.9563633}
+      scale: {x: 1.0000005, y: 1.0000005, z: 1.0000001}
+    - name: WitchRLeg21Scale
+      parentName: WitchRLeg21
+      position: {x: 0.007816432, y: 0, z: -0.0000054986954}
+      rotation: {x: -0.032028265, y: -0.23496139, z: -0.1553196, w: -0.9589803}
+      scale: {x: 1.0000006, y: 1.0000007, z: 0.9999999}
+    - name: WitchRLeg1Scale
+      parentName: WitchRLeg1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.16675515, y: -0.19843864, z: -0.48289502, w: -0.83643717}
+      scale: {x: 1, y: 1, z: 1}
+    - name: WitchLFSkirt
+      parentName: WitchPelvis
+      position: {x: 0.009665592, y: 0.28529993, z: 0.20814562}
+      rotation: {x: -0.122778386, y: -0.12277825, z: 0.696366, w: -0.6963659}
+      scale: {x: 1, y: 1.0000004, z: 1.0000002}
+    - name: WitchRFSkirt
+      parentName: WitchPelvis
+      position: {x: 0.009665592, y: 0.28529993, z: -0.20814575}
+      rotation: {x: 0.2418538, y: 0.24185368, z: 0.6644598, w: -0.66445976}
+      scale: {x: 0.9999999, y: 1.0000006, z: 1.0000007}
+    - name: WitchPelvisScale
+      parentName: WitchPelvis
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.08716909, y: -0.000000059604638, z: 0.00000019371507, w: -0.9961935}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000004}
+    - name: WitchRSkirt
+      parentName: WitchPelvis
+      position: {x: 0.009665786, y: -0.11377435, z: -0.33358324}
+      rotation: {x: -0.6123774, y: -0.61237705, z: -0.35354528, w: 0.353545}
+      scale: {x: 1.0000004, y: 1.0000001, z: 1.0000001}
+    - name: WitchBSkirt
+      parentName: WitchPelvis
+      position: {x: 0.00801797, y: -0.32372618, z: 0.00000000756979}
+      rotation: {x: -0.70441544, y: -0.704415, z: 0.06163782, w: -0.06163784}
+      scale: {x: 1.0000001, y: 1.0000002, z: 0.99999964}
+    - name: WitchLSkirt
+      parentName: WitchPelvis
+      position: {x: 0.009665835, y: -0.11377416, z: 0.3335832}
+      rotation: {x: -0.5416694, y: -0.5416691, z: 0.4545266, w: -0.4545265}
+      scale: {x: 1.0000005, y: 1.0000006, z: 1.0000002}
+    - name: SK_WitchDefault
+      parentName: WtchRun(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -91,13 +642,13 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
