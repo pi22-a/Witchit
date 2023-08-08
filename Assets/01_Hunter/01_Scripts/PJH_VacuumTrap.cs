@@ -7,22 +7,43 @@ public class PJH_VacuumTrap : MonoBehaviour
     public GameObject VacuumFactory;    //흡수 이펙트    
     public float speed = 15;            //흡수 스피드
     public float deathTime = 8;         //흡수 수명
-    public GameObject Witch;            //흡수 당할 대상 : 마녀
+    //public GameObject Witch;            //흡수 당할 대상 : 마녀
+    public float range = 5;             //흡수 범위
 
     Rigidbody rb;
-    // Start is called before the first frame update
+
+    bool b;
+    LayerMask witchLayer;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * speed, ForceMode.Impulse);
-        Invoke("DeathVacuumTrap", deathTime); // deathTime초 후에 흡수 파괴
+        //Witch = GameObject.Find("Witch");
+        // Witch레이어 설정
+        witchLayer = LayerMask.NameToLayer("Witch");
+        // deathTime초 후에 흡수 파괴
+        Invoke("DeathVacuumTrap", deathTime); 
+        // 흡수하는 함수 호출
+        StartCoroutine(FindWitch());
     }
 
     // Update is called once per frame
     void Update()
     {
-        // 흡수하는 함수 호출
-        StartCoroutine(FindWitch());
+        if(b)
+        {
+            // 반경 3.5M 안의 충돌체중에 마녀를 찾는다.
+            int layerMask = (1 << witchLayer);
+            Collider[] cols = Physics.OverlapSphere(transform.position, 3.5f, layerMask);
+            for (int i=0; i < cols.Length; i++)
+            {
+                // 마녀를 초당 n만큼 흡수 위치로 당긴다.
+                cols[i].transform.position = Vector3.MoveTowards(cols[i].transform.position, gameObject.transform.position, 0.1f);
+            }
+            
+        }
+        
     }
     void DeathVacuumTrap()
     {
@@ -32,19 +53,11 @@ public class PJH_VacuumTrap : MonoBehaviour
     // 마녀가 근처에 있으면 흡수한다.
     IEnumerator FindWitch()
     {
-
+        // 1초 후에 발동
         yield return new WaitForSeconds(1);
-
-        // 반경 3M 안의 충돌체중에 마녀가 있다면
-        int layer = 1 << LayerMask.NameToLayer("Witch");
-        Collider[] cols = Physics.OverlapSphere(transform.position, 20, layer);
-        for (int i = 0; i < cols.Length; i++)
-        {
-            // 흡수이펙트 생성
-            GameObject kkokkio = Instantiate(VacuumFactory);
-            kkokkio.transform.position = transform.position;
-            // 마녀를 초당 n만큼 흡수 위치로 당긴다.
-            Witch.transform.position = Vector3.MoveTowards(gameObject.transform.position, this.transform.position, 0.1f);
-        }
+        b = true;
+        // 흡수이펙트 생성
+        GameObject Vacuum = Instantiate(VacuumFactory);
+        Vacuum.transform.position = transform.position;
     }
 }
