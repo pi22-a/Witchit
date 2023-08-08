@@ -20,6 +20,8 @@ public class PJH_HunterMoves : MonoBehaviour
     //y 속력
     float yVelocity = 0;
 
+    Animator anim;
+
     //서버에서 넘어오는 위치값
     //Vector3 receivePos;
     //서버에서 넘어오는 회전값
@@ -27,19 +29,35 @@ public class PJH_HunterMoves : MonoBehaviour
     //보정하는 속력
     //float lerpSpeed = 50;
 
+    public enum State
+    {
+        Idle,
+        Run,
+        Attack,
+        Jump,
+        MeleeAttack,
+    }
+    public State state;
     void Start()
     {
         //Character Controller 가져오자
         cc = GetComponent<CharacterController>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     void Update()
     {
-        
-            //W, S, A, D 키를 누르면 앞뒤좌우로 움직이고 싶다.
+        /*
+        switch (state)
+        {
+            case State.Idle: PJH_HunterAnimation(); break;
+            case State.Run: UpdateMove(); break;
+            case State.Attack: UpdateAttack(); break;
+        }*/
+        //W, S, A, D 키를 누르면 앞뒤좌우로 움직이고 싶다.
 
-            //1. 사용자의 입력을 받자.
-            float h = Input.GetAxis("Horizontal");
+        //1. 사용자의 입력을 받자.
+        float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
 
             //2. 방향을 만든다.

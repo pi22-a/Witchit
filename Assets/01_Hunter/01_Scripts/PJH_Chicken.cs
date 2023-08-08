@@ -4,52 +4,58 @@ using UnityEngine;
 
 public class PJH_Chicken : MonoBehaviour
 {
-    public GameObject kkokkioFactory;
+    public GameObject kkokkioFactory;   //닭 울음소리 이펙트    
+    public float speed = 15;            //닭 스피드
+    public float deathTime = 8;         //닭 수명
+
     Rigidbody rb;
-    public float speed = 15;
     // Start is called before the first frame update
     void Start()
     {
 
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * speed, ForceMode.Impulse);
+        Invoke("DeathChicken", deathTime); // deathTime초 후에 닭 파괴
 
-        rb.AddTorque(Vector3.right * 50, ForceMode.Impulse);
     }
-
+    /*
+    public IEnumerator MoveToPosition(Transform transform, Vector3 position, float timeToMove)
+    {
+        var currentPos = transform.position;
+        var t = 0f;
+        while (t < 1)
+        {
+            t += Time.deltaTime / timeToMove;
+            transform.position = Vector3.Lerp(currentPos, position, t);
+            yield return null;
+        }
+    }
+    */
     // Update is called once per frame
     void Update()
     {
-        // 30m를 달려가면 멈추고싶다.
-        //if(this.transform.forward = Vector3(1,1,1))
-        {
-
-        }
         // 닭이 우는 함수 시작
-        StartCoroutine(IEBoom());
+        StartCoroutine(FindWitch());
+    }
+    void DeathChicken()
+    {
+        Destroy(gameObject);
     }
 
     // 마녀가 근처에 있으면 운다.
-    IEnumerator IEBoom()
+    IEnumerator FindWitch()
     {
         
-        yield return new WaitForSeconds(8);
+        yield return new WaitForSeconds(1);
         
-        
-
-
         // 반경 3M 안의 충돌체중에 마녀가 있다면
         int layer = 1 << LayerMask.NameToLayer("Witch");
-        Collider[] cols = Physics.OverlapSphere(transform.position, 3, layer);
+        Collider[] cols = Physics.OverlapSphere(transform.position, 8, layer);
         for (int i = 0; i < cols.Length; i++)
         {
             // 시끄럽게 울고싶다.
-            GameObject explosion = Instantiate(kkokkioFactory);
-            explosion.transform.position = transform.position;
-        }
-        // 닭도 파괴하고싶다.
-        Destroy(this.gameObject);
-
-        
+            GameObject kkokkio = Instantiate(kkokkioFactory);
+            kkokkio.transform.position = transform.position;
+        }        
     }
 }
