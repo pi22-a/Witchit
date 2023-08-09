@@ -10,23 +10,23 @@ public class PEA_WitchHP : MonoBehaviour
 
     private readonly int maxHp = 50;
 
-    //public Image hpImage; 박정훈 임의 수정. 합병때 취소
+    public Image hpImage;
 
     void Start()
     {
         hp = maxHp;
-        //hpImage.fillAmount = 1; 박정훈 임의 수정. 합병때 취소
+        hpImage.fillAmount = 1;
     }
 
     void Update()
     {
-        
+
     }
 
     public void Damage(int damage)
     {
         hp -= damage;
-        //hpImage.fillAmount = hp / maxHp; 박정훈 임의 수정. 합병때 취소
+        hpImage.fillAmount = hp / maxHp;
 
         if (hp <= 0)
         {
