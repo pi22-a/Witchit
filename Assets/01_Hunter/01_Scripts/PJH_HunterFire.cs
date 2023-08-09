@@ -18,22 +18,17 @@ public class PJH_HunterFire : MonoBehaviour
 
     LayerMask witchLayer;
 
+    Animator anim;
     private void Awake()
     {
 
         
     }
 
-    public enum State
-    {
-        Idle,
-        Run,
-        Attack,
-        Jump,
-        MeleeAttack,
-    }
     void Start()
     {
+
+        anim = GetComponentInChildren<Animator>();
         // Witch레이어 설정
         witchLayer = LayerMask.NameToLayer("Witch");
         Cursor.lockState = CursorLockMode.Locked;
@@ -55,7 +50,7 @@ public class PJH_HunterFire : MonoBehaviour
         if (potatoGauge > 0)
         {
             potatoGauge -= 1;
-            print(potatoGauge);
+            //print(potatoGauge);
         }
        
     }
@@ -74,16 +69,18 @@ public class PJH_HunterFire : MonoBehaviour
             }
             else
             {
+                anim.SetTrigger("Fire");
                 GameObject potato = Instantiate(potatoFactory);
                 potato.transform.position = firePosition.position;
                 potato.transform.forward = firePosition.forward;
                 potatoGauge = potatoGauge + 100;
             }
-            print(potatoGauge);
+            //print(potatoGauge);
         }
         //우클릭시 치킨발사
         if (Input.GetButtonDown("Fire2"))
         {
+            anim.SetTrigger("Fire");
             GameObject chicken = Instantiate(chickenFactory);
             chicken.transform.position = firePosition.position;
             chicken.transform.forward = firePosition.forward;
@@ -91,6 +88,7 @@ public class PJH_HunterFire : MonoBehaviour
         //Q클릭시 흡수 발사
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            anim.SetTrigger("Fire");
             GameObject vacuumTrap = Instantiate(vacuumTrapFactory);
             vacuumTrap.transform.position = firePosition.position;
             vacuumTrap.transform.forward = firePosition.forward;
@@ -99,9 +97,11 @@ public class PJH_HunterFire : MonoBehaviour
         //V클릭시 전범위 공격
         if (Input.GetKeyDown(KeyCode.V))
         {
+            anim.SetTrigger("MeleeAttack");
             
         }
     }
+    
 
     public void HitWitch(int n)
     {

@@ -30,15 +30,7 @@ public class PJH_HunterMoves : MonoBehaviour
     //보정하는 속력
     //float lerpSpeed = 50;
 
-    public enum State
-    {
-        Idle,
-        Run,
-        Attack,
-        Jump,
-        MeleeAttack,
-    }
-    public State state;
+    
     void Start()
     {
         // Witch레이어 설정
@@ -50,13 +42,6 @@ public class PJH_HunterMoves : MonoBehaviour
 
     void Update()
     {
-        /*
-        switch (state)
-        {
-            case State.Idle: PJH_HunterAnimation(); break;
-            case State.Run: UpdateMove(); break;
-            case State.Attack: UpdateAttack(); break;
-        }*/
         //W, S, A, D 키를 누르면 앞뒤좌우로 움직이고 싶다.
 
         //1. 사용자의 입력을 받자.
@@ -71,7 +56,10 @@ public class PJH_HunterMoves : MonoBehaviour
         //최종
         Vector3 dir = dirH + dirV;
         dir.Normalize();
-        
+
+        anim.SetFloat("Horizontal", h);
+        anim.SetFloat("Vertical", v);
+
         //만약에 땅에 닿아있다면
         if (cc.isGrounded == true)
         {
@@ -83,6 +71,7 @@ public class PJH_HunterMoves : MonoBehaviour
         //스페이바를 누르면 점프를 하고 싶다.
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            anim.SetTrigger("Jump");
             //yVelocity 에 jumpPower 를 셋팅
             yVelocity = jumpPower;
         }
@@ -92,12 +81,15 @@ public class PJH_HunterMoves : MonoBehaviour
         //좌 Ctrl 클릭시 바디슬램
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
-        print("11");
+            //bool a;
+            //엉덩이에 col 넣고 그게 뭐든 부딫히면 그때 근처 탐색하고, 데미지 부여 형식
+            //
             //if(yVelocity > 2) 
             {
+                anim.SetTrigger("BodySlam");
                 //잠깐 멈추고 빠르게 떨어진다. (애니메이션 적용)
                 this.GetComponent<Rigidbody>().isKinematic = true;
-                yVelocity = 2 * yVelocity; //여기 수정 일정 높이 이상인걸 따야함.
+                yVelocity = -20; //여기 수정 일정 높이 이상인걸 따야함.
                 //일정 높이 이상일때 발동한다. (애니메이션으로 구별)
                 //높이에 비례해서 공격 범위가 늘어난다 (프로토때 미적용)
                 // 반경 3M 안의 충돌체중에 마녀를 찾는다.

@@ -7,8 +7,6 @@ public class PJH_Bullet : MonoBehaviour
     //총알 속력
     public float speed = 20;
 
-    // 데미지 계산을 위한 PEA_WitchHP 스크립트
-    public GameObject Witch;
 
     //폭발효과공장
     //public GameObject exploFactory;
@@ -43,7 +41,7 @@ public class PJH_Bullet : MonoBehaviour
         {
             // 데미지를 n 만큼 주고싶다.
             int n = 5;
-            Witch.GetComponent<PEA_WitchHP>().Damage(n);
+            other.GetComponent<PEA_WitchHP>().Damage(n);
             print("데미지를 주었습니다.");
         }
         
