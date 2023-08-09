@@ -12,27 +12,23 @@ public class PJH_HunterFire : MonoBehaviour
     //발사 위치
     public Transform firePosition;      // 감자/스킬이 나가는 위치
     //Witch 가져오기
-    public GameObject Witch;
+    public float range = 5;             // 바디슬램 범위
 
     private int potatoGauge = 0;
 
     LayerMask witchLayer;
+
+    Animator anim;
     private void Awake()
     {
 
         
     }
 
-    public enum State
-    {
-        Idle,
-        Run,
-        Attack,
-        Jump,
-        MeleeAttack,
-    }
     void Start()
     {
+
+        anim = GetComponentInChildren<Animator>();
         // Witch레이어 설정
         witchLayer = LayerMask.NameToLayer("Witch");
         Cursor.lockState = CursorLockMode.Locked;
@@ -54,7 +50,7 @@ public class PJH_HunterFire : MonoBehaviour
         if (potatoGauge > 0)
         {
             potatoGauge -= 1;
-            print(potatoGauge);
+            //print(potatoGauge);
         }
        
     }
@@ -73,16 +69,18 @@ public class PJH_HunterFire : MonoBehaviour
             }
             else
             {
+                anim.SetTrigger("Fire");
                 GameObject potato = Instantiate(potatoFactory);
                 potato.transform.position = firePosition.position;
                 potato.transform.forward = firePosition.forward;
                 potatoGauge = potatoGauge + 100;
             }
-            print(potatoGauge);
+            //print(potatoGauge);
         }
         //우클릭시 치킨발사
         if (Input.GetButtonDown("Fire2"))
         {
+            anim.SetTrigger("Fire");
             GameObject chicken = Instantiate(chickenFactory);
             chicken.transform.position = firePosition.position;
             chicken.transform.forward = firePosition.forward;
@@ -90,38 +88,24 @@ public class PJH_HunterFire : MonoBehaviour
         //Q클릭시 흡수 발사
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            anim.SetTrigger("Fire");
             GameObject vacuumTrap = Instantiate(vacuumTrapFactory);
             vacuumTrap.transform.position = firePosition.position;
             vacuumTrap.transform.forward = firePosition.forward;
         }
-        //좌 Ctrl 클릭시 바디슬램
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            //잠깐 멈추고 빠르게 떨어진다. (애니메이션 적용)
-            //일정 높이 이상일때 발동한다. (애니메이션으로 구별)
-            //높이에 비례해서 공격 범위가 늘어난다 (프로토때 미적용)
-
-            // 반경 3M 안의 충돌체중에 마녀를 찾는다.
-            /*int layerMask = (1 << witchLayer);
-            
-            Collider[] cols = Physics.OverlapSphere(transform.position, 3, layerMask);
-            for (int i = 0; i < cols.Length; i++)
-            {
-                // 데미지를 n 만큼 주고싶다.
-                int n = 5;
-                HitWitch(n);
-            }*/
-        }
+        
         //V클릭시 전범위 공격
         if (Input.GetKeyDown(KeyCode.V))
         {
+            anim.SetTrigger("MeleeAttack");
             
         }
     }
+    
 
     public void HitWitch(int n)
     {
-        Witch.GetComponent<PEA_WitchHP>().Damage(n);
+        //Witch.GetComponent<PEA_WitchHP>().Damage(n);
     }
 
    

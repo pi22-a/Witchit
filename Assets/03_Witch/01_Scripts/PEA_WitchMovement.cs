@@ -18,23 +18,48 @@ public class PEA_WitchMovement : MonoBehaviour
     private float lerpSpeed = 30f;
     private Vector3 forwardVector = Vector3.zero;                 // 마녀가 바라볼 앞방향 
 
+    // 프랍모드 회전 관련 변수
+    private float maxAngularSpeed = 30f;
+    private Vector3 angularSpeed = Vector3.zero;
+    private PEA_WitchSkill witchSkill;
+
+    // 애니메이션 관련 변수
+    private enum AnimState
+    {
+        Idle,
+        Walk,
+        Run,
+        Jump,
+    }
+
+    AnimState animState = AnimState.Idle;
+
     // 사용할 컴포넌트 변수
     private Rigidbody rig = null;
+    private Animator anim = null;
 
     // 에디터에서 연결해줄 변수
     public Transform body;
     public Transform cameraAnchor;
+    public Rigidbody probBodyRidigbody;
 
     void Start()
     {
         rig = GetComponent<Rigidbody>();
+        anim = GetComponentInChildren<Animator>();
+        witchSkill = GetComponent<PEA_WitchSkill>();
     }
 
     void Update()
     {
         Move();
         Rotate();
+        if (witchSkill.IsChanged)
+        {
+            ProbRotateByMove();
+        }
         Jump();
+        SetAnimation();
     }
 
     // 앞뒤좌우 이동
@@ -110,6 +135,18 @@ public class PEA_WitchMovement : MonoBehaviour
         }
     }
 
+    public void SetProbRigidbody(Rigidbody rig)
+    {
+        probBodyRidigbody = rig;
+    }
+
+    // 프랍일 때 이동 방향에 따라 회전(굴러나디기)
+    private void ProbRotateByMove()
+    {
+        angularSpeed = Vector3.Lerp(angularSpeed, new Vector3(moveDir.z, 0, -moveDir.x) * maxAngularSpeed, 10 * Time.deltaTime);
+        probBodyRidigbody.angularVelocity = angularSpeed;
+    }
+
     // 점프
     private void Jump()
     {
@@ -117,6 +154,31 @@ public class PEA_WitchMovement : MonoBehaviour
         {
             rig.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             isJumping = true;
+        }
+    }
+
+    private void SetAnimation()
+    {
+        switch (animState)
+        {
+            case AnimState.Idle:
+                if(moveDir != Vector3.zero)
+                {
+                    animState = AnimState.Walk;
+                    anim.SetTrigger("Walk");
+                }
+                break;
+            case AnimState.Walk:
+                if(moveDir == Vector3.zero)
+                {
+                    animState = AnimState.Idle;
+                    anim.SetTrigger("Idle");
+                }
+                break;
+            case AnimState.Run:              
+                break;
+            case AnimState.Jump:
+                break;
         }
     }
 

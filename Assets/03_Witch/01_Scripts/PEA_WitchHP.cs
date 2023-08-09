@@ -20,7 +20,7 @@ public class PEA_WitchHP : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     public void Damage(int damage)
@@ -28,7 +28,7 @@ public class PEA_WitchHP : MonoBehaviour
         hp -= damage;
         hpImage.fillAmount = hp / maxHp;
 
-        if(hp <= 0)
+        if (hp <= 0)
         {
             isDead = true;
         }

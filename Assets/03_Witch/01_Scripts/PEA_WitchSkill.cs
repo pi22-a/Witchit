@@ -15,10 +15,12 @@ public class PEA_WitchSkill : MonoBehaviour
     private bool isChanged = false;                                             // 변신한 상태인지 확인
     private bool isDissolving = false;
     private Mesh originMesh;
-    private MeshFilter meshFilter;                                              
-    private MeshRenderer meshRenderer;                                          // 프랍으로 변신했을 때 모습을 그려주는 메쉬렌더러
+    private MeshFilter disguiseMeshFilter;                                      // 프랍으로 변신했을 때 모습을 그릴 메쉬를 담는 메쉬필터
+    private MeshRenderer disguiseMeshRenderer;                                  // 프랍으로 변신했을 때 모습을 그려주는 메쉬렌더러
+    private MeshCollider probMeshCollider;
     private SkinnedMeshRenderer skinnedMeshRenderer;                            // 마녀 모습을 그려주는 메쉬렌더러
-    private PEA_WitchDissolve witchDissolve;
+    private GameObject disguiseProb;
+    private Collider collider;                                                  // 마녀 모습 콜라이더, 프랍으로 변신하면 꺼줌
 
     // 유인 관련 변수
     private GameObject decoyProb;
@@ -29,24 +31,39 @@ public class PEA_WitchSkill : MonoBehaviour
     private GameObject prevRayProb = null;                                      // 이전에 카메라 중심에 있던 오브젝트
 
     // 레이캐스트 관련 변수
-    private float rayDist = 10f;
+    private float rayDist = 50f;
     private RaycastHit hit;
 
     // 코루틴 관련 변수
     private Coroutine coroutine;
+
+    private MeshCollider meshCollider;
+    private PEA_WitchMovement witchMovement;
 
     // 에디터에서 연결해줄 변수
     public GameObject witchBody;                                               // 마녀 모습 몸체
     public GameObject mushRoom;
     public Transform probBody;                                                // 프랍 모습 몸체
 
+    public bool IsChanged
+    {
+        get { return isChanged; }
+    }
+
     void Start()
     {
-        witchDissolve = GetComponent<PEA_WitchDissolve>();
-        meshFilter = witchBody.GetComponent<MeshFilter>();
+        // 변장
+        disguiseProb = probBody.GetChild(0).gameObject;
+        disguiseMeshFilter = disguiseProb.GetComponent<MeshFilter>();
+        disguiseMeshRenderer = disguiseProb.GetComponent<MeshRenderer>();
+        collider = witchBody.GetComponent<Collider>();
+        probMeshCollider = disguiseProb.GetComponent<MeshCollider>();
+
         skinnedMeshRenderer = witchBody.GetComponent<SkinnedMeshRenderer>();
         originMesh = skinnedMeshRenderer.sharedMesh;
-        meshRenderer = probBody.GetComponent<MeshRenderer>();
+
+        meshCollider = GetComponent<MeshCollider>();
+        witchMovement = GetComponent<PEA_WitchMovement>();
     }
 
     void Update()
@@ -99,7 +116,6 @@ public class PEA_WitchSkill : MonoBehaviour
     {
         if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit))
         {
-            print(hit.transform.gameObject.name);
             if(curRayProb != hit.transform.gameObject)
             {
                 prevRayProb = curRayProb;
@@ -136,18 +152,43 @@ public class PEA_WitchSkill : MonoBehaviour
         if (!isChanged)
         {
             isChanged = true;
+            collider.enabled = false;
+            if (coroutine == null)
+            {
+                coroutine = StartCoroutine(Dissolve(false));
+            }
         }
         else
         {
             probBody.GetChild(0).GetComponent<PEA_ProbDissolve>().ProbDissolve();
         }
 
-        //meshFilter.mesh = curRayProb.GetComponent<MeshRenderer>()
-        curRayProb.transform.SetParent(probBody);
-        curRayProb.transform.localPosition = witchBody.transform.localPosition;
-        curRayProb.transform.localEulerAngles = transform.localEulerAngles;
+        curRayProb.GetComponent<Outline>().enabled = false;
 
-        coroutine = StartCoroutine(Dissolve(false));
+        /*
+        disguiseMeshFilter.mesh = curRayProb.GetComponent<MeshFilter>().mesh;
+        meshCollider.sharedMesh = disguiseMeshFilter.mesh;
+        disguiseMeshRenderer.materials = curRayProb.GetComponent<MeshRenderer>().materials;
+        probMeshCollider.sharedMesh = disguiseMeshFilter.mesh;
+        probMeshCollider.convex = true;
+        */
+
+        GameObject disguise = Instantiate(curRayProb, probBody);
+        disguise.transform.localPosition = Vector3.zero;
+        disguise.transform.localEulerAngles = Vector3.zero;
+        meshCollider.sharedMesh = disguise.GetComponent<MeshFilter>().mesh;
+        //Rigidbody disguiseRig = disguise.GetComponent<Rigidbody>();
+
+        curRayProb.GetComponent<Outline>().enabled = true;
+        witchMovement.SetProbRigidbody(curRayProb.GetComponent<Rigidbody>());
+
+        //disguiseMeshFilter.mesh = curRayProb.GetComponent<MeshFilter>().mesh;
+        //disguiseMeshRenderer.materials = curRayProb.GetComponent<MeshRenderer>().materials;
+
+        //curRayProb.transform.SetParent(probBody);
+        //curRayProb.transform.localPosition = witchBody.transform.localPosition;
+        //curRayProb.transform.localEulerAngles = transform.localEulerAngles;
+
     }
     
     // 빙의 - 마녀 <-> 프랍 바꾸기
@@ -158,6 +199,11 @@ public class PEA_WitchSkill : MonoBehaviour
         if (!isChanged)
         {
             isChanged = true;
+            collider.enabled = false;
+            if (coroutine == null)
+            {
+                coroutine = StartCoroutine(Dissolve(false));
+            }
         }
 
         // 변장중일 때
@@ -168,12 +214,13 @@ public class PEA_WitchSkill : MonoBehaviour
         }
 
         transform.position = curRayProb.transform.position;
+        witchMovement.SetProbRigidbody(curRayProb.GetComponent<Rigidbody>());
+        meshCollider.sharedMesh = curRayProb.GetComponent<MeshFilter>().mesh;
         curRayProb.transform.SetParent(probBody);
         curRayProb.transform.localPosition = witchBody.transform.localPosition;
         curRayProb.transform.localEulerAngles = transform.localEulerAngles;
 
         //Disguise();
-        coroutine = StartCoroutine(Dissolve(false));
 
         //curRayProb.SetActive(false);
     }
@@ -186,9 +233,13 @@ public class PEA_WitchSkill : MonoBehaviour
         {
             //meshFilter.mesh = originMesh;
             probBody.GetChild(0).GetComponent<PEA_ProbDissolve>().ProbDissolve();
+            print(coroutine != null);
             if(coroutine == null)
             {
+                print("111111");
                 coroutine = StartCoroutine(Dissolve(true));
+                //meshCollider.sharedMesh = 
+                witchMovement.SetProbRigidbody(null);
                 isChanged = false;
             }
         }
@@ -218,13 +269,14 @@ public class PEA_WitchSkill : MonoBehaviour
     // 디졸브
     IEnumerator Dissolve(bool visible)
     {
-        print(visible);
+        print("Dissolve : " + visible);
         Material[] mats = skinnedMeshRenderer.materials;
 
         if (visible)
         {
             while (mats[0].GetFloat("_Cutoff") > 0)
             {
+                print("Dissolve true");
                 cutoff -= Time.deltaTime * dissolveSpeed;
                 foreach (Material m in mats)
                 {
@@ -238,6 +290,7 @@ public class PEA_WitchSkill : MonoBehaviour
 
             t = 0f;
             coroutine = null;
+            print("Dissolve true end");
             yield return null;
 
         }
@@ -245,6 +298,7 @@ public class PEA_WitchSkill : MonoBehaviour
         {
             while (mats[0].GetFloat("_Cutoff") < 1)
             {
+                print("Dissolve false");
                 cutoff += Time.deltaTime * dissolveSpeed;
                 foreach (Material m in mats)
                 {
@@ -258,7 +312,14 @@ public class PEA_WitchSkill : MonoBehaviour
 
             t = 0f;
             coroutine = null;
+            print("Dissolve false end");
             yield return null;
         }
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        print("cc");
     }
 }
