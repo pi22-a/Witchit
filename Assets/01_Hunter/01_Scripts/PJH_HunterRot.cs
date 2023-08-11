@@ -12,7 +12,7 @@ public class PJH_HunterRot : MonoBehaviour
     float rotSpeed = 200;
 
     //카메라 Transform
-    public Transform trCam;
+    public GameObject trCam;
     void Start()
     {
 
@@ -24,10 +24,10 @@ public class PJH_HunterRot : MonoBehaviour
         
 
 
-        //마우스의 움직임따라 플레이를 좌우 회전하고
+        //마우스의 움직임따라 플레이어를 좌우 회전하고
         //카메라를 위아래 회전하고 싶다.
 
-        //1. 마우스 입력을 받자.
+        //1. 마우스 입력을 받자.    
         float mx = Input.GetAxis("Mouse X");
         float my = Input.GetAxis("Mouse Y");
 
@@ -37,6 +37,6 @@ public class PJH_HunterRot : MonoBehaviour
 
         //3. 누적된 값만큼 회전 시키자.
         transform.localEulerAngles = new Vector3(0, rotX, 0);
-        trCam.localEulerAngles = new Vector3(-rotY, 0, 0);
+        trCam.transform.localEulerAngles = new Vector3 (-rotY, 0, 0);
     }
 }
