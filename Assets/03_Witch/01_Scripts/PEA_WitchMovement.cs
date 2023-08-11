@@ -19,8 +19,9 @@ public class PEA_WitchMovement : MonoBehaviour
     private Vector3 forwardVector = Vector3.zero;                 // 마녀가 바라볼 앞방향 
 
     // 프랍모드 회전 관련 변수
+    private float angularSpeed = 0f;
     private float maxAngularSpeed = 30f;
-    private Vector3 angularSpeed = Vector3.zero;
+    //private Vector3 angularSpeed = Vector3.zero;
     private PEA_WitchSkill witchSkill;
 
     // 애니메이션 관련 변수
@@ -40,6 +41,7 @@ public class PEA_WitchMovement : MonoBehaviour
 
     // 에디터에서 연결해줄 변수
     public Transform body;
+    public Transform probBody;
     public Transform cameraAnchor;
     public Rigidbody probBodyRidigbody;
 
@@ -130,7 +132,10 @@ public class PEA_WitchMovement : MonoBehaviour
         if(moveDir != Vector3.zero)
         {
             SetForwardVector();
-            body.forward = Vector3.Lerp(body.forward, forwardVector, lerpSpeed * Time.deltaTime);
+            if (!witchSkill.IsChanged)
+            {
+                body.forward = Vector3.Lerp(body.forward, forwardVector, lerpSpeed * Time.deltaTime);
+            }
             transform.eulerAngles = new Vector3(0, cameraAnchor.eulerAngles.y, 0);
         }
     }
@@ -138,13 +143,40 @@ public class PEA_WitchMovement : MonoBehaviour
     public void SetProbRigidbody(Rigidbody rig)
     {
         probBodyRidigbody = rig;
+        print(probBodyRidigbody.gameObject.name);
     }
 
     // 프랍일 때 이동 방향에 따라 회전(굴러나디기)
     private void ProbRotateByMove()
     {
-        angularSpeed = Vector3.Lerp(angularSpeed, new Vector3(moveDir.z, 0, -moveDir.x) * maxAngularSpeed, 10 * Time.deltaTime);
-        probBodyRidigbody.angularVelocity = angularSpeed;
+        //angularSpeed = Vector3.Lerp(angularSpeed, new Vector3(moveDir.z, 0, -moveDir.x) * maxAngularSpeed, 10 * Time.deltaTime);
+        //print(probBodyRidigbody.gameObject.name);
+        //probBodyRidigbody.angularVelocity = angularSpeed;
+
+        if (moveDir != Vector3.zero)
+        {
+            if (angularSpeed < maxAngularSpeed)
+            {
+                angularSpeed += Time.deltaTime * 10f;
+            }
+            else
+            {
+                angularSpeed = maxAngularSpeed;
+            }
+        }
+        else
+        {
+            if (angularSpeed > 0)
+            {
+                angularSpeed -= Time.deltaTime * 5f;
+            }
+            else
+            {
+                angularSpeed = 0f;
+            }
+        }
+
+        probBodyRidigbody.angularVelocity = new Vector3(moveDir.z, 0, -moveDir.x) * angularSpeed;
     }
 
     // 점프

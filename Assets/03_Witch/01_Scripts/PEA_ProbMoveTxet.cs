@@ -7,14 +7,15 @@ public class PEA_ProbMoveTxet : MonoBehaviour
     private float x = 0f;
     private float z = 0f;
     private float speed = 5f;
-    private float maxAngularSpeed = 200f;
+    private float angularSpeed = 0f;
+    private readonly float maxAngularSpeed = 200f;
     private Vector3 moveDir = Vector3.zero;
-    private Vector3 angularSpeed = Vector3.zero;
-    private Rigidbody rig;
+    //private Vector3 angularSpeed = Vector3.zero;
+    public Rigidbody rig;
 
     void Start()
     {
-        rig = GetComponent<Rigidbody>();
+        //rig = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -24,12 +25,37 @@ public class PEA_ProbMoveTxet : MonoBehaviour
 
         moveDir = new Vector3(x, 0, z).normalized;
 
-        transform.position += moveDir * speed * Time.deltaTime;
+        transform.parent.position += moveDir * speed * Time.deltaTime;
 
-        angularSpeed = Vector3.Lerp(angularSpeed, new Vector3(moveDir.z, 0, -moveDir.x) * maxAngularSpeed, 10 * Time.deltaTime);
+        if(moveDir != Vector3.zero)
+        {
+            if(angularSpeed < maxAngularSpeed)
+            {
+                angularSpeed += Time.deltaTime * 10f;
+            }
+            else
+            {
+                angularSpeed = maxAngularSpeed;
+            }
+        }
+        else
+        {
+            if(angularSpeed > 0)
+            {
+                angularSpeed -= Time.deltaTime * 20f;
+            }
+            else
+            {
+                angularSpeed = 0f;
+            }
+
+        }
+
+        //angularSpeed = Vector3.Lerp(angularSpeed, new Vector3(moveDir.z, 0, -moveDir.x) * maxAngularSpeed, 10 * Time.deltaTime);
+        print(angularSpeed);
 
         //transform.localEulerAngles += angularSpeed * Time.deltaTime;
-
-        rig.angularVelocity = angularSpeed;
+        //transform.localEulerAngles += transform.parent.localEulerAngles + (angularSpeed * Time.deltaTime);
+        rig.angularVelocity = new Vector3(moveDir.z, 0 , -moveDir.x)* angularSpeed;
     }
 }
