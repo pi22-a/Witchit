@@ -5,7 +5,7 @@ using UnityEngine;
 public class PotalIN : MonoBehaviour
 {
     public Transform hunter;
-    public Transform witch;
+    //public Transform witch;
     public Transform PotalPosition;
 
     private bool IsOverlapping = false;
@@ -16,31 +16,38 @@ public class PotalIN : MonoBehaviour
         {
             Debug.Log("D");
             Vector3 portalToPlayer = hunter.position - transform.position;
-            float dotProduct = Vector3.Dot(transform.up, portalToPlayer);
-            if(dotProduct < 0f)
+            //float dotProduct = Vector3.Dot(transform.up, portalToPlayer);
+            //if (dotProduct < 0f)
+            //{
+            //Debug.Log("E");
+            float rotationdiff = -Quaternion.Angle(transform.rotation, PotalPosition.rotation);
+            rotationdiff += 180;
+            hunter.Rotate(Vector3.up, rotationdiff);
+            Vector3 positionOffset = Quaternion.Euler(0f, rotationdiff, 0f) * portalToPlayer;
+            if (hunter.TryGetComponent<CharacterController>(out CharacterController CC))
             {
-                float rotationdiff = -Quaternion.Angle(transform.rotation, PotalPosition.rotation);
-                rotationdiff += 180;
-                hunter.Rotate(Vector3.up, rotationdiff);
-                Vector3 positionOffset = Quaternion.Euler(0f, rotationdiff, 0f) * portalToPlayer;
-                hunter.GetComponent<CharacterController>().enabled = false;
-                hunter.position = PotalPosition.position + positionOffset;
-                hunter.GetComponent<CharacterController>().enabled = true;
-                IsOverlapping = false;
-                Debug.Log("dd");
+                Debug.Log("S");
+                CC.enabled = false;
+                Debug.Log(transform.position);
             }
+            hunter.position = PotalPosition.position + positionOffset;
+            if (CC != null)
+            {
+                Debug.Log("s");
+                Debug.Log(transform.position);
+
+                CC.enabled = true;
+            }
+
+            IsOverlapping = false;
+            Debug.Log("dd");
+            //}
         }
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Hunter")
-        {
-            IsOverlapping = true;
-        }
-        if(other.tag == "Witch")
-        {
-            IsOverlapping = true;
-        }
+
+        IsOverlapping = true;
         //if (other.tag == "Hunter")
         //{
         //    Debug.Log("Ãæµ¹");
@@ -58,13 +65,8 @@ public class PotalIN : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Hunter")
-        {
-            IsOverlapping = false;
-        }
-        if(other.tag == "Witch")
-        {
-            IsOverlapping = false;
-        }
+
+        IsOverlapping = false;
+
     }
 }
