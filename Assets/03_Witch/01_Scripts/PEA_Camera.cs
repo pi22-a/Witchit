@@ -8,7 +8,6 @@ public class PEA_Camera : MonoBehaviour
     private float posLerpSpeed = 10f;
 
     // 플레이어 상태에 관한 변수
-    private bool isChanged = false;                                  // 변신하면 화면상 마녀의 위치가 달라짐
     private Vector3 defaultCamPos = Vector3.zero;                    // 마녀 모습일 때 각 축의 플레이어와 카메라의 거리
     private Vector3 probModeCamPos = Vector3.zero;                   // 프랍으로 변신했을 때 각 축의 플레이어와 카메라의 거리
 
@@ -18,6 +17,8 @@ public class PEA_Camera : MonoBehaviour
 
     // 에디터에서 연결해줄 변수
     public Transform player;
+    public PEA_WitchSkill witchSkill;
+    public PEA_WitchHP witchHP;
 
     void Start()
     {
@@ -40,7 +41,7 @@ public class PEA_Camera : MonoBehaviour
 
     // 마녀 <-> 프랍 상태가 변하면 호출
     // 마녀의 화면상 위치를 조절
-    private void SetCamPos()
+    public  void SetCamPos(bool isChanged)
     {
         if (!isChanged)
         {
@@ -54,11 +55,7 @@ public class PEA_Camera : MonoBehaviour
 
     private void FollowPlayer()
     {
-        if (!isChanged)
-        {
-            //Vector3 fixedPos = player.position + defaultCamPos;
-            transform.position = Vector3.Lerp(transform.position, player.position, posLerpSpeed * Time.deltaTime);
-        }
+        transform.position = Vector3.Lerp(transform.position, player.position, posLerpSpeed * Time.deltaTime);
     }
 
     private void Rotate()

@@ -11,7 +11,6 @@ public class PEA_Mushroom : MonoBehaviour
     public GameObject mushroom;
     public bool isMainMushroom = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         throwDir = transform.forward + transform.up;
@@ -25,7 +24,6 @@ public class PEA_Mushroom : MonoBehaviour
         rig.AddForce(throwDir * throwPower, ForceMode.Impulse);
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -36,12 +34,17 @@ public class PEA_Mushroom : MonoBehaviour
         if (collision.transform.CompareTag("Mushroom"))
             return;
 
+        transform.GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(1).gameObject.SetActive(true);
+        transform.up = collision.contacts[0].normal;
+
+        rig.velocity = Vector3.zero;
+        rig.angularVelocity = Vector3.zero;
+        rig.useGravity = false;
+        rig.isKinematic = true;
+
         if (isMainMushroom)
         {
-            rig.velocity = Vector3.zero;
-            rig.angularVelocity = Vector3.zero;
-            rig.useGravity = false;
-            rig.isKinematic = true;
 
             if(mushroom != null)
             {
