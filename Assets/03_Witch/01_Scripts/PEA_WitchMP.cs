@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PEA_WitchMP : MonoBehaviour
 {
@@ -10,21 +11,26 @@ public class PEA_WitchMP : MonoBehaviour
     private readonly int mpRecoveryAmountPerSecond = 2;
     private readonly int maxMp = 100;
 
+    private Coroutine coroutine = null;
+
+    public Image mpImage;
+
     public int MP
     {
         get { return mp; }
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         mp = maxMp;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if(mp < maxMp)
+        {
+            RecoveryMP();
+        }
     }
 
     // 1초에 2씩 마나 회복
@@ -36,6 +42,10 @@ public class PEA_WitchMP : MonoBehaviour
         {
             mp++;
             recoveryMP--;
+            if(coroutine == null)
+            {
+                coroutine = StartCoroutine(IncreaseMP());
+            }
         }
     }
 
@@ -43,5 +53,36 @@ public class PEA_WitchMP : MonoBehaviour
     public void UseMP(int consumption)
     {
         mp -= consumption;
+        if(coroutine == null)
+        {
+            coroutine = StartCoroutine(DecreaseMP(consumption));
+        }
+    }
+
+    IEnumerator IncreaseMP()
+    {
+        while (mpImage.fillAmount < (float)mp / 100)
+        {
+            mpImage.fillAmount +=  Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        mpImage.fillAmount = (float)mp / 100;
+        coroutine = null;
+        yield return null;
+    }
+
+    IEnumerator DecreaseMP(int consumption)
+    {
+        print(consumption + ", " + (float)consumption / 100);
+        while(mpImage.fillAmount > (float)mp / 100)
+        {
+            mpImage.fillAmount -= ((float)consumption * 2 * Time.deltaTime) / 100;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        mpImage.fillAmount = (float)mp / 100;
+        coroutine = null;
+        yield return null;
     }
 }
