@@ -9,6 +9,7 @@ public class PEA_Mushroom : MonoBehaviour
     private Rigidbody rig = null;
 
     public GameObject mushroom;
+    public GameObject sphere;
     public bool isMainMushroom = false;
 
     void Start()
@@ -36,6 +37,7 @@ public class PEA_Mushroom : MonoBehaviour
 
         transform.GetChild(0).gameObject.SetActive(false);
         transform.GetChild(1).gameObject.SetActive(true);
+        transform.GetChild(2).gameObject.SetActive(true);
         transform.up = collision.contacts[0].normal;
 
         rig.velocity = Vector3.zero;
@@ -45,7 +47,6 @@ public class PEA_Mushroom : MonoBehaviour
 
         if (isMainMushroom)
         {
-
             if(mushroom != null)
             {
                 GameObject mushroom1 = Instantiate(mushroom, transform.position + transform.up + transform.right, Quaternion.identity);
