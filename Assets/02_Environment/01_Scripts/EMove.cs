@@ -95,5 +95,9 @@ public class EMove : MonoBehaviour
 
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("dd");
 
+    }
 }

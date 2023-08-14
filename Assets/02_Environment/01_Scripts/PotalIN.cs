@@ -22,7 +22,9 @@ public class PotalIN : MonoBehaviour
                 rotationdiff += 180;
                 hunter.Rotate(Vector3.up, rotationdiff);
                 Vector3 positionOffset = Quaternion.Euler(0f, rotationdiff, 0f) * portalToPlayer;
+                hunter.GetComponent<CharacterController>().enabled = false;
                 hunter.position = PotalPosition.position + positionOffset;
+                hunter.GetComponent<CharacterController>().enabled = true;
                 IsOverlapping = false;
                 Debug.Log("dd");
             }
