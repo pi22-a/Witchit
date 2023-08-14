@@ -13,12 +13,8 @@ public class PEA_WitchSkill : MonoBehaviour
     private float curTime = 0f;
     private readonly float returnTime = 1f;
     private bool isChanged = false;                                             // 변신한 상태인지 확인
-    private MeshFilter disguiseMeshFilter;                                      // 프랍으로 변신했을 때 모습을 그릴 메쉬를 담는 메쉬필터
-    private MeshRenderer disguiseMeshRenderer;                                  // 프랍으로 변신했을 때 모습을 그려주는 메쉬렌더러
     private SkinnedMeshRenderer skinnedMeshRenderer;                            // 마녀 모습을 그려주는 메쉬렌더러
     private GameObject disguiseProb;
-    private MeshCollider probCollider;                                          // 프랍 모습 콜라이더, 마녀모습으로 변시하면 꺼줌
-    private CapsuleCollider witchCollider;                                      // 마녀 모습 콜라이더, 프랍으로 변신하면 꺼줌
 
     // 유인 관련 변수
     private GameObject decoyProb;
@@ -28,6 +24,10 @@ public class PEA_WitchSkill : MonoBehaviour
     private GameObject curRayProb = null;                                       // 현재 카메라 중심에 있는 오브젝트
     private GameObject prevRayProb = null;                                      // 이전에 카메라 중심에 있던 오브젝트
 
+    // 마나 관련 변수
+    private readonly int possessMP = 50;
+    private PEA_WitchMP witchMP;
+
     // 레이캐스트 관련 변수
     private float rayDist = 50f;
     private RaycastHit hit;
@@ -35,13 +35,15 @@ public class PEA_WitchSkill : MonoBehaviour
     // 코루틴 관련 변수
     private Coroutine coroutine;
 
-    private MeshCollider meshCollider;
     private PEA_WitchMovement witchMovement;
 
     // 에디터에서 연결해줄 변수
     public GameObject witchBody;                                               // 마녀 모습 몸체
     public GameObject mushRoom;
     public Transform probBody;                                                // 프랍 모습 몸체
+    public PEA_Camera pea_camera;
+    public CapsuleCollider witchCollider;                                      // 마녀 모습 콜라이더, 프랍으로 변신하면 꺼줌
+    public MeshCollider probCollider;                                          // 프랍 모습 콜라이더, 마녀모습으로 변시하면 꺼줌
 
     public bool IsChanged
     {
@@ -52,15 +54,11 @@ public class PEA_WitchSkill : MonoBehaviour
     {
         // 변장
         disguiseProb = probBody.GetChild(0).gameObject;
-        disguiseMeshFilter = disguiseProb.GetComponent<MeshFilter>();
-        disguiseMeshRenderer = disguiseProb.GetComponent<MeshRenderer>();
-        witchCollider = GetComponent<CapsuleCollider>();
-        probCollider = GetComponent<MeshCollider>();
 
         skinnedMeshRenderer = witchBody.GetComponent<SkinnedMeshRenderer>();
 
-        meshCollider = GetComponent<MeshCollider>();
         witchMovement = GetComponent<PEA_WitchMovement>();
+        witchMP = GetComponent<PEA_WitchMP>();
     }
 
     void Update()
@@ -140,6 +138,7 @@ public class PEA_WitchSkill : MonoBehaviour
             isChanged = true;
             witchCollider.enabled = false;
             probCollider.enabled = true;
+            //pea_camera.SetCamPos(isChanged);
             if (coroutine == null)
             {
                 coroutine = StartCoroutine(Dissolve(false));
@@ -153,18 +152,30 @@ public class PEA_WitchSkill : MonoBehaviour
         curRayProb.GetComponent<Outline>().enabled = false;
 
         GameObject prob =  Instantiate(curRayProb, probBody.position, curRayProb.transform.rotation, probBody);
-        prob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
-        prob.GetComponent<Rigidbody>().useGravity = true;
+        prob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX & RigidbodyConstraints.FreezePositionZ;
+        prob.GetComponent<Rigidbody>().useGravity = false;
         prob.GetComponent<Collider>().enabled = false;
 
+        probCollider.transform.localScale = prob.transform.lossyScale;
         probCollider.sharedMesh = prob.GetComponent<MeshFilter>().mesh;
+        GetComponent<Rigidbody>().useGravity = false;
+        probCollider.GetComponent<Rigidbody>().useGravity = true;
 
-        witchMovement.SetProbRigidbody(prob.GetComponent<Rigidbody>());
+        //witchMovement.SetProbRigidbody(prob.GetComponent<Rigidbody>());
     }
     
     // 빙의 - 마녀 <-> 프랍 바꾸기
     private void Possess()
     {
+        if(witchMP.MP < possessMP)
+        {
+            print("mp 부족 : " + witchMP.MP);
+            return;
+        }
+        else
+        {
+            witchMP.UseMP(possessMP);
+        }
 
         // 변장중이 아닐 떄
         if (!isChanged)
@@ -172,6 +183,7 @@ public class PEA_WitchSkill : MonoBehaviour
             isChanged = true;
             witchCollider.enabled = false;
             probCollider.enabled = true;
+            //pea_camera.SetCamPos(isChanged);
             if (coroutine == null)
             {
                 coroutine = StartCoroutine(Dissolve(false));
@@ -190,13 +202,16 @@ public class PEA_WitchSkill : MonoBehaviour
         GameObject prob = curRayProb;
         prob.transform.SetParent(probBody);
         prob.transform.position = probBody.transform.position;
-        prob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
-        prob.GetComponent<Rigidbody>().useGravity = true;
+        prob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX & RigidbodyConstraints.FreezePositionZ;
+        prob.GetComponent<Rigidbody>().useGravity = false;
         prob.GetComponent<Collider>().enabled = false;
 
+        probCollider.transform.localScale = prob.transform.lossyScale;
         probCollider.sharedMesh = prob.GetComponent<MeshFilter>().mesh;
+        GetComponent<Rigidbody>().useGravity = false;
+        probCollider.GetComponent<Rigidbody>().useGravity = true;
 
-        witchMovement.SetProbRigidbody(prob.GetComponent<Rigidbody>());
+        //witchMovement.SetProbRigidbody(prob.GetComponent<Rigidbody>());
     }
 
     // 원상복귀 - 마녀의 모습으로 돌아감
@@ -210,8 +225,11 @@ public class PEA_WitchSkill : MonoBehaviour
             if(coroutine == null)
             {
                 coroutine = StartCoroutine(Dissolve(true));
-                witchMovement.SetProbRigidbody(null);
+                //witchMovement.SetProbRigidbody(null);
+                witchCollider.enabled = true;
+                //probCollider.enabled = false;
                 isChanged = false;
+                //pea_camera.SetCamPos(isChanged);
             }
         }
     }
@@ -234,6 +252,14 @@ public class PEA_WitchSkill : MonoBehaviour
         {
             isDecoying = true;
             decoyProb = curRayProb;
+        }
+    }
+
+    public void WitchDissolve(bool visible)
+    {
+        if( coroutine == null)
+        {
+            coroutine = StartCoroutine(Dissolve(visible));
         }
     }
 

@@ -15,12 +15,12 @@ public class PEA_WitchMovement : MonoBehaviour
     private bool isJumping = false;
 
     // 회전 관련 변수
-    private float lerpSpeed = 30f;
+    private float lerpSpeed = 10f;
     private Vector3 forwardVector = Vector3.zero;                 // 마녀가 바라볼 앞방향 
 
     // 프랍모드 회전 관련 변수
     private float angularSpeed = 0f;
-    private float maxAngularSpeed = 30f;
+    private float maxAngularSpeed = 360f;
     //private Vector3 angularSpeed = Vector3.zero;
     private PEA_WitchSkill witchSkill;
 
@@ -40,10 +40,11 @@ public class PEA_WitchMovement : MonoBehaviour
     private Animator anim = null;
 
     // 에디터에서 연결해줄 변수
-    public Transform body;
+    public Transform witchBody;
     public Transform probBody;
     public Transform cameraAnchor;
     public Rigidbody probBodyRidigbody;
+    public MeshCollider probCollider;
 
     void Start()
     {
@@ -134,30 +135,31 @@ public class PEA_WitchMovement : MonoBehaviour
             SetForwardVector();
             if (!witchSkill.IsChanged)
             {
-                body.forward = Vector3.Lerp(body.forward, forwardVector, lerpSpeed * Time.deltaTime);
+                witchBody.forward = Vector3.Lerp(witchBody.forward, forwardVector, lerpSpeed * Time.deltaTime);
+                transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, cameraAnchor.eulerAngles.y, 0), lerpSpeed * Time.deltaTime);
             }
-            transform.eulerAngles = new Vector3(0, cameraAnchor.eulerAngles.y, 0);
+            else
+            {
+                Vector3 probEulerAngles =  probBodyRidigbody.transform.eulerAngles;
+                transform.eulerAngles = new Vector3(0, cameraAnchor.eulerAngles.y, 0);
+                probBodyRidigbody.transform.eulerAngles = probEulerAngles;
+            }
         }
     }
 
     public void SetProbRigidbody(Rigidbody rig)
     {
         probBodyRidigbody = rig;
-        print(probBodyRidigbody.gameObject.name);
     }
 
     // 프랍일 때 이동 방향에 따라 회전(굴러나디기)
     private void ProbRotateByMove()
     {
-        //angularSpeed = Vector3.Lerp(angularSpeed, new Vector3(moveDir.z, 0, -moveDir.x) * maxAngularSpeed, 10 * Time.deltaTime);
-        //print(probBodyRidigbody.gameObject.name);
-        //probBodyRidigbody.angularVelocity = angularSpeed;
-
         if (moveDir != Vector3.zero)
         {
             if (angularSpeed < maxAngularSpeed)
             {
-                angularSpeed += Time.deltaTime * 10f;
+                angularSpeed += Time.deltaTime * 20f;
             }
             else
             {
@@ -168,7 +170,7 @@ public class PEA_WitchMovement : MonoBehaviour
         {
             if (angularSpeed > 0)
             {
-                angularSpeed -= Time.deltaTime * 5f;
+                angularSpeed -= Time.deltaTime * 30f;
             }
             else
             {
@@ -176,7 +178,16 @@ public class PEA_WitchMovement : MonoBehaviour
             }
         }
 
-        probBodyRidigbody.angularVelocity = new Vector3(moveDir.z, 0, -moveDir.x) * angularSpeed;
+        //probBodyRidigbody.angularVelocity = new Vector3(moveDir.z, 0, -moveDir.x) * angularSpeed;
+        //probCollider.transform.rotation = probBodyRidigbody.transform.rotation;
+        //probBodyRidigbody.transform.position = transform.position;
+
+        probBodyRidigbody.transform.Rotate(((transform.forward * -moveDir.x) + (transform.right * moveDir.z).normalized) * maxAngularSpeed * Time.deltaTime);
+        transform.position = probBodyRidigbody.transform.position;
+        probBodyRidigbody.transform.localPosition = Vector3.zero;
+        probBody.GetChild(1).localPosition = Vector3.zero;
+        probBody.GetChild(1).rotation = probBodyRidigbody.transform.rotation;
+
     }
 
     // 점프
@@ -184,8 +195,18 @@ public class PEA_WitchMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
-            rig.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-            isJumping = true;
+            if (!witchSkill.IsChanged)
+            {
+                rig.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+                isJumping = true;
+                animState = AnimState.Jump;
+                anim.SetTrigger("Jump");
+            }
+            else
+            {
+                probBodyRidigbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+                isJumping = true;
+            }
         }
     }
 
@@ -207,16 +228,29 @@ public class PEA_WitchMovement : MonoBehaviour
                     anim.SetTrigger("Idle");
                 }
                 break;
-            case AnimState.Run:              
-                break;
             case AnimState.Jump:
+                if (!isJumping)
+                {
+                    anim.SetTrigger("JumpEnd");
+                    if (moveDir != Vector3.zero)
+                    {
+                        animState = AnimState.Walk;
+                        anim.SetTrigger("Walk");
+                    }
+                    else
+                    {
+                        print("qqqqqq");
+                        animState = AnimState.Idle;
+                        anim.SetTrigger("Idle");
+                    }
+                }
                 break;
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.contacts[0].point.y < transform.position.y)
+        if( isJumping && collision.contacts[0].point.y < transform.position.y)
         {
             isJumping = false;
         }
