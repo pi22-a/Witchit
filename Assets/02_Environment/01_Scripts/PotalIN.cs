@@ -5,6 +5,7 @@ using UnityEngine;
 public class PotalIN : MonoBehaviour
 {
     public Transform hunter;
+    public Transform witch;
     public Transform PotalPosition;
 
     private bool IsOverlapping = false;
@@ -36,6 +37,10 @@ public class PotalIN : MonoBehaviour
         {
             IsOverlapping = true;
         }
+        if(other.tag == "Witch")
+        {
+            IsOverlapping = true;
+        }
         //if (other.tag == "Hunter")
         //{
         //    Debug.Log("Ãæµ¹");
@@ -54,6 +59,10 @@ public class PotalIN : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if(other.tag == "Hunter")
+        {
+            IsOverlapping = false;
+        }
+        if(other.tag == "Witch")
         {
             IsOverlapping = false;
         }
