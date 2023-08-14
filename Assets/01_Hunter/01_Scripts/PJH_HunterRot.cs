@@ -13,13 +13,16 @@ public class PJH_HunterRot : MonoBehaviour
 
     //카메라 Transform
     public GameObject trCam;
+
+    public GameObject trSpine;
     void Start()
     {
 
     }
 
+    
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         
 
@@ -35,8 +38,16 @@ public class PJH_HunterRot : MonoBehaviour
         rotX += mx * rotSpeed * Time.deltaTime;
         rotY += my * rotSpeed * Time.deltaTime;
 
+        rotY = Mathf.Clamp(rotY, -55, 55);
+
         //3. 누적된 값만큼 회전 시키자.
         transform.localEulerAngles = new Vector3(0, rotX, 0);
-        trCam.transform.localEulerAngles = new Vector3 (-rotY, 0, 0);
+        trSpine.transform.localEulerAngles = new Vector3 (
+            trSpine.transform.localEulerAngles.x, trSpine.transform.localEulerAngles.y, rotY);
+        trCam.transform.localEulerAngles = new Vector3(-rotY ,0,0);
+
+
     }
+
+   
 }
