@@ -94,7 +94,7 @@ public class PJH_HunterFire : MonoBehaviour
             vacuumTrap.transform.forward = firePosition.forward;
         }
         
-        //V클릭시 전범위 공격
+        //V클릭시 앞범위 공격
         if (Input.GetKeyDown(KeyCode.V))
         {
             anim.SetTrigger("MeleeAttack");

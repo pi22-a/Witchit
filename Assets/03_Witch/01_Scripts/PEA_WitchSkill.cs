@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PEA_WitchSkill : MonoBehaviour
 {
@@ -44,6 +45,7 @@ public class PEA_WitchSkill : MonoBehaviour
     public PEA_Camera pea_camera;
     public CapsuleCollider witchCollider;                                      // 마녀 모습 콜라이더, 프랍으로 변신하면 꺼줌
     public MeshCollider probCollider;                                          // 프랍 모습 콜라이더, 마녀모습으로 변시하면 꺼줌
+    public Image returnWitchImage;
 
     public bool IsChanged
     {
@@ -81,12 +83,14 @@ public class PEA_WitchSkill : MonoBehaviour
         if (Input.GetMouseButton(2) && isChanged)
         {
             ReturnOrigin();
+            returnWitchImage.gameObject.SetActive(true);
         }
 
         // 마우스 휠 떼면 시간 초기화
         else if (Input.GetMouseButtonUp(2))
         {
             curTime = 0f;
+            returnWitchImage.gameObject.SetActive(false);
         }
 
         // Q - 버섯 던지기
@@ -218,18 +222,17 @@ public class PEA_WitchSkill : MonoBehaviour
     private void ReturnOrigin()
     {
         curTime += Time.deltaTime;
+        returnWitchImage.fillAmount = (curTime / returnTime);
         if(curTime >= returnTime)
         {
-            probBody.GetChild(0).GetComponent<PEA_ProbDissolve>().ProbDissolve();
-            print(coroutine != null);
+            probBody.GetChild(1).GetComponent<PEA_ProbDissolve>().ProbDissolve();
+            probCollider.sharedMesh = null;
+            GetComponent<Rigidbody>().useGravity = true;
             if(coroutine == null)
             {
                 coroutine = StartCoroutine(Dissolve(true));
-                //witchMovement.SetProbRigidbody(null);
                 witchCollider.enabled = true;
-                //probCollider.enabled = false;
                 isChanged = false;
-                //pea_camera.SetCamPos(isChanged);
             }
         }
     }
