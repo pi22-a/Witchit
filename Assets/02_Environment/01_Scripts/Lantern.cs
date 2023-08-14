@@ -4,46 +4,32 @@ using UnityEngine;
 
 public class Lantern : MonoBehaviour
 {
-    Vector3 direction;
     public GameObject player;
-    public GameObject Light;
+    public GameObject lightObject;
     bool lightONOFF = false;
-    void Start()
-    {
-        lightONOFF = false;
-        Light.SetActive(false);
-    }
+    public float maxRaycastDistance = 3f;
 
     void Update()
     {
-        //거리측정
-        direction = player.transform.position - this.transform.position;
-        float size = direction.magnitude;
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (size < 1f)
-            {
-                if (lightONOFF)
-                {
-                    LanternON();
-                }
-                else
-                {
-                    LanternOFF();
-                }
-            }
+        Vector3 directionToPlayer = player.transform.position - transform.position;
+        float distanceToPlayer = directionToPlayer.magnitude;
 
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, directionToPlayer, out hit, maxRaycastDistance))
+        {
+            if (hit.collider.gameObject == player && Input.GetKeyDown(KeyCode.E))
+            {
+                ToggleLantern();
+            }
         }
-        //direction.Normalize();
     }
-    void LanternON()
+
+    void ToggleLantern()
     {
-        Light.SetActive(true);
-        lightONOFF = true;
-    }
-    void LanternOFF()
-    {
-        Light.SetActive(false);
-        lightONOFF = false;
+        lightONOFF = !lightONOFF;
+        lightObject.SetActive(lightONOFF);
     }
 }
+
+
+
