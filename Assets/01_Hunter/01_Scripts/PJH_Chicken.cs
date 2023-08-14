@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class PJH_Chicken : MonoBehaviour
 {
-    public GameObject kkokkioFactory;   //닭 울음소리 이펙트    
     public float speed = 15;            //닭 스피드
     public float deathTime = 8;         //닭 수명
+                                        // SimpleSonarShader_Object kkokkioFactory;
 
+    Collision col;
     Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
+        //kkokkioFactory = GameObject.FindFirstObjectByType<SimpleSonarShader_Object>();
+
 
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * speed, ForceMode.Impulse);
         Invoke("DeathChicken", deathTime); // deathTime초 후에 닭 파괴
+
+        Invoke("FindWitch", 1);
 
     }
     /*
@@ -34,8 +39,7 @@ public class PJH_Chicken : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 닭이 우는 함수 시작
-        StartCoroutine(FindWitch());
+
     }
     void DeathChicken()
     {
@@ -43,19 +47,36 @@ public class PJH_Chicken : MonoBehaviour
     }
 
     // 마녀가 근처에 있으면 운다.
-    IEnumerator FindWitch()
+    void FindWitch()
     {
-        
-        yield return new WaitForSeconds(1);
-        
+        bool isWitch = false;
         // 반경 3M 안의 충돌체중에 마녀가 있다면
         int layer = 1 << LayerMask.NameToLayer("Witch");
-        Collider[] cols = Physics.OverlapSphere(transform.position, 8, layer);
-        for (int i = 0; i < cols.Length; i++)
+        Collider[] cols = Physics.OverlapSphere(transform.position, 3, layer);
+        if (cols.Length > 0)
         {
+            // 마녀가 있다.
+            isWitch = true;
+        }
+
+        if (isWitch)
+        {
+
+            //닭 울음소리 이펙트    
             // 시끄럽게 울고싶다.
-            GameObject kkokkio = Instantiate(kkokkioFactory);
-            kkokkio.transform.position = transform.position;
-        }        
+            Ray ray = new Ray(transform.position, Vector3.down);
+            RaycastHit hitInfo;
+            if (Physics.Raycast(ray, out hitInfo))
+            {
+                SimpleSonarShader_Object kkokkioFactory = hitInfo.transform.GetComponentInParent<SimpleSonarShader_Object>();
+                if (kkokkioFactory)
+                {
+                    for(int i=0; i<4; i++)
+                    kkokkioFactory.StartSonarRing(hitInfo.point, 20);
+                }
+                    
+            }
+
+        }
     }
 }
