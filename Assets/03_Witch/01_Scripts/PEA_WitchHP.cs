@@ -12,7 +12,7 @@ public class PEA_WitchHP : MonoBehaviour
 
     private PEA_WitchSkill witchSkill = null;
 
-    public Image hpImage;
+    //public Image hpImage;
     public GameObject probBody;
     public GameObject witchUI;
 
@@ -24,7 +24,7 @@ public class PEA_WitchHP : MonoBehaviour
     void Start()
     {
         hp = maxHp;
-        hpImage.fillAmount = 1;
+        //hpImage.fillAmount = 1;
         witchSkill = GetComponent<PEA_WitchSkill>();
     }
 
@@ -39,7 +39,7 @@ public class PEA_WitchHP : MonoBehaviour
     public void Damage(int damage)
     {
         hp -= damage;
-        hpImage.fillAmount = hp / maxHp;
+        //hpImage.fillAmount = hp / maxHp;
 
         if (hp <= 0)
         {
@@ -51,7 +51,7 @@ public class PEA_WitchHP : MonoBehaviour
     private void Die()
     {
         isDead = true;
-
+        /*
         if (!witchSkill.IsChanged)
         {
             witchSkill.WitchDissolve(false);
@@ -66,6 +66,6 @@ public class PEA_WitchHP : MonoBehaviour
         Camera.main.transform.SetParent(null);
         Camera.main.transform.position = transform.position;
         Camera.main.GetComponent<PEA_WatchCamera>().enabled = true;
-        witchUI.SetActive(false);
+        witchUI.SetActive(false);*/
     }
 }
