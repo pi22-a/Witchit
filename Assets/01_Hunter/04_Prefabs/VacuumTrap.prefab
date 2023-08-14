@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3475ed8b59d9deb42bd4820ea2ce3697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VacuumFactory: {fileID: 919132149155446097, guid: 0eb278757dbd2a84fba80a4e733658d2, type: 3}
+  VacuumFactory: {fileID: 1538102051281877180, guid: c19ea996263106d48ad07abd2d729ed1, type: 3}
   speed: 15
   deathTime: 8
   range: 5

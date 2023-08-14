@@ -23,24 +23,13 @@ public class PJH_VacuumTrap : MonoBehaviour
         // deathTime초 후에 흡수 파괴
         Invoke("DeathVacuumTrap", deathTime); 
         // 흡수하는 함수 호출
-        StartCoroutine(FindWitch());
+        Invoke("FindWitch",1);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(b)
-        {
-            // 반경 range 안의 충돌체중에 마녀를 찾는다.
-            int layerMask = (1 << witchLayer);
-            Collider[] cols = Physics.OverlapSphere(transform.position, range, layerMask);
-            for (int i=0; i < cols.Length; i++)
-            {
-                // 마녀를 흡수 위치로 당긴다.
-                cols[i].transform.position = Vector3.MoveTowards(cols[i].transform.position, gameObject.transform.position, 0.1f);
-            }
-            
-        }
+    
         
     }
     void DeathVacuumTrap()
@@ -48,14 +37,30 @@ public class PJH_VacuumTrap : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // 마녀가 근처에 있으면 흡수한다.
-    IEnumerator FindWitch()
+    void FindWitch()
     {
-        // 1초 후에 발동
-        yield return new WaitForSeconds(1);
-        b = true;
-        // 흡수이펙트 생성
-        GameObject Vacuum = Instantiate(VacuumFactory);
-        Vacuum.transform.position = transform.position;
+        bool isWitch = false;
+        // 반경 3M 안의 충돌체중에 마녀가 있다면
+        int layer = 1 << LayerMask.NameToLayer("Witch");
+        Collider[] cols = Physics.OverlapSphere(transform.position, 3, layer);
+        if (cols.Length > 0)
+        {
+            // 마녀가 있다.
+            isWitch = true;
+            
+        }
+
+        if (isWitch)
+        {
+
+            GameObject Vacuum = Instantiate(VacuumFactory);
+            Vacuum.transform.position = transform.position;
+            // 마녀를 흡수 위치로 당긴다.
+            for (int i = 0; i <cols.Length; i++)
+            {
+                cols[0].transform.position = Vector3.MoveTowards(cols[0].transform.position, gameObject.transform.position, 0.1f);
+            }
+            
+        }
     }
 }

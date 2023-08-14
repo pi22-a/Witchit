@@ -38,11 +38,15 @@ public class PJH_HunterRot : MonoBehaviour
         rotX += mx * rotSpeed * Time.deltaTime;
         rotY += my * rotSpeed * Time.deltaTime;
 
+        rotY = Mathf.Clamp(rotY, -55, 55);
+
         //3. 누적된 값만큼 회전 시키자.
         transform.localEulerAngles = new Vector3(0, rotX, 0);
         trSpine.transform.localEulerAngles = new Vector3 (
             trSpine.transform.localEulerAngles.x, trSpine.transform.localEulerAngles.y, rotY);
         trCam.transform.localEulerAngles = new Vector3(-rotY ,0,0);
+
+
     }
 
    
