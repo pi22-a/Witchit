@@ -239,7 +239,6 @@ public class PEA_WitchMovement : MonoBehaviour
                     }
                     else
                     {
-                        print("qqqqqq");
                         animState = AnimState.Idle;
                         anim.SetTrigger("Idle");
                     }
