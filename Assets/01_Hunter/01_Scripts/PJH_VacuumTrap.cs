@@ -42,7 +42,7 @@ public class PJH_VacuumTrap : MonoBehaviour
         bool isWitch = false;
         // 반경 3M 안의 충돌체중에 마녀가 있다면
         int layer = 1 << LayerMask.NameToLayer("Witch");
-        Collider[] cols = Physics.OverlapSphere(transform.position, 3, layer);
+        Collider[] cols = Physics.OverlapSphere(transform.position, 8, layer);
         if (cols.Length > 0)
         {
             // 마녀가 있다.
@@ -58,7 +58,7 @@ public class PJH_VacuumTrap : MonoBehaviour
             // 마녀를 흡수 위치로 당긴다.
             for (int i = 0; i <cols.Length; i++)
             {
-                cols[0].transform.position = Vector3.MoveTowards(cols[0].transform.position, gameObject.transform.position, 0.1f);
+                cols[i].transform.position = Vector3.MoveTowards(cols[i].transform.position, gameObject.transform.position, 0.1f);
             }
             
         }
