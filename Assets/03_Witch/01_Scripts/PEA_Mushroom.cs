@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PEA_Mushroom : MonoBehaviour
 {
-    private float throwPower = 8f;
+    private float throwPower = 10f;
     private Vector3 throwDir = Vector3.zero;
     private Rigidbody rig = null;
 
@@ -20,9 +20,10 @@ public class PEA_Mushroom : MonoBehaviour
 
         if (!isMainMushroom)
         {
-            throwPower = 3f; 
+            throwPower = 8f; 
         }
         rig.AddForce(throwDir * throwPower, ForceMode.Impulse);
+        print(throwPower);
     }
 
     void Update()
