@@ -31,7 +31,7 @@ public class PEA_WitchSkill : MonoBehaviour
     private PEA_WitchMP witchMP;
 
     // 레이캐스트 관련 변수
-    private float rayDist = 50f;
+    //private float rayDist = 50f;
     private RaycastHit hit;
 
     // 코루틴 관련 변수

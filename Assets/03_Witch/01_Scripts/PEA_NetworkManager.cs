@@ -27,14 +27,15 @@ public class PEA_NetworkManager : MonoBehaviourPunCallbacks
         
     }
 
+    public void OnClickQuickMatch()
+    {
+        RoomOptions roomOption = new RoomOptions();
+        PhotonNetwork.JoinOrCreateRoom("WitchIt", roomOption, TypedLobby.Default);
+    }
 
     public override void OnConnectedToMaster()
     {
         print("서버에 연결됨");
-    }
-
-    public void OnClickQuickPlay()
-    {
         PhotonNetwork.JoinLobby();
     }
 
@@ -44,4 +45,27 @@ public class PEA_NetworkManager : MonoBehaviourPunCallbacks
 
         print("로비 입장");
     }
+    public override void OnCreatedRoom()
+    {
+        base.OnCreatedRoom();
+
+        print("방 생성");
+
+        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        hash["Room_State"] = "Waiting";
+        hash["Witch_Count"] = 0;
+        hash["Hunter_Count"] = 0;
+        hash["Ready_Count"] = 0;
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+
+        print("방 입장");
+        PhotonNetwork.LoadLevel("PEA_GameRoom");
+    }
+
 }
