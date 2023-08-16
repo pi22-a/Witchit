@@ -8,12 +8,12 @@ public class PJH_VacuumTrap : MonoBehaviour
     public float speed = 15;            //흡수 스피드
     public float deathTime = 8;         //흡수 수명
     public float range = 5;             //흡수 범위
-
+    bool isWitch = false;
     Rigidbody rb;
-
+    Collider[] cols;
     bool b;
     LayerMask witchLayer;
-
+    GameObject Vacuum;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -24,43 +24,48 @@ public class PJH_VacuumTrap : MonoBehaviour
         Invoke("DeathVacuumTrap", deathTime); 
         // 흡수하는 함수 호출
         Invoke("FindWitch",1);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-    
-        
+        if (isWitch)
+        {
+            Vacuum.transform.position = transform.position;
+            for (int i = 0; i < cols.Length; i++)
+            {
+                // 마녀를 흡수 위치로 당긴다.
+                cols[i].transform.position = Vector3.MoveTowards(cols[i].transform.position, gameObject.transform.position, 0.1f);
+            }
+
+        }
+
     }
     void DeathVacuumTrap()
     {
         Destroy(gameObject);
+        //Destroy(VacuumFactory);
     }
 
-    void FindWitch()
+    public void FindWitch()
     {
-        bool isWitch = false;
+        
         // 반경 3M 안의 충돌체중에 마녀가 있다면
         int layer = 1 << LayerMask.NameToLayer("Witch");
-        Collider[] cols = Physics.OverlapSphere(transform.position, 3, layer);
+        cols = Physics.OverlapSphere(transform.position, range, layer);
         if (cols.Length > 0)
         {
             // 마녀가 있다.
             isWitch = true;
             
         }
-
-        if (isWitch)
+        if(isWitch)
         {
+            Vacuum = Instantiate(VacuumFactory);
 
-            GameObject Vacuum = Instantiate(VacuumFactory);
-            Vacuum.transform.position = transform.position;
-            // 마녀를 흡수 위치로 당긴다.
-            for (int i = 0; i <cols.Length; i++)
-            {
-                cols[0].transform.position = Vector3.MoveTowards(cols[0].transform.position, gameObject.transform.position, 0.1f);
-            }
-            
         }
+
+        
     }
 }
