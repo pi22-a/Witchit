@@ -27,10 +27,11 @@ public class PEA_WitchSkill : MonoBehaviour
 
     // 마나 관련 변수
     private readonly int possessMP = 50;
+    private readonly int mushroomMP = 70;
     private PEA_WitchMP witchMP;
 
     // 레이캐스트 관련 변수
-    private float rayDist = 50f;
+    //private float rayDist = 50f;
     private RaycastHit hit;
 
     // 코루틴 관련 변수
@@ -46,6 +47,8 @@ public class PEA_WitchSkill : MonoBehaviour
     public CapsuleCollider witchCollider;                                      // 마녀 모습 콜라이더, 프랍으로 변신하면 꺼줌
     public MeshCollider probCollider;                                          // 프랍 모습 콜라이더, 마녀모습으로 변시하면 꺼줌
     public Image returnWitchImage;
+    public PEA_SkillCooltime possessCooltime;
+    public PEA_SkillCooltime mushroomCooltime;
 
     public bool IsChanged
     {
@@ -66,7 +69,12 @@ public class PEA_WitchSkill : MonoBehaviour
     void Update()
     {
         RayCamera();
+        GetInputKeys();
+    }
 
+    // 입력에 따라 스킬 사용
+    private void GetInputKeys()
+    {
         // 마우스 좌클릭 - 변장
         if (Input.GetMouseButtonDown(0) && curRayProb != null)
         {
@@ -142,7 +150,7 @@ public class PEA_WitchSkill : MonoBehaviour
             isChanged = true;
             witchCollider.enabled = false;
             probCollider.enabled = true;
-            //pea_camera.SetCamPos(isChanged);
+            pea_camera.SetCamPos(isChanged);
             if (coroutine == null)
             {
                 coroutine = StartCoroutine(Dissolve(false));
@@ -171,14 +179,14 @@ public class PEA_WitchSkill : MonoBehaviour
     // 빙의 - 마녀 <-> 프랍 바꾸기
     private void Possess()
     {
-        if(witchMP.MP < possessMP)
+        if(witchMP.MP < possessMP || !possessCooltime.Available)
         {
-            print("mp 부족 : " + witchMP.MP);
             return;
         }
         else
         {
             witchMP.UseMP(possessMP);
+            possessCooltime.UseSkill();
         }
 
         // 변장중이 아닐 떄
@@ -187,7 +195,7 @@ public class PEA_WitchSkill : MonoBehaviour
             isChanged = true;
             witchCollider.enabled = false;
             probCollider.enabled = true;
-            //pea_camera.SetCamPos(isChanged);
+            pea_camera.SetCamPos(isChanged);
             if (coroutine == null)
             {
                 coroutine = StartCoroutine(Dissolve(false));
@@ -233,6 +241,7 @@ public class PEA_WitchSkill : MonoBehaviour
                 coroutine = StartCoroutine(Dissolve(true));
                 witchCollider.enabled = true;
                 isChanged = false;
+                pea_camera.SetCamPos(isChanged);
             }
         }
     }
@@ -240,6 +249,16 @@ public class PEA_WitchSkill : MonoBehaviour
     // 버섯 던지기 - 밞으면 정신이 혼미해지는 버섯을 던짐
     private void ThrowMushRoom()
     {
+        if(witchMP.MP < mushroomMP || !mushroomCooltime.Available)
+        {
+            return;
+        }
+        else
+        {
+            witchMP.UseMP(mushroomMP);
+            mushroomCooltime.UseSkill();
+        }
+
         Instantiate(mushRoom, transform.position + Camera.main.transform.forward * 2, transform.rotation);
     }
 

@@ -23,7 +23,7 @@ public class PEA_Camera : MonoBehaviour
     void Start()
     {
         // 마녀일 때와 프랍으로 변신했을 때의 위치값 설정
-        defaultCamPos = transform.localPosition - player.transform.position;
+        defaultCamPos = Camera.main.transform.localPosition;
         probModeCamPos = new Vector3(0, defaultCamPos.y, defaultCamPos.z);
     }
 
@@ -45,7 +45,8 @@ public class PEA_Camera : MonoBehaviour
     {
         if (!isChanged)
         {
-            Camera.main.transform.localPosition = defaultCamPos; 
+            Camera.main.transform.localPosition = defaultCamPos;
+            print(defaultCamPos);
         }
         else
         {

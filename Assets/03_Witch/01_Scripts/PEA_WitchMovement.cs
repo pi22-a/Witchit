@@ -59,7 +59,24 @@ public class PEA_WitchMovement : MonoBehaviour
         Rotate();
         if (witchSkill.IsChanged)
         {
-            ProbRotateByMove();
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                probBodyRidigbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            }
+            else if (Input.GetKey(KeyCode.LeftShift))
+            {
+                print("ㅔㅔㅔ");
+                ProbStabilization();
+            }
+            else if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                probBodyRidigbody.constraints = RigidbodyConstraints.None;
+            }
+            else
+            {
+                print("ㅏㅏㅏㅏㅏ");
+                ProbRotateByMove();
+            }
         }
         Jump();
         SetAnimation();
@@ -140,7 +157,7 @@ public class PEA_WitchMovement : MonoBehaviour
             }
             else
             {
-                Vector3 probEulerAngles =  probBodyRidigbody.transform.eulerAngles;
+                Vector3 probEulerAngles = probBodyRidigbody.transform.eulerAngles;
                 transform.eulerAngles = new Vector3(0, cameraAnchor.eulerAngles.y, 0);
                 probBodyRidigbody.transform.eulerAngles = probEulerAngles;
             }
@@ -245,6 +262,24 @@ public class PEA_WitchMovement : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    // 프랍 안정화
+    private void ProbStabilization()
+    {
+        if(probCollider.transform.localEulerAngles.x <= 1 && probCollider.transform.localEulerAngles.y <= 1 && probCollider.transform.localEulerAngles.z <= 1)
+        {
+            probCollider.transform.localEulerAngles = Vector3.zero;
+        }
+        else
+        {
+            probCollider.transform.rotation = Quaternion.Lerp(probCollider.transform.rotation, probBody.transform.rotation, lerpSpeed * Time.deltaTime);
+        }
+        transform.position = new Vector3(transform.position.x, probCollider.transform.position.y, transform.position.z);
+        probBodyRidigbody.transform.localPosition = Vector3.zero;
+        probBody.GetChild(1).localPosition = Vector3.zero;
+        probBody.GetChild(1).rotation = probBodyRidigbody.transform.rotation;
+
     }
 
     private void OnCollisionEnter(Collision collision)

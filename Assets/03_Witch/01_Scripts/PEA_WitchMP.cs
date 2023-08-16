@@ -74,7 +74,6 @@ public class PEA_WitchMP : MonoBehaviour
 
     IEnumerator DecreaseMP(int consumption)
     {
-        print(consumption + ", " + (float)consumption / 100);
         while(mpImage.fillAmount > (float)mp / 100)
         {
             mpImage.fillAmount -= ((float)consumption * 2 * Time.deltaTime) / 100;
