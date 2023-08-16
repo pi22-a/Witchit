@@ -1674,6 +1674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trCam: {fileID: 617637814}
+  trCam1: {fileID: 1205740173}
   trSpine: {fileID: 1169944592}
 --- !u!54 &1612771625
 Rigidbody:

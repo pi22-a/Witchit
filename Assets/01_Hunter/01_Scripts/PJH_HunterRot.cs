@@ -14,13 +14,30 @@ public class PJH_HunterRot : MonoBehaviour
     //Ä«¸Þ¶ó Transform
     public GameObject trCam;
 
+    public GameObject trCam1;
+
     public GameObject trSpine;
     void Start()
     {
-
+        
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            if (trCam1.activeSelf == false)
+            {
+                //trCam.SetActive(false);
+                trCam1.SetActive(true);
+            }
+            else if (trCam.activeSelf == true)
+            {
+                //trCam.SetActive(true);
+                trCam1.SetActive(false);
+            }
+        }
     }
 
-    
     // Update is called once per frame
     void LateUpdate()
     {
