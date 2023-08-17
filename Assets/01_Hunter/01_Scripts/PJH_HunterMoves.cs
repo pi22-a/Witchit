@@ -7,6 +7,15 @@ using UnityEngine;
 // 최대 점프 횟수를 정해서 여러번 점프하게 하고싶다.
 public class PJH_HunterMoves : MonoBehaviour
 {
+    enum State
+    {
+        Move,
+        Confusion,  // 혼란
+    }
+
+    State state;
+
+
     //속력 
     float speed = 5;
 
@@ -30,7 +39,7 @@ public class PJH_HunterMoves : MonoBehaviour
     //보정하는 속력
     //float lerpSpeed = 50;
 
-    
+
     void Start()
     {
         // Witch레이어 설정
@@ -38,16 +47,32 @@ public class PJH_HunterMoves : MonoBehaviour
         //Character Controller 가져오자
         cc = GetComponent<CharacterController>();
         anim = GetComponentInChildren<Animator>();
+
+        state = State.Move;
     }
 
     void Update()
     {
+        switch (state)
+        {
+            case State.Move:
+                Move(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+                break;
+            case State.Confusion:
+                Move(h, v);
+                break;
+        }
+    }
+    float h, v;
+
+
+    void Move(float h, float v)
+    {
         //W, S, A, D 키를 누르면 앞뒤좌우로 움직이고 싶다.
 
         //1. 사용자의 입력을 받자.
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-        
+
+
         //2. 방향을 만든다.
         //좌우
         Vector3 dirH = transform.right * h;
@@ -67,7 +92,7 @@ public class PJH_HunterMoves : MonoBehaviour
             yVelocity = 0;
             this.GetComponent<Rigidbody>().isKinematic = false;
         }
-        
+
         //스페이바를 누르면 점프를 하고 싶다.
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -75,7 +100,7 @@ public class PJH_HunterMoves : MonoBehaviour
             //yVelocity 에 jumpPower 를 셋팅
             yVelocity = jumpPower;
         }
-        
+
         //yVelocity 를 중력만큼 감소시키자
         yVelocity += gravity * Time.deltaTime;
         //좌 Ctrl 클릭시 바디슬램
@@ -84,7 +109,7 @@ public class PJH_HunterMoves : MonoBehaviour
             //bool a;
             //엉덩이에 col 넣고 그게 뭐든 부딫히면 그때 근처 탐색하고, 데미지 부여 형식
             //
-            //if(yVelocity > 2) 
+            if (gameObject.transform.position.y > 3)
             {
                 anim.SetTrigger("BodySlam");
                 //잠깐 멈추고 빠르게 떨어진다. (애니메이션 적용)
@@ -102,19 +127,49 @@ public class PJH_HunterMoves : MonoBehaviour
                     cols[i].GetComponent<PEA_WitchHP>().Damage(n);
                 }
             }
-            
+
         }
-        
-        
-        
+
+
+
         //yVelocity 값을 dir 의 y 값에 셋팅
         dir.y = yVelocity;
-        
+
         //3. 그방향으로 움직이자.
         //transform.position += dir * speed * Time.deltaTime;
         cc.Move(dir * speed * Time.deltaTime);
-        
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            Mushroom();
+            state = State.Confusion;
+        }
     }
 
-    
+    public void Mushroom()
+    {
+        // 버섯에 닿을시 발동 (버섯에서 쏴줌)
+        // 유저가 플레이어 작동 못하게함 (3초)
+
+        // 랜덤으로 움직이게 함
+        StartCoroutine(MushroomMove());
+        // 다시 유저에게 컨트롤권 부여.
+    }
+    IEnumerator MushroomMove()
+    {
+        float time = 0;
+        float oneTime = 1;
+        while (time >= 3)
+        {
+            h = Random.Range(-1f, 1f);
+            v = Random.Range(-1f, 1f);
+            yield return new WaitForSeconds(oneTime);
+
+            time += oneTime;
+
+        }
+
+        state = State.Move;
+
+    }
 }

@@ -226,7 +226,7 @@ public class PEA_WitchMovement : MonoBehaviour
             }
         }
     }
-
+    
     private void SetAnimation()
     {
         switch (animState)

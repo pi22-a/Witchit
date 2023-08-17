@@ -27,12 +27,12 @@ public class PJH_HunterRot : MonoBehaviour
         {
             if (trCam1.activeSelf == false)
             {
-                //trCam.SetActive(false);
+                trCam.SetActive(false);
                 trCam1.SetActive(true);
             }
-            else if (trCam.activeSelf == true)
+            else if (trCam1.activeSelf == true)
             {
-                //trCam.SetActive(true);
+                trCam.SetActive(true);
                 trCam1.SetActive(false);
             }
         }
