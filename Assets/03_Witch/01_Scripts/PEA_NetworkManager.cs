@@ -30,6 +30,7 @@ public class PEA_NetworkManager : MonoBehaviourPunCallbacks
     public void OnClickQuickMatch()
     {
         RoomOptions roomOption = new RoomOptions();
+        roomOption.MaxPlayers = 2;
         PhotonNetwork.JoinOrCreateRoom("WitchIt", roomOption, TypedLobby.Default);
     }
 
@@ -45,6 +46,7 @@ public class PEA_NetworkManager : MonoBehaviourPunCallbacks
 
         print("로비 입장");
     }
+
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
@@ -67,5 +69,4 @@ public class PEA_NetworkManager : MonoBehaviourPunCallbacks
         print("방 입장");
         PhotonNetwork.LoadLevel("PEA_GameRoom");
     }
-
 }

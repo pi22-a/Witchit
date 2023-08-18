@@ -1,9 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PEA_WitchMovement : MonoBehaviour
+public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
 {
+    // 내가 아닌 플레이어 관련 변수
+    private float receiveLerpSpeed = 50f;
+    private Vector3 receivePos;
+    private Quaternion receiveRot;
+    private Quaternion receiveWitchRot;
+    private Quaternion receiveProbRot;
+
     // 이동 관련 변수
     private float x = 0f;
     private float z = 0f;
@@ -21,7 +29,6 @@ public class PEA_WitchMovement : MonoBehaviour
     // 프랍모드 회전 관련 변수
     private float angularSpeed = 0f;
     private float maxAngularSpeed = 360f;
-    //private Vector3 angularSpeed = Vector3.zero;
     private PEA_WitchSkill witchSkill;
 
     // 애니메이션 관련 변수
@@ -42,7 +49,7 @@ public class PEA_WitchMovement : MonoBehaviour
     // 에디터에서 연결해줄 변수
     public Transform witchBody;
     public Transform probBody;
-    public Transform cameraAnchor;
+    private Transform cameraAnchor;
     public Rigidbody probBodyRidigbody;
     public MeshCollider probCollider;
 
@@ -51,35 +58,50 @@ public class PEA_WitchMovement : MonoBehaviour
         rig = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         witchSkill = GetComponent<PEA_WitchSkill>();
+
+        if (photonView.IsMine)
+        {
+            cameraAnchor = new GameObject("CameraAnchor").transform;
+            cameraAnchor.gameObject.AddComponent<PEA_Camera>().SetPlayer(transform);
+            Camera.main.transform.SetParent(cameraAnchor);
+        }
     }
 
     void Update()
     {
-        Move();
-        Rotate();
-        if (witchSkill.IsChanged)
+        if (photonView.IsMine)
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            Move();
+            Rotate();
+            if (witchSkill.IsChanged)
             {
-                probBodyRidigbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+                if (Input.GetKeyDown(KeyCode.LeftShift))
+                {
+                    probBodyRidigbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+                }
+                else if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    ProbStabilization();
+                }
+                else if (Input.GetKeyUp(KeyCode.LeftShift))
+                {
+                    probBodyRidigbody.constraints = RigidbodyConstraints.None;
+                }
+                else
+                {
+                    ProbRotateByMove();
+                }
             }
-            else if (Input.GetKey(KeyCode.LeftShift))
-            {
-                print("ㅔㅔㅔ");
-                ProbStabilization();
-            }
-            else if (Input.GetKeyUp(KeyCode.LeftShift))
-            {
-                probBodyRidigbody.constraints = RigidbodyConstraints.None;
-            }
-            else
-            {
-                print("ㅏㅏㅏㅏㅏ");
-                ProbRotateByMove();
-            }
+            Jump();
+            SetAnimation();
         }
-        Jump();
-        SetAnimation();
+        else
+        {
+            transform.position = Vector3.Lerp(transform.position, receivePos, receiveLerpSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, receiveRot, receiveLerpSpeed * Time.deltaTime);
+            witchBody.transform.rotation = Quaternion.Lerp(witchBody.transform.rotation, receiveWitchRot, receiveLerpSpeed * Time.deltaTime);
+            probBody.transform.rotation = Quaternion.Lerp(probBody.transform.rotation, receiveProbRot, receiveLerpSpeed * Time.deltaTime);
+        }
     }
 
     // 앞뒤좌우 이동
@@ -204,7 +226,6 @@ public class PEA_WitchMovement : MonoBehaviour
         probBodyRidigbody.transform.localPosition = Vector3.zero;
         probBody.GetChild(1).localPosition = Vector3.zero;
         probBody.GetChild(1).rotation = probBodyRidigbody.transform.rotation;
-
     }
 
     // 점프
@@ -217,7 +238,8 @@ public class PEA_WitchMovement : MonoBehaviour
                 rig.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
                 isJumping = true;
                 animState = AnimState.Jump;
-                anim.SetTrigger("Jump");
+                photonView.RPC(nameof(SetAnimTrigger), RpcTarget.All, "Jump");
+                //anim.SetTrigger("Jump");
             }
             else
             {
@@ -226,7 +248,7 @@ public class PEA_WitchMovement : MonoBehaviour
             }
         }
     }
-
+    
     private void SetAnimation()
     {
         switch (animState)
@@ -235,29 +257,34 @@ public class PEA_WitchMovement : MonoBehaviour
                 if(moveDir != Vector3.zero)
                 {
                     animState = AnimState.Walk;
-                    anim.SetTrigger("Walk");
+                    photonView.RPC(nameof(SetAnimTrigger), RpcTarget.All, "Walk");
+                    //anim.SetTrigger("Walk");
                 }
                 break;
             case AnimState.Walk:
                 if(moveDir == Vector3.zero)
                 {
                     animState = AnimState.Idle;
-                    anim.SetTrigger("Idle");
+                    photonView.RPC(nameof(SetAnimTrigger), RpcTarget.All, "Idle");
+                    //anim.SetTrigger("Idle");
                 }
                 break;
             case AnimState.Jump:
                 if (!isJumping)
                 {
-                    anim.SetTrigger("JumpEnd");
+                    photonView.RPC(nameof(SetAnimTrigger), RpcTarget.All, "JumpEnd");
+                    //anim.SetTrigger("JumpEnd");
                     if (moveDir != Vector3.zero)
                     {
                         animState = AnimState.Walk;
-                        anim.SetTrigger("Walk");
+                        photonView.RPC(nameof(SetAnimTrigger), RpcTarget.All, "Walk");
+                        //anim.SetTrigger("Walk");
                     }
                     else
                     {
                         animState = AnimState.Idle;
-                        anim.SetTrigger("Idle");
+                        photonView.RPC(nameof(SetAnimTrigger), RpcTarget.All, "Idle");
+                        //anim.SetTrigger("Idle");
                     }
                 }
                 break;
@@ -282,11 +309,35 @@ public class PEA_WitchMovement : MonoBehaviour
 
     }
 
+    [PunRPC]
+    private void SetAnimTrigger(string trigger)
+    {
+        anim.SetTrigger(trigger);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if( isJumping && collision.contacts[0].point.y < transform.position.y)
         {
             isJumping = false;
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+            stream.SendNext(witchBody.rotation);
+            stream.SendNext(probBody.rotation);
+        }
+        else
+        {
+            receivePos = (Vector3)stream.ReceiveNext();
+            receiveRot = (Quaternion)stream.ReceiveNext();
+            receiveWitchRot = (Quaternion)stream.ReceiveNext();
+            receiveProbRot = (Quaternion)stream.ReceiveNext();
         }
     }
 }

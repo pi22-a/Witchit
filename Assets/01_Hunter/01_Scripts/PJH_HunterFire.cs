@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class PJH_HunterFire : MonoBehaviour
+using UnityEngine.UI;
+using Photon.Pun;
+
+public class PJH_HunterFire : MonoBehaviourPun
 {
     //감자 공장
     public GameObject potatoFactory;    // 감자생성
@@ -15,6 +18,8 @@ public class PJH_HunterFire : MonoBehaviour
     public float range = 5;             // 바디슬램 범위
 
     private int potatoGauge = 0;
+    [SerializeField]
+    public Image images_Gauge;
 
     LayerMask witchLayer;
 
@@ -27,6 +32,12 @@ public class PJH_HunterFire : MonoBehaviour
 
     void Start()
     {
+        //내가 만든 Player 가 아닐때
+        if (photonView.IsMine == false)
+        {
+            //PlayerFire 컴포넌트를 비활성화
+            this.enabled = false;
+        }
 
         anim = GetComponentInChildren<Animator>();
         // Witch레이어 설정
@@ -34,6 +45,8 @@ public class PJH_HunterFire : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         StartCoroutine(PotatoGauge());
+
+
     }
 
     IEnumerator PotatoGauge()
@@ -49,8 +62,9 @@ public class PJH_HunterFire : MonoBehaviour
     {
         if (potatoGauge > 0)
         {
-            potatoGauge -= 1;
+            potatoGauge -= 4;
             //print(potatoGauge);
+            images_Gauge.fillAmount -= (float)0.004;
         }
        
     }
@@ -59,6 +73,7 @@ public class PJH_HunterFire : MonoBehaviour
 
     void Update()
     {
+
        
         //좌클릭시 감자발사
         if (Input.GetButtonDown("Fire1"))
@@ -73,7 +88,8 @@ public class PJH_HunterFire : MonoBehaviour
                 GameObject potato = Instantiate(potatoFactory);
                 potato.transform.position = firePosition.position;
                 potato.transform.forward = firePosition.forward;
-                potatoGauge = potatoGauge + 100;
+                potatoGauge = potatoGauge + 150;
+                images_Gauge.fillAmount += (float)0.15;
             }
             //print(potatoGauge);
         }

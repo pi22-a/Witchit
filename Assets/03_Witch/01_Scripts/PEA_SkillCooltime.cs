@@ -8,7 +8,7 @@ public class PEA_SkillCooltime : MonoBehaviour
     private float curTime = 0f;
     private bool available = true;
 
-    private Image black;
+    public Image black;
 
     public float cooltime;
 
@@ -19,7 +19,7 @@ public class PEA_SkillCooltime : MonoBehaviour
 
     void Start()
     {
-        black = transform.GetChild(0).GetComponent<Image>();
+        //black = transform.GetChild(0).GetComponent<Image>();
     }
 
     void Update()
