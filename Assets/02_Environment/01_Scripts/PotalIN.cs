@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PotalIN : MonoBehaviour
 {
-    public Transform hunter;
+    public Transform player;
     //public Transform witch;
     public Transform PotalPosition;
 
@@ -15,22 +15,22 @@ public class PotalIN : MonoBehaviour
         if (IsOverlapping)
         {
             Debug.Log("D");
-            Vector3 portalToPlayer = hunter.position - transform.position;
+            Vector3 portalToPlayer = player.position - transform.position;
             //float dotProduct = Vector3.Dot(transform.up, portalToPlayer);
             //if (dotProduct < 0f)
             //{
             //Debug.Log("E");
             float rotationdiff = -Quaternion.Angle(transform.rotation, PotalPosition.rotation);
             rotationdiff += 180;
-            hunter.Rotate(Vector3.up, rotationdiff);
+            player.Rotate(Vector3.up, rotationdiff);
             Vector3 positionOffset = Quaternion.Euler(0f, rotationdiff, 0f) * portalToPlayer;
-            if (hunter.TryGetComponent<CharacterController>(out CharacterController CC))
+            if (player.TryGetComponent<CharacterController>(out CharacterController CC))
             {
                 Debug.Log("S");
                 CC.enabled = false;
                 Debug.Log(transform.position);
             }
-            hunter.position = PotalPosition.position + positionOffset;
+            player.position = PotalPosition.position + positionOffset;
             if (CC != null)
             {
                 Debug.Log("s");

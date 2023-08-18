@@ -30,6 +30,11 @@ public class trampoline : MonoBehaviour
         if (other.gameObject.CompareTag("Witch"))
         {
             //WMT.TrampolineW();
+            Rigidbody rb = GetComponent<Rigidbody>();
+
+            // 위로 힘을 가함
+            Vector3 forceDirection = Vector3.up;
+            rb.AddForce(forceDirection * upwardForce, ForceMode.Impulse);
         }
     }
 
