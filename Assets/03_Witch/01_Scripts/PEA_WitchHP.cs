@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class PEA_WitchHP : MonoBehaviour
+public class PEA_WitchHP : MonoBehaviourPun
 {
     private int hp = 0;
     private bool isDead = false;
@@ -26,6 +27,15 @@ public class PEA_WitchHP : MonoBehaviour
         hp = maxHp;
         hpImage.fillAmount = 1;
         witchSkill = GetComponent<PEA_WitchSkill>();
+
+        if (photonView.IsMine)
+        {
+            witchUI.SetActive(true);
+        }
+        else
+        {
+            witchUI.SetActive(false);
+        }
     }
 
     void Update()

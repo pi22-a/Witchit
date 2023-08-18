@@ -52,7 +52,9 @@ public class PEA_WitchMP : MonoBehaviour
     // 마나 사용
     public void UseMP(int consumption)
     {
+        print("useMP");
         mp -= consumption;
+        print(mp);
         if(coroutine == null)
         {
             coroutine = StartCoroutine(DecreaseMP(consumption));

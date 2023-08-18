@@ -218,7 +218,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &139805716
 GameObject:
@@ -476,7 +476,7 @@ GameObject:
   - component: {fileID: 313457413}
   - component: {fileID: 313457412}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: WitchCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -561,7 +561,7 @@ RectTransform:
   - {fileID: 2130706007}
   - {fileID: 1783890014}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -666,7 +666,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &338847287
 MonoBehaviour:
@@ -921,7 +921,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &675390497
 GameObject:
@@ -1232,7 +1232,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &764096095
 MonoBehaviour:
@@ -1842,7 +1842,7 @@ Transform:
   m_Children:
   - {fileID: 887158100}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1999114616
 MonoBehaviour:
@@ -1857,8 +1857,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 622057353}
-  witchSkill: {fileID: 622057354}
   witchHP: {fileID: 622057360}
+  witchSkill: {fileID: 622057354}
 --- !u!1 &2100641908
 GameObject:
   m_ObjectHideFlags: 0
@@ -1958,7 +1958,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2100641913
 MonoBehaviour:
@@ -2129,7 +2129,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &4396327859348663766
 MeshCollider:
@@ -2198,6 +2198,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -242811026650901896, guid: 47eda3c184cc5ad4399cd289b50d22f5, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7031575646172599302, guid: 47eda3c184cc5ad4399cd289b50d22f5, type: 3}
       propertyPath: m_Name
       value: Witch
