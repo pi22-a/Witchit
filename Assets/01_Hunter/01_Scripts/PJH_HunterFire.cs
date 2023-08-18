@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class PJH_HunterFire : MonoBehaviour
+public class PJH_HunterFire : MonoBehaviourPun
 {
     //감자 공장
     public GameObject potatoFactory;    // 감자생성
@@ -31,6 +32,12 @@ public class PJH_HunterFire : MonoBehaviour
 
     void Start()
     {
+        //내가 만든 Player 가 아닐때
+        if (photonView.IsMine == false)
+        {
+            //PlayerFire 컴포넌트를 비활성화
+            this.enabled = false;
+        }
 
         anim = GetComponentInChildren<Animator>();
         // Witch레이어 설정
@@ -38,6 +45,8 @@ public class PJH_HunterFire : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         StartCoroutine(PotatoGauge());
+
+
     }
 
     IEnumerator PotatoGauge()
