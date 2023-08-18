@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PJH_HunterRot : MonoBehaviour
+public class PJH_HunterRot : MonoBehaviourPun
 {
     //누적된 회전 값
     float rotX;
@@ -14,13 +15,45 @@ public class PJH_HunterRot : MonoBehaviour
     //카메라 Transform
     public GameObject trCam;
 
+    public GameObject trCam1;
+
+    public GameObject trCam2;
+
+
     public GameObject trSpine;
     void Start()
     {
+        //내가 생성한 Player 일때만 카메라를 활성화 하자
+        if (photonView.IsMine)
+        {
+            //trCam.gameObject.SetActive(true);
+            trCam.SetActive(true);
+        }
+    }
+    private void Update()
+    {
+        //내것이 아닐때 함수를 나가자
+        if (photonView.IsMine == false) return;
 
+        //만약에 마우스 커서가 활성화 되어 있으면 함수를 나가자
+        if (Cursor.visible == true) return;
+
+        // 카메라 1인칭 / 3인칭 변환
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            if (trCam1.activeSelf == false)
+            {
+                trCam2.SetActive(false);
+                trCam1.SetActive(true);
+            }
+            else if (trCam1.activeSelf == true)
+            {
+                trCam2.SetActive(true);
+                trCam1.SetActive(false);
+            }
+        }
     }
 
-    
     // Update is called once per frame
     void LateUpdate()
     {

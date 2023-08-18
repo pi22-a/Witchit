@@ -248,7 +248,7 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
             }
         }
     }
-
+    
     private void SetAnimation()
     {
         switch (animState)
