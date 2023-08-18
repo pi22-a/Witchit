@@ -62,6 +62,13 @@ public class PJH_HunterMoves : MonoBehaviour
                 Move(h, v);
                 break;
         }
+
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            state = State.Confusion;
+            print("1111");
+            Mushroom();
+        }
     }
     float h, v;
 
@@ -69,10 +76,7 @@ public class PJH_HunterMoves : MonoBehaviour
     void Move(float h, float v)
     {
         //W, S, A, D 키를 누르면 앞뒤좌우로 움직이고 싶다.
-
         //1. 사용자의 입력을 받자.
-
-
         //2. 방향을 만든다.
         //좌우
         Vector3 dirH = transform.right * h;
@@ -130,8 +134,6 @@ public class PJH_HunterMoves : MonoBehaviour
 
         }
 
-
-
         //yVelocity 값을 dir 의 y 값에 셋팅
         dir.y = yVelocity;
 
@@ -139,18 +141,13 @@ public class PJH_HunterMoves : MonoBehaviour
         //transform.position += dir * speed * Time.deltaTime;
         cc.Move(dir * speed * Time.deltaTime);
 
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            Mushroom();
-            state = State.Confusion;
-        }
+        
     }
 
     public void Mushroom()
     {
         // 버섯에 닿을시 발동 (버섯에서 쏴줌)
         // 유저가 플레이어 작동 못하게함 (3초)
-
         // 랜덤으로 움직이게 함
         StartCoroutine(MushroomMove());
         // 다시 유저에게 컨트롤권 부여.
@@ -159,7 +156,7 @@ public class PJH_HunterMoves : MonoBehaviour
     {
         float time = 0;
         float oneTime = 1;
-        while (time >= 3)
+        while (time < 3)
         {
             h = Random.Range(-1f, 1f);
             v = Random.Range(-1f, 1f);

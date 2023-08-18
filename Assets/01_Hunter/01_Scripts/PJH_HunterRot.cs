@@ -16,6 +16,9 @@ public class PJH_HunterRot : MonoBehaviour
 
     public GameObject trCam1;
 
+    public GameObject trCam2;
+
+
     public GameObject trSpine;
     void Start()
     {
@@ -27,12 +30,12 @@ public class PJH_HunterRot : MonoBehaviour
         {
             if (trCam1.activeSelf == false)
             {
-                trCam.SetActive(false);
+                trCam2.SetActive(false);
                 trCam1.SetActive(true);
             }
             else if (trCam1.activeSelf == true)
             {
-                trCam.SetActive(true);
+                trCam2.SetActive(true);
                 trCam1.SetActive(false);
             }
         }
