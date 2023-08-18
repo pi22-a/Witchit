@@ -85,7 +85,7 @@ public class PJH_HunterFire : MonoBehaviourPun
             else
             {
                 anim.SetTrigger("Fire");
-                GameObject potato = Instantiate(potatoFactory);
+                GameObject potato = Instantiate(potatoFactory); //¿ä°Å ¹Ù²Ù¼À
                 potato.transform.position = firePosition.position;
                 potato.transform.forward = firePosition.forward;
                 potatoGauge = potatoGauge + 150;
