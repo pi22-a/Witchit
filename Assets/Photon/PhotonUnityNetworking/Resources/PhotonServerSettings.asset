@@ -45,6 +45,12 @@ MonoBehaviour:
   - ThrowMushRoom
   - ReturnOrigin
   - SetTriggerRpc
+  - DeathChicken
+  - FindWitch
+  - FirePotatoByRPC
+  - OnTriggerEnter
+  - FireChickenByRPC
+  - FireVacuumByRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

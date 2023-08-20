@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PJH_Chicken : MonoBehaviour
+public class PJH_Chicken : MonoBehaviourPun
 {
     public float speed = 15;            //닭 스피드
     public float deathTime = 8;         //닭 수명
@@ -14,8 +15,14 @@ public class PJH_Chicken : MonoBehaviour
     void Start()
     {
         //kkokkioFactory = GameObject.FindFirstObjectByType<SimpleSonarShader_Object>();
-
-
+        //내가 만든 Player 가 아닐때
+        /*
+        if (photonView.IsMine == false)
+        {
+            //PlayerFire 컴포넌트를 비활성화
+            this.enabled = false;
+        }
+        */
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * speed, ForceMode.Impulse);
         Invoke("DeathChicken", deathTime); // deathTime초 후에 닭 파괴
@@ -36,16 +43,25 @@ public class PJH_Chicken : MonoBehaviour
         }
     }
     */
-    // Update is called once per frame
+
     void Update()
     {
 
     }
+    
     void DeathChicken()
     {
+        /*
+        //내가 쏜 총알만 
+        if (photonView.IsMine)
+        {
+            //나를 파괴하자
+            PhotonNetwork.Destroy(gameObject);
+        }*/
         Destroy(gameObject);
     }
 
+    
     // 마녀가 근처에 있으면 운다.
     void FindWitch()
     {

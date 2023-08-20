@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6822116081428645863}
   - component: {fileID: 6822116081428645862}
   - component: {fileID: 6822116081428645857}
-  - component: {fileID: 6822116081428645856}
   - component: {fileID: -9072083544783840888}
   m_Layer: 6
   m_Name: Witch
@@ -100,18 +99,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6822116081428645856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6822116081428645859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2917b552431c2994eab3952df413edf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &-9072083544783840888
 Rigidbody:
   m_ObjectHideFlags: 0

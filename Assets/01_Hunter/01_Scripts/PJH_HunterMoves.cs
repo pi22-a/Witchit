@@ -85,9 +85,11 @@ public class PJH_HunterMoves : MonoBehaviourPun, IPunObservable
             //위치 보정
             transform.position = Vector3.Lerp(transform.position, receivePos, lerpSpeed * Time.deltaTime);
             //회전 보정
-            transform.rotation = Quaternion.Lerp(transform.rotation, receiveRot, lerpSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, receiveRot, lerpSpeed * Time.deltaTime);            
         }
 
+        anim.SetFloat("Horizontal", h);
+        anim.SetFloat("Vertical", v);
 
         if (Input.GetKeyDown(KeyCode.Y))
         {
@@ -110,8 +112,6 @@ public class PJH_HunterMoves : MonoBehaviourPun, IPunObservable
         Vector3 dir = dirH + dirV;
         dir.Normalize();
 
-        anim.SetFloat("Horizontal", h);
-        anim.SetFloat("Vertical", v);
 
         //만약에 땅에 닿아있다면
         if (cc.isGrounded == true)
@@ -214,6 +214,7 @@ public class PJH_HunterMoves : MonoBehaviourPun, IPunObservable
     {
         anim.SetTrigger(parameter);
     }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         //내 Player 라면
