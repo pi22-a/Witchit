@@ -98,24 +98,35 @@ public class PJH_HunterFire : MonoBehaviourPun
         //우클릭시 치킨발사
         if (Input.GetButtonDown("Fire2"))
         {
-            anim.SetTrigger("Fire");
-            //네트워킹
-            Vector3 pos = firePosition.position;
+            GameObject chicken = GameObject.Find("Chicken");
+            if (chicken.activeSelf == true)
+            {
+                //쏘지않는다.
+            }
+            else
+            {
 
-            Vector3 forward = firePosition.forward;
+                anim.SetTrigger("Fire");
+                //네트워킹
+                Vector3 pos = firePosition.position;
 
-            photonView.RPC(nameof(FireChickenByRPC), RpcTarget.All, pos, forward);
+                Vector3 forward = firePosition.forward;
+
+                photonView.RPC(nameof(FireChickenByRPC), RpcTarget.All, pos, forward);
+            }
         }
         //Q클릭시 흡수 발사
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            anim.SetTrigger("Fire");
-            //네트워킹
-            Vector3 pos = firePosition.position;
+            
+                anim.SetTrigger("Fire");
+                //네트워킹
+                Vector3 pos = firePosition.position;
 
-            Vector3 forward = firePosition.forward;
+                Vector3 forward = firePosition.forward;
 
-            photonView.RPC(nameof(FireVacuumByRPC), RpcTarget.All, pos, forward);
+                photonView.RPC(nameof(FireVacuumByRPC), RpcTarget.All, pos, forward);
+            
         }
         
         //V클릭시 앞범위 공격

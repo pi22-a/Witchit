@@ -46,7 +46,7 @@ public class PJH_Chicken : MonoBehaviourPun
 
     void Update()
     {
-
+        
     }
     
     void DeathChicken()
