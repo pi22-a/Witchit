@@ -100,7 +100,10 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
             transform.position = Vector3.Lerp(transform.position, receivePos, receiveLerpSpeed * Time.deltaTime);
             transform.rotation = Quaternion.Lerp(transform.rotation, receiveRot, receiveLerpSpeed * Time.deltaTime);
             witchBody.transform.rotation = Quaternion.Lerp(witchBody.transform.rotation, receiveWitchRot, receiveLerpSpeed * Time.deltaTime);
-            probBody.transform.rotation = Quaternion.Lerp(probBody.transform.rotation, receiveProbRot, receiveLerpSpeed * Time.deltaTime);
+            if (witchSkill != null && witchSkill.IsChanged)
+            {
+                probBody.GetChild(1).rotation = Quaternion.Lerp(probBody.GetChild(1).rotation, receiveProbRot, receiveLerpSpeed * Time.deltaTime);
+            }
         }
     }
 
@@ -330,14 +333,20 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
             stream.SendNext(witchBody.rotation);
-            stream.SendNext(probBody.rotation);
+            if (witchSkill != null && witchSkill.IsChanged)
+            {
+                stream.SendNext(probBody.GetChild(1).rotation);
+            }
         }
         else
         {
             receivePos = (Vector3)stream.ReceiveNext();
             receiveRot = (Quaternion)stream.ReceiveNext();
             receiveWitchRot = (Quaternion)stream.ReceiveNext();
-            receiveProbRot = (Quaternion)stream.ReceiveNext();
+            if (witchSkill != null && witchSkill.IsChanged)
+            {
+                receiveProbRot = (Quaternion)stream.ReceiveNext();
+            }
         }
     }
 }

@@ -97,6 +97,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
         // 마우스 우클릭 - 빙의
         if (Input.GetMouseButtonDown(1) && curRayProb != null)
         {
+            pea_camera.SetCamPos(isChanged);
             photonView.RPC(nameof(Possess), RpcTarget.All, curRayProbIndex);
             //Possess();
         }
@@ -104,8 +105,9 @@ public class PEA_WitchSkill : MonoBehaviourPun
         // 마우스 휠 길게 - 원상복구
         if (Input.GetMouseButton(2) && isChanged)
         {
-            photonView.RPC(nameof(ReturnOrigin), RpcTarget.All);
+            //photonView.RPC(nameof(ReturnOrigin), RpcTarget.All);
             //ReturnOrigin();
+            CheckTime();
             returnWitchImage.gameObject.SetActive(true);
         }
 
@@ -113,6 +115,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
         else if (Input.GetMouseButtonUp(2))
         {
             curTime = 0f;
+            //photonView.RPC(nameof(ResetCurtime), RpcTarget.All);
             returnWitchImage.gameObject.SetActive(false);
         }
 
@@ -231,9 +234,10 @@ public class PEA_WitchSkill : MonoBehaviourPun
             isChanged = true;
             witchCollider.enabled = false;
             probCollider.enabled = true;
-            pea_camera.SetCamPos(isChanged);
+            //pea_camera.SetCamPos(isChanged);
             if (coroutine == null)
             {
+                print("dissolve");
                 coroutine = StartCoroutine(Dissolve(false));
             }
         }
@@ -262,17 +266,28 @@ public class PEA_WitchSkill : MonoBehaviourPun
         //witchMovement.SetProbRigidbody(prob.GetComponent<Rigidbody>());
     }
 
+    private void CheckTime()
+    {
+        curTime += Time.deltaTime;
+        returnWitchImage.fillAmount = (curTime / returnTime);
+        if (curTime >= returnTime && isChanged)
+        {
+            photonView.RPC(nameof(ReturnOrigin), RpcTarget.All);
+        }
+    }
+
 
     [PunRPC]
     // 원상복귀 - 마녀의 모습으로 돌아감
     private void ReturnOrigin()
     {
-        curTime += Time.deltaTime;
-        returnWitchImage.fillAmount = (curTime / returnTime);
-        if(curTime >= returnTime)
+        //curTime += Time.deltaTime;
+        //returnWitchImage.fillAmount = (curTime / returnTime);
+        //if(curTime >= returnTime)
         {
             probBody.GetChild(1).GetComponent<PEA_ProbDissolve>().ProbDissolve();
             probCollider.sharedMesh = null;
+            probCollider.GetComponent<Rigidbody>().useGravity = false;
             GetComponent<Rigidbody>().useGravity = true;
             if(coroutine == null)
             {
@@ -300,6 +315,12 @@ public class PEA_WitchSkill : MonoBehaviourPun
         }
 
         Instantiate(mushRoom, firePos, fireRot);
+    }
+
+    [PunRPC ]
+    private void ResetCurtime()
+    {
+        curTime = 0f;
     }
 
     // 유인 - 화면 중앙에 미끼를 만들고 조종해 헌터를 유인함
