@@ -17,6 +17,7 @@ public class PJH_HunterFire : MonoBehaviourPun
     //Witch 가져오기
     //public float range = 5;             // 바디슬램 범위
     public ScrollRect scrollRectSkill;
+    public ScrollRect scrollRectSkill1;
 
     public GameObject vacuumTrapUIFactory;
     public GameObject chickenUIFactory;
@@ -29,7 +30,7 @@ public class PJH_HunterFire : MonoBehaviourPun
 
     Animator anim;
     PJH_SkillItem item1;
-    PJH_SkillItem item2;
+    PJH_SkillItem1 item2;
 
     private void Awake()
     {
@@ -37,8 +38,8 @@ public class PJH_HunterFire : MonoBehaviourPun
         item1 = ui1.GetComponent<PJH_SkillItem>();
         //ui1.transform.parent = scrollRectSkill.content;
 
-        GameObject ui2 = Instantiate(chickenUIFactory, scrollRectSkill.content);
-        item2 = ui2.GetComponent<PJH_SkillItem>();
+        GameObject ui2 = Instantiate(chickenUIFactory, scrollRectSkill1.content);
+        item2 = ui2.GetComponent<PJH_SkillItem1>();
         //ui2.transform.parent = scrollRectSkill.content;
 
     }
@@ -111,30 +112,32 @@ public class PJH_HunterFire : MonoBehaviourPun
                 
             }
         }
-        //우클릭시 치킨발사
-        if (item2.CanDoIt() && Input.GetButtonDown("Fire2"))
-        {     
-           photonView.RPC(nameof(SetAnimTrigger), RpcTarget.All, "Fire");
-           
-           //네트워킹
-           Vector3 pos = firePosition.position;
 
-           Vector3 forward = firePosition.forward;
-
-           photonView.RPC(nameof(FireChickenByRPC), RpcTarget.All, pos, forward);            
-        }
         //Q클릭시 흡수 발사
         if (item1.CanDoIt() && Input.GetKeyDown(KeyCode.Q))
-        {            
-           photonView.RPC(nameof(SetAnimTrigger), RpcTarget.All, "Fire");
+        {
+            item1.UseSkill();
+
+            photonView.RPC(nameof(SetAnimTrigger), RpcTarget.All, "Fire");
+            //네트워킹
+            Vector3 pos = firePosition.position;
+            Vector3 forward = firePosition.forward;
+            photonView.RPC(nameof(FireVacuumByRPC), RpcTarget.All, pos, forward);
+
+        }
+
+        //우클릭시 치킨발사
+        if (item2.CanDoIt() && Input.GetButtonDown("Fire2"))
+        {
+            item2.UseSkill();
+
+            photonView.RPC(nameof(SetAnimTrigger), RpcTarget.All, "Fire");           
            //네트워킹
            Vector3 pos = firePosition.position;
-          
            Vector3 forward = firePosition.forward;
-          
-           photonView.RPC(nameof(FireVacuumByRPC), RpcTarget.All, pos, forward);
-            
+           photonView.RPC(nameof(FireChickenByRPC), RpcTarget.All, pos, forward);            
         }
+       
         
         //V클릭시 앞범위 공격
         if (Input.GetKeyDown(KeyCode.V))

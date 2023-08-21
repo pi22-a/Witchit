@@ -20,11 +20,10 @@ public class PJH_HunterMoves : MonoBehaviourPun, IPunObservable
     public GameObject HunterUI;
 
     //속력 
-    float speed = 5;
+    float speed = 10;
 
     //Character Controller 담을 변수
     CharacterController cc;
-    public Transform hunterBody;
     //점프 파워
     float jumpPower = 5;
     //중력

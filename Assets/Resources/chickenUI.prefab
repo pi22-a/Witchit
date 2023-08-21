@@ -85,7 +85,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5139719952146942391}
-  - component: {fileID: 7279424532872344391}
+  - component: {fileID: 1278246049012949947}
   m_Layer: 5
   m_Name: chickenUI
   m_TagString: Untagged
@@ -115,7 +115,7 @@ RectTransform:
   m_AnchoredPosition: {x: -55, y: 50}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 1, y: 0}
---- !u!114 &7279424532872344391
+--- !u!114 &1278246049012949947
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5139719952146942390}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f17d1f9532d99ce41b10c3fb491c669c, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ac0d39da8ddbfa449d113ab42fe9309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   imageAlpha: {fileID: 7036616300284028147}

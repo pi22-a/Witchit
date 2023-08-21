@@ -124,7 +124,7 @@ RectTransform:
   m_Children:
   - {fileID: 9051681884918808052}
   m_Father: {fileID: 6556783373493361811}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -321,7 +321,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6556783373493361811}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -519,9 +519,9 @@ RectTransform:
   - {fileID: 6556783373851816581}
   - {fileID: 6556783373799960966}
   - {fileID: 6556783373665192336}
+  - {fileID: 4542295655028994996}
   - {fileID: 6556783374512577302}
   - {fileID: 6556783373074803557}
-  - {fileID: 4542295655028994996}
   m_Father: {fileID: 6556783374274156209}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1033,7 +1033,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HunterUI: {fileID: 6556783373493361815}
-  hunterBody: {fileID: 6734261056159712559}
 --- !u!143 &6556783374274156210
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1069,6 +1068,7 @@ MonoBehaviour:
   vacuumTrapFactory: {fileID: 1258045782622361247, guid: a5e102ecfedda6c4891dc092b6cd48ea, type: 3}
   firePosition: {fileID: 6556783374587400528}
   scrollRectSkill: {fileID: 6556783373665192337}
+  scrollRectSkill1: {fileID: 6957380406771120127}
   vacuumTrapUIFactory: {fileID: 5139719952146942390, guid: 4933d064767817040ba7478ada29a960, type: 3}
   chickenUIFactory: {fileID: 5139719952146942390, guid: 92195033659639d4589bc6bb3d5d8ad4, type: 3}
   images_Gauge: {fileID: 6556783373074803558}
@@ -1143,7 +1143,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6556783373493361811}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
