@@ -12,7 +12,7 @@ public class PEA_GameSceneUI : MonoBehaviour
     private int minutes = 0;
     private int seconds = 0;
     private readonly float hideTime = 10f;
-    private readonly float seekTime = 11f;
+    private readonly float seekTime = 180f;
     private readonly float overTime = 10f;
     private readonly float hideEmphasisTime = 5f;
     private readonly float seekEmphasisTime = 10f;
