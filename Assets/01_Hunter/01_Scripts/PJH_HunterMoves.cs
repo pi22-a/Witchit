@@ -24,7 +24,7 @@ public class PJH_HunterMoves : MonoBehaviourPun, IPunObservable
 
     //Character Controller 담을 변수
     CharacterController cc;
-
+    public Transform hunterBody;
     //점프 파워
     float jumpPower = 5;
     //중력
@@ -41,7 +41,8 @@ public class PJH_HunterMoves : MonoBehaviourPun, IPunObservable
     //서버에서 넘어오는 위치값
     Vector3 receivePos;
     //서버에서 넘어오는 회전값
-    Quaternion receiveRot = Quaternion.identity;
+    Quaternion receiveRot;
+    Quaternion receiveHunterRot;
     //보정하는 속력
     float lerpSpeed = 50;
 
@@ -224,6 +225,7 @@ public class PJH_HunterMoves : MonoBehaviourPun, IPunObservable
             stream.SendNext(transform.position);
             //나의 회전값을 보낸다.
             stream.SendNext(transform.rotation);
+            stream.SendNext(hunterBody.rotation);
             //h 값 보낸다.
             stream.SendNext(h);
             //v 값 보낸다.
@@ -236,6 +238,7 @@ public class PJH_HunterMoves : MonoBehaviourPun, IPunObservable
             receivePos = (Vector3)stream.ReceiveNext();
             //회전값을 받자.
             receiveRot = (Quaternion)stream.ReceiveNext();
+            receiveHunterRot = (Quaternion)stream.ReceiveNext();
             //h 값 받자.
             h = (float)stream.ReceiveNext();
             //v 값 받자.

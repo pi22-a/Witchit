@@ -1034,6 +1034,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HunterUI: {fileID: 6556783373493361815}
+  hunterBody: {fileID: 6734261056159712559}
 --- !u!143 &6556783374274156210
 CharacterController:
   m_ObjectHideFlags: 0
