@@ -33,12 +33,13 @@ public class PJH_HunterFire : MonoBehaviourPun
 
     private void Awake()
     {
-        GameObject ui1 = Instantiate(vacuumTrapUIFactory);
+        GameObject ui1 = Instantiate(vacuumTrapUIFactory, scrollRectSkill.content);
         item1 = ui1.GetComponent<PJH_SkillItem>();
-        ui1.transform.parent = scrollRectSkill.content;
-        GameObject ui2 = Instantiate(chickenUIFactory);
+        //ui1.transform.parent = scrollRectSkill.content;
+
+        GameObject ui2 = Instantiate(chickenUIFactory, scrollRectSkill.content);
         item2 = ui2.GetComponent<PJH_SkillItem>();
-        ui2.transform.parent = scrollRectSkill.content;
+        //ui2.transform.parent = scrollRectSkill.content;
 
     }
     void Start()
@@ -96,7 +97,7 @@ public class PJH_HunterFire : MonoBehaviourPun
             else
             {
                 //총쏘는 애니메이션 + 게이지 관리
-                anim.SetTrigger("Fire");
+                photonView.RPC(nameof(SetAnimTrigger), RpcTarget.All, "Fire");
                 potatoGauge = potatoGauge + 150;
                 images_Gauge.fillAmount += (float)0.15;
 
@@ -112,8 +113,9 @@ public class PJH_HunterFire : MonoBehaviourPun
         }
         //우클릭시 치킨발사
         if (item2.CanDoIt() && Input.GetButtonDown("Fire2"))
-        {           
-           anim.SetTrigger("Fire");
+        {     
+           photonView.RPC(nameof(SetAnimTrigger), RpcTarget.All, "Fire");
+           
            //네트워킹
            Vector3 pos = firePosition.position;
 
@@ -124,7 +126,7 @@ public class PJH_HunterFire : MonoBehaviourPun
         //Q클릭시 흡수 발사
         if (item1.CanDoIt() && Input.GetKeyDown(KeyCode.Q))
         {            
-           anim.SetTrigger("Fire");
+           photonView.RPC(nameof(SetAnimTrigger), RpcTarget.All, "Fire");
            //네트워킹
            Vector3 pos = firePosition.position;
           
@@ -141,7 +143,13 @@ public class PJH_HunterFire : MonoBehaviourPun
             
         }
     }
-    
+
+    [PunRPC]
+    private void SetAnimTrigger(string trigger)
+    {
+        anim.SetTrigger(trigger);
+    }
+
     [PunRPC]
     void FirePotatoByRPC(Vector3 firePos, Vector3 fireFoward)
     {

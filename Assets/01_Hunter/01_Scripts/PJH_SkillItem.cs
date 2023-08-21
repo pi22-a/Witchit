@@ -17,12 +17,24 @@ public class PJH_SkillItem : MonoBehaviour
         }
     }
 
+    bool useSKill = false;
+
     // Update is called once per frame
     void Update()
     {
-        float fill = imageAlpha.fillAmount;
-        fill -= Time.deltaTime / coolTime;
-        imageAlpha.fillAmount = Mathf.Clamp01(fill);
+        if(Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            useSKill = true;
+            imageAlpha.fillAmount = 1;
+        }
+
+        if(useSKill)
+        {
+            float fill = imageAlpha.fillAmount;
+            fill -= Time.deltaTime / coolTime;
+            imageAlpha.fillAmount = Mathf.Clamp01(fill);
+            
+        }
     }
 
     // 스킬을 사용할 수 있나요?
