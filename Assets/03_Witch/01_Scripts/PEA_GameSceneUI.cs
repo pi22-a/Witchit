@@ -145,12 +145,6 @@ public class PEA_GameSceneUI : MonoBehaviour
 
     public void HunterWin()
     {
-        if(coroutine != null)
-        {
-            StopCoroutine(coroutine);
-            coroutine = null;
-        }
-
         inGameUI.SetActive(false);
         hunterWinUI.SetActive(true);
         GameOver();
@@ -179,11 +173,11 @@ public class PEA_GameSceneUI : MonoBehaviour
             {
                 countDownText.text = minutes.ToString().PadLeft(2, '0') + " : " + seconds.ToString().PadLeft(2, '0');
 
-                if(seconds <= hideEmphasisTime && countTime == hideTime)
+                if( minutes == 0 && seconds <= hideEmphasisTime && countTime == hideTime)
                 {
                     fiveSeconds.GetComponent<PEA_FiveSeconds>().CountDownEmphasis((int)hideEmphasisTime);
                 }
-                else if(seconds <= seekEmphasisTime && countTime == seekTime)
+                else if( minutes == 0 && seconds <= seekEmphasisTime && countTime == seekTime)
                 {
                     fiveSeconds.GetComponent<PEA_FiveSeconds>().CountDownEmphasis((int)seekEmphasisTime);
                 }

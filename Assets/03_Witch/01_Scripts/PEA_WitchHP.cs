@@ -63,7 +63,7 @@ public class PEA_WitchHP : MonoBehaviourPun
         audioSource.PlayOneShot(damageSound);
         purpleEffect.Play();
 
-        if (hp <= 0)
+        if (hp <= 0 && !isDead)
         {
             //Die();
             photonView.RPC(nameof(Die), RpcTarget.All);

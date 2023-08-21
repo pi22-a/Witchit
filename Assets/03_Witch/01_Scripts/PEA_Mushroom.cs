@@ -61,7 +61,6 @@ public class PEA_Mushroom : MonoBehaviour
                 mushroom2.transform.forward = transform.forward - transform.right;
                 mushroom3.transform.forward = -transform.forward;
             }
-
         }
     }
 

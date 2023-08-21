@@ -6118,6 +6118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgms:
   - {fileID: 8300000, guid: 98d19319880a9014796b4e7384be29a9, type: 3}
+  - {fileID: 8300000, guid: 008ea3246181a9f41977ce938e2c4ea1, type: 3}
   effects:
   - {fileID: 8300000, guid: d2f8bbbf8bb8cc24f8fff9e16a1fe955, type: 3}
 --- !u!4 &402471388
