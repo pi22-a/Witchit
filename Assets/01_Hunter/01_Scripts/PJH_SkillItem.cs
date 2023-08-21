@@ -6,7 +6,7 @@ public class PJH_SkillItem : MonoBehaviour
 {
     public Image imageAlpha;
     public float defaultAlpha = 0;
-    public int coolTime = 2;
+    public int coolTime = 8;
     // Start is called before the first frame update
     void Start()
     {

@@ -17,13 +17,12 @@ public class PJH_MeleeWeapon : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        
         // tag가 Witch일때
-        if (other.transform.tag == "Witch")
+        if (other.transform.CompareTag("Witch"))
         {
             // 데미지를 n 만큼 주고싶다.
             int n = 5;
-            other.GetComponent<PEA_WitchHP>().Damage(n);
+            other.transform.parent.parent.GetComponent<PEA_WitchHP>().Damage(n);
             print("데미지를 주었습니다.");
         }
 
