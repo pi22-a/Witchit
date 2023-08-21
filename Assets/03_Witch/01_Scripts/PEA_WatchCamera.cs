@@ -8,7 +8,7 @@ public class PEA_WatchCamera : MonoBehaviour
     private float z = 0f;
     private float mouseX = 0F;
     private float mouseY = 0f;
-    private float speed = 5f;
+    private float speed = 10f;
     private Vector3 moveDir = Vector3.zero;
 
     void Update()
