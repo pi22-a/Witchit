@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -14,16 +15,34 @@ public class GameManager : MonoBehaviourPunCallbacks
         Hunter
     }
 
+    public enum Room_State
+    {
+        Waiting,
+        Playing,
+        Over
+    }
+
     private Team team = Team.None;
+    private Room_State room_State = Room_State.Waiting;
 
     private bool isReady = false;
+
+    public bool IsReady
+    {
+        get { return isReady; }
+    }
+
+    public Room_State RoomState
+    {
+        get { return room_State; }
+    }
 
     // ∞‘¿” Ω√¿€ ¿¸ ¡ÿ∫Ò¥‹∞Ëø° « ø‰«— ∫ØºˆµÈ
     public GameObject readyUI;
     public Transform spawnPoint;
-    public GameObject selectTeam;
-    public GameObject witchTeam;
-    public GameObject hunterTeam;
+    //public GameObject selectTeam;
+    //public GameObject witchTeam;
+    //public GameObject hunterTeam;
 
     private void Awake()
     {
@@ -45,9 +64,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            WitchDie();
+        }
     }
 
+
+    // ∞‘¿” Ω√¿€ ¿¸ ¡ÿ∫Ò¥‹∞Ë «‘ºˆµÈ
     public void TeamToWitch()
     {
         if (team != Team.Witch)
@@ -55,26 +79,22 @@ public class GameManager : MonoBehaviourPunCallbacks
             ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
 
             hash["Witch_Count"] = (int)hash["Witch_Count"] + 1;
-            //witchCountText.text = "Player : " + hash["Witch_Count"];
 
             if (team == Team.Hunter)
             {
                 hash["Hunter_Count"] = (int)hash["Hunter_Count"] - 1;
-                //hunterCountText.text = "Player : " + hash["Hunter_Count"];
             }
 
             PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
             team = Team.Witch;
-            selectTeam.SetActive(false);
-            witchTeam.SetActive(true);
+            //selectTeam.SetActive(false);
+            //witchTeam.SetActive(true);
             print("∏∂≥‡∆¿ : " + (int)hash["Witch_Count"] + ", «Â≈Õ∆¿ : " + (int)hash["Hunter_Count"]);
 
-            //return hash;
         }
         else
         {
             print("¿ÃπÃ ∏∂≥‡∆¿");
-            //return null;
         }
     }
 
@@ -85,25 +105,21 @@ public class GameManager : MonoBehaviourPunCallbacks
             ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
 
             hash["Hunter_Count"] = (int)hash["Hunter_Count"] + 1;
-            //hunterCountText.text = "Player : " + (int)hash["Hunter_Count"];
 
             if (team == Team.Witch)
             {
                 hash["Witch_Count"] = (int)hash["Witch_Count"] - 1;
-                //witchCountText.text = "Player : " + (int)hash["Witch_Count"];
             }
 
             PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
             team = Team.Hunter;
-            selectTeam.SetActive(false);
-            hunterTeam.SetActive(true);
+            //selectTeam.SetActive(false);
+            //hunterTeam.SetActive(true);
             print("∏∂≥‡∆¿ : " + (int)hash["Witch_Count"] + ", «Â≈Õ∆¿ : " + (int)hash["Hunter_Count"]);
-            //return hash;
         }
         else
         {
             print("¿ÃπÃ «Â≈Õ∆¿");
-            //return null;
         }
     }
 
@@ -146,22 +162,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void LeaveRoom()
     {
-        if(team != Team.None)
-        {
-            ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
-
-            if(team == Team.Witch)
-            {
-                hash["Witch_Count"] = (int)hash["Witch_Count"] - 1;
-            }
-            else
-            {
-                hash["Hunter_Count"] = (int)hash["Hunter_Count"] - 1;
-            }
-
-            PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
-        }
-
         PhotonNetwork.LeaveRoom();
         PhotonNetwork.LoadLevel("PEA_Main");
     }
@@ -174,19 +174,106 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         if (((string)propertiesThatChanged["Room_State"]).Equals("Waiting") && (int)propertiesThatChanged["Ready_Count"] == PhotonNetwork.CurrentRoom.MaxPlayers)
         {
-            readyUI.SetActive(false);
-            ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
-            hash["Room_State"] = "Playing";
-            PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
-            switch (team)
-            {
-                case Team.Witch:
-                    PhotonNetwork.Instantiate("Witch", spawnPoint.position, spawnPoint.rotation);
-                    break;
-                case Team.Hunter:
-                    PhotonNetwork.Instantiate("Hunter", spawnPoint.position, spawnPoint.rotation);
-                    break;
-            }
+            GameStart();
+        }
+        else if(((string)propertiesThatChanged["Room_State"]).Equals("Playing") && (int)propertiesThatChanged["Witch_Alive"] == 0)
+        {
+            HunterWin();
         }
     }
+
+    private void GameStart()
+    {
+        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
+        hash["Room_State"] = "Playing";
+        hash["Witch_Alive"] = (int)hash["Witch_Count"];
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+        switch (team)
+        {
+            case Team.Witch:
+                PhotonNetwork.Instantiate("Witch", spawnPoint.position, spawnPoint.rotation);
+                break;
+            case Team.Hunter:
+                PhotonNetwork.Instantiate("Hunter", spawnPoint.position, spawnPoint.rotation);
+                break;
+        }
+
+        PEA_GameSceneUI.instance.GameStart();
+        room_State = Room_State.Playing;
+        SoundManager.instance.StopBGM();
+    }
+
+    public void WitchDie()
+    {
+        print("pppppp");
+        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
+        hash["Witch_Alive"] = (int)hash["Witch_Alive"] - 1;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+        print((int)hash["Witch_Alive"]);
+    }
+
+    public void WitchWin()
+    {
+        GameOver();
+    }
+
+    private void HunterWin()
+    {
+        PEA_GameSceneUI.instance.HunterWin();
+    }
+
+    public void GameOver()
+    {
+        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
+        hash["Room_State"] = "Over";
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+
+        room_State = Room_State.Over;
+        PEA_GameSceneUI.instance.GameOver();
+        SoundManager.instance.PlayBGM(SoundManager.BGM.Lobby);
+    }
+
+    public void Restart()
+    {
+        PhotonNetwork.LoadLevel("PEA_GameRoom");
+
+        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        hash["Room_State"] = "Waiting";
+        hash["Witch_Alive"] = 0;
+        hash["Witch_Count"] = 0;
+        hash["Hunter_Count"] = 0;
+        hash["Ready_Count"] = 0;
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+    }
+
+    //private void OnApplicationQuit()
+    //{
+    //    print("1111");
+    //    if (PhotonNetwork.IsConnected)
+    //    {
+    //        print("22222");
+    //        if (team != Team.None)
+    //        {
+    //            ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
+
+    //            if (team == Team.Witch)
+    //            {
+    //                hash["Witch_Count"] = (int)hash["Witch_Count"] - 1;
+    //            }
+    //            else
+    //            {
+    //                hash["Hunter_Count"] = (int)hash["Hunter_Count"] - 1;
+    //            }
+
+    //            if (isReady)
+    //            {
+    //                hash["Ready_Cout"] = (int)hash["Ready_Count"] - 1;
+    //            }
+
+    //            PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+    //            print((int)PhotonNetwork.CurrentRoom.CustomProperties["Witch_Count"]);
+    //        }
+    //    }
+    //}
 }

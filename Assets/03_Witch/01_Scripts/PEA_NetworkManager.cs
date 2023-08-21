@@ -55,6 +55,7 @@ public class PEA_NetworkManager : MonoBehaviourPunCallbacks
 
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
         hash["Room_State"] = "Waiting";
+        hash["Witch_Alive"] = 0;
         hash["Witch_Count"] = 0;
         hash["Hunter_Count"] = 0;
         hash["Ready_Count"] = 0;
