@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5049019649346034856}
   - component: {fileID: 7036616300284028147}
   m_Layer: 5
-  m_Name: ImageAlpha
+  m_Name: imageAlpha
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f17d1f9532d99ce41b10c3fb491c669c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imageAlpha: {fileID: 0}
+  imageAlpha: {fileID: 7036616300284028147}
   defaultAlpha: 0
   coolTime: 8
 --- !u!1 &7587412367234995991
@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 5521280878509323276}
   - component: {fileID: 1386989318671627092}
   m_Layer: 5
-  m_Name: ImageChicken
+  m_Name: imageChicken
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f17d1f9532d99ce41b10c3fb491c669c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imageAlpha: {fileID: 0}
+  imageAlpha: {fileID: 1386989318671627092}
   defaultAlpha: 0
   coolTime: 8
 --- !u!1 &7299663070680481217
@@ -66,7 +66,7 @@ GameObject:
   - component: {fileID: 5256915340692561932}
   - component: {fileID: 4576215591947055856}
   m_Layer: 5
-  m_Name: ImageVacuum
+  m_Name: imageVacuum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 5521280878509323276}
   - component: {fileID: 1386989318671627092}
   m_Layer: 5
-  m_Name: ImageAlpha
+  m_Name: imageAlpha
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
