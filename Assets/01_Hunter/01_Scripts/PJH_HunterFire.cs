@@ -16,6 +16,10 @@ public class PJH_HunterFire : MonoBehaviourPun
     public Transform firePosition;      // 감자/스킬이 나가는 위치
     //Witch 가져오기
     //public float range = 5;             // 바디슬램 범위
+    public ScrollRect scrollRectSkill;
+
+    public GameObject vacuumTrapUIFactory;
+    public GameObject chickenUIFactory;
 
     private int potatoGauge = 0;
     [SerializeField]
@@ -24,8 +28,19 @@ public class PJH_HunterFire : MonoBehaviourPun
     LayerMask witchLayer;
 
     Animator anim;
-    
+    PJH_SkillItem item1;
+    PJH_SkillItem item2;
 
+    private void Awake()
+    {
+        GameObject ui1 = Instantiate(vacuumTrapUIFactory);
+        item1 = ui1.GetComponent<PJH_SkillItem>();
+        ui1.transform.parent = scrollRectSkill.content;
+        GameObject ui2 = Instantiate(chickenUIFactory);
+        item2 = ui2.GetComponent<PJH_SkillItem>();
+        ui2.transform.parent = scrollRectSkill.content;
+
+    }
     void Start()
     {
         //내가 만든 Player 가 아닐때
@@ -96,36 +111,26 @@ public class PJH_HunterFire : MonoBehaviourPun
             }
         }
         //우클릭시 치킨발사
-        if (Input.GetButtonDown("Fire2"))
-        {
-            GameObject chicken = GameObject.Find("Chicken");
-            if (chicken.activeSelf == true)
-            {
-                //쏘지않는다.
-            }
-            else
-            {
+        if (item2.CanDoIt() && Input.GetButtonDown("Fire2"))
+        {           
+           anim.SetTrigger("Fire");
+           //네트워킹
+           Vector3 pos = firePosition.position;
 
-                anim.SetTrigger("Fire");
-                //네트워킹
-                Vector3 pos = firePosition.position;
+           Vector3 forward = firePosition.forward;
 
-                Vector3 forward = firePosition.forward;
-
-                photonView.RPC(nameof(FireChickenByRPC), RpcTarget.All, pos, forward);
-            }
+           photonView.RPC(nameof(FireChickenByRPC), RpcTarget.All, pos, forward);            
         }
         //Q클릭시 흡수 발사
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            
-                anim.SetTrigger("Fire");
-                //네트워킹
-                Vector3 pos = firePosition.position;
-
-                Vector3 forward = firePosition.forward;
-
-                photonView.RPC(nameof(FireVacuumByRPC), RpcTarget.All, pos, forward);
+        if (item1.CanDoIt() && Input.GetKeyDown(KeyCode.Q))
+        {            
+           anim.SetTrigger("Fire");
+           //네트워킹
+           Vector3 pos = firePosition.position;
+          
+           Vector3 forward = firePosition.forward;
+          
+           photonView.RPC(nameof(FireVacuumByRPC), RpcTarget.All, pos, forward);
             
         }
         
