@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.SerializationRate = 30;
         PEA_GameSceneUI.instance.SetTeamCountText(PhotonNetwork.CurrentRoom.CustomProperties);
-        SoundManager.instance.PlayBGM(SoundManager.BGM.Ready);
+        //SoundManager.instance.PlayBGM(SoundManager.BGM.Ready);
     }
 
     void Update()
@@ -207,7 +207,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         PEA_GameSceneUI.instance.GameStart();
         room_State = Room_State.Playing;
-        SoundManager.instance.StopBGM();
+        SoundManager.instance.PlayBGM(SoundManager.BGM.Ready);
+        //SoundManager.instance.StopBGM();
     }
 
     public void HunterGo()
@@ -231,6 +232,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void HunterWin()
     {
+        GameOver();
         PEA_GameSceneUI.instance.HunterWin();
     }
 
@@ -242,7 +244,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         room_State = Room_State.Over;
         PEA_GameSceneUI.instance.GameOver();
-        SoundManager.instance.PlayBGM(SoundManager.BGM.Ready);
+        SoundManager.instance.PlayBGM(SoundManager.BGM.Lobby);
     }
 
     public void Restart()

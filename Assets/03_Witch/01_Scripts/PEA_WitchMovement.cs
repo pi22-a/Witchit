@@ -318,6 +318,11 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
         anim.SetTrigger(trigger);
     }
 
+    public void OnGround()
+    {
+        isJumping = false;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if( isJumping && collision.contacts[0].point.y < transform.position.y)
