@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PEA_CameraTest : MonoBehaviour
 {
+    private float x = 0f;
+    private float y = 0f;
+
     public float offsetX;
     public float offsetY;
     public float offsetZ;
@@ -24,6 +27,11 @@ public class PEA_CameraTest : MonoBehaviour
             target.transform.position.z + offsetZ);
 
         transform.position = Vector3.Lerp(transform.position, fixedPos, Time.deltaTime * 10f);
+
+        x = Input.GetAxis("Mouse X");
+        y = Input.GetAxis("Mouse Y");
+
+        Camera.main.transform.Rotate(-y, x, 0 );
 
     }
 }
