@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 2820088363526867273}
   - component: {fileID: 4162749703818484390}
   - component: {fileID: 6367959322556883456}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: MPImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -306,7 +306,7 @@ GameObject:
   - component: {fileID: 7802856880066633291}
   - component: {fileID: 6210619452372009611}
   - component: {fileID: 3723252543339954574}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: ReturnWitch Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -953,7 +953,7 @@ GameObject:
   - component: {fileID: 3488479694052343719}
   - component: {fileID: 6093705146800736156}
   - component: {fileID: 7898191700679836562}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1260,7 +1260,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4200895505244130959}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1490,7 +1490,7 @@ GameObject:
   - component: {fileID: 4970055612029854159}
   - component: {fileID: 3248238764917213802}
   - component: {fileID: 7855985925302153829}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mushroom Black
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1761,7 +1761,7 @@ GameObject:
   - component: {fileID: 8883767542199648936}
   - component: {fileID: 5976011502741409986}
   - component: {fileID: 1921132112648805189}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: WitchCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2510,7 +2510,7 @@ GameObject:
   - component: {fileID: 9181672066267758991}
   - component: {fileID: 4366276606669978155}
   - component: {fileID: 1311608888346011301}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Possess Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2698,7 +2698,7 @@ GameObject:
   - component: {fileID: 2806368014588850800}
   - component: {fileID: 5568755089017440591}
   - component: {fileID: 939891509356235834}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2772,7 +2772,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4345731026144130364}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: SkillIcons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3159,7 +3159,7 @@ GameObject:
   - component: {fileID: 4278686923261940753}
   - component: {fileID: 4010033911433690157}
   - component: {fileID: 1189745183542992749}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Possess Black
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3555,7 +3555,7 @@ GameObject:
   - component: {fileID: 5197379791824042960}
   - component: {fileID: 6111579167218295645}
   - component: {fileID: 8087605342295490137}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mushroom Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3687,7 +3687,7 @@ GameObject:
   - component: {fileID: 5143850044490946683}
   m_Layer: 0
   m_Name: Witch
-  m_TagString: Untagged
+  m_TagString: Witch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5092,7 +5092,7 @@ GameObject:
   - component: {fileID: 6941080895506046512}
   - component: {fileID: 6178119644796209578}
   - component: {fileID: 773557920846182253}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Crosshair Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}

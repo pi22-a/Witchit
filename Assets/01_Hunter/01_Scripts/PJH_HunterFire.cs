@@ -15,7 +15,7 @@ public class PJH_HunterFire : MonoBehaviourPun
     //발사 위치
     public Transform firePosition;      // 감자/스킬이 나가는 위치
     //Witch 가져오기
-    public float range = 5;             // 바디슬램 범위
+    //public float range = 5;             // 바디슬램 범위
 
     private int potatoGauge = 0;
     [SerializeField]
@@ -24,11 +24,7 @@ public class PJH_HunterFire : MonoBehaviourPun
     LayerMask witchLayer;
 
     Animator anim;
-    private void Awake()
-    {
-
-        
-    }
+    
 
     void Start()
     {
@@ -84,30 +80,53 @@ public class PJH_HunterFire : MonoBehaviourPun
             }
             else
             {
+                //총쏘는 애니메이션 + 게이지 관리
                 anim.SetTrigger("Fire");
-                GameObject potato = Instantiate(potatoFactory);
-                potato.transform.position = firePosition.position;
-                potato.transform.forward = firePosition.forward;
                 potatoGauge = potatoGauge + 150;
                 images_Gauge.fillAmount += (float)0.15;
+
+                //네트워킹
+                Vector3 pos = firePosition.position;
+
+                Vector3 forward = firePosition.forward;
+
+                photonView.RPC(nameof(FirePotatoByRPC), RpcTarget.All, pos, forward);
+
+                
             }
-            //print(potatoGauge);
         }
         //우클릭시 치킨발사
         if (Input.GetButtonDown("Fire2"))
         {
-            anim.SetTrigger("Fire");
-            GameObject chicken = Instantiate(chickenFactory);
-            chicken.transform.position = firePosition.position;
-            chicken.transform.forward = firePosition.forward;
+            GameObject chicken = GameObject.Find("Chicken");
+            if (chicken.activeSelf == true)
+            {
+                //쏘지않는다.
+            }
+            else
+            {
+
+                anim.SetTrigger("Fire");
+                //네트워킹
+                Vector3 pos = firePosition.position;
+
+                Vector3 forward = firePosition.forward;
+
+                photonView.RPC(nameof(FireChickenByRPC), RpcTarget.All, pos, forward);
+            }
         }
         //Q클릭시 흡수 발사
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            anim.SetTrigger("Fire");
-            GameObject vacuumTrap = Instantiate(vacuumTrapFactory);
-            vacuumTrap.transform.position = firePosition.position;
-            vacuumTrap.transform.forward = firePosition.forward;
+            
+                anim.SetTrigger("Fire");
+                //네트워킹
+                Vector3 pos = firePosition.position;
+
+                Vector3 forward = firePosition.forward;
+
+                photonView.RPC(nameof(FireVacuumByRPC), RpcTarget.All, pos, forward);
+            
         }
         
         //V클릭시 앞범위 공격
@@ -118,6 +137,29 @@ public class PJH_HunterFire : MonoBehaviourPun
         }
     }
     
+    [PunRPC]
+    void FirePotatoByRPC(Vector3 firePos, Vector3 fireFoward)
+    {
+        GameObject potato = Instantiate(potatoFactory);
+        potato.transform.position = firePos;
+        potato.transform.forward = fireFoward;
+    }
+
+    [PunRPC]
+    void FireChickenByRPC(Vector3 firePos, Vector3 fireFoward)
+    {
+        GameObject chicken = Instantiate(chickenFactory);
+        chicken.transform.position = firePos;
+        chicken.transform.forward = fireFoward;
+    }
+
+    [PunRPC]
+    void FireVacuumByRPC(Vector3 firePos, Vector3 fireFoward)
+    {
+        GameObject vacuum = Instantiate(vacuumTrapFactory);
+        vacuum.transform.position = firePos;
+        vacuum.transform.forward = fireFoward;
+    }
 
     public void HitWitch(int n)
     {

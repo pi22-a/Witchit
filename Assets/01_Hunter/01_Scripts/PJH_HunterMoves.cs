@@ -6,7 +6,7 @@ using Photon.Pun;
 // 사용자의 입력에따라 앞뒤좌우로 이동하고싶다.
 // 사용자가 점프버튼을 누르면 점프를 뛰고싶다.
 // 최대 점프 횟수를 정해서 여러번 점프하게 하고싶다.
-public class PJH_HunterMoves : MonoBehaviourPun
+public class PJH_HunterMoves : MonoBehaviourPun, IPunObservable
 {
     enum State
     {
@@ -16,6 +16,7 @@ public class PJH_HunterMoves : MonoBehaviourPun
 
     State state;
 
+    bool isJump = false;
     public GameObject HunterUI;
 
     //속력 
@@ -55,7 +56,7 @@ public class PJH_HunterMoves : MonoBehaviourPun
 
         state = State.Move;
 
-        if (photonView.IsMine == true)
+        if (photonView.IsMine)
         {
             //UI 를 비활성화 하자
             HunterUI.SetActive(true);
@@ -84,9 +85,11 @@ public class PJH_HunterMoves : MonoBehaviourPun
             //위치 보정
             transform.position = Vector3.Lerp(transform.position, receivePos, lerpSpeed * Time.deltaTime);
             //회전 보정
-            transform.rotation = Quaternion.Lerp(transform.rotation, receiveRot, lerpSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, receiveRot, lerpSpeed * Time.deltaTime);            
         }
 
+        anim.SetFloat("Horizontal", h);
+        anim.SetFloat("Vertical", v);
 
         if (Input.GetKeyDown(KeyCode.Y))
         {
@@ -109,15 +112,22 @@ public class PJH_HunterMoves : MonoBehaviourPun
         Vector3 dir = dirH + dirV;
         dir.Normalize();
 
-        anim.SetFloat("Horizontal", h);
-        anim.SetFloat("Vertical", v);
 
         //만약에 땅에 닿아있다면
         if (cc.isGrounded == true)
         {
             //yVeloctiy 를 0 으로 하자
             yVelocity = 0;
-            this.GetComponent<Rigidbody>().isKinematic = false;
+
+            //만약에 점프 중이라면
+            if (isJump == true)
+            {
+                //착지 Trigger 발생
+                photonView.RPC(nameof(SetTriggerRpc), RpcTarget.All, "Land");
+            }
+
+            //점프 아니라고 설정
+            isJump = false;
         }
 
         //스페이바를 누르면 점프를 하고 싶다.
@@ -126,6 +136,10 @@ public class PJH_HunterMoves : MonoBehaviourPun
             anim.SetTrigger("Jump");
             //yVelocity 에 jumpPower 를 셋팅
             yVelocity = jumpPower;
+
+            photonView.RPC(nameof(SetTriggerRpc), RpcTarget.All, "Jump");
+            //점프 중이라고 설정
+            isJump = true;
         }
 
         //yVelocity 를 중력만큼 감소시키자
@@ -200,6 +214,7 @@ public class PJH_HunterMoves : MonoBehaviourPun
     {
         anim.SetTrigger(parameter);
     }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         //내 Player 라면
