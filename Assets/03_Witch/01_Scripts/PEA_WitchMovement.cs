@@ -224,7 +224,8 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
         //probCollider.transform.rotation = probBodyRidigbody.transform.rotation;
         //probBodyRidigbody.transform.position = transform.position;
 
-        probBodyRidigbody.transform.Rotate(((transform.forward * -moveDir.x) + (transform.right * moveDir.z).normalized) * maxAngularSpeed * Time.deltaTime);
+        //probBodyRidigbody.transform.Rotate(((transform.forward * -moveDir.x) + (transform.right * moveDir.z).normalized) * maxAngularSpeed * Time.deltaTime);
+        probBodyRidigbody.transform.Rotate(moveDir * maxAngularSpeed * Time.deltaTime);
         transform.position = probBodyRidigbody.transform.position;
         probBodyRidigbody.transform.localPosition = Vector3.zero;
         probBody.GetChild(1).localPosition = Vector3.zero;

@@ -30,7 +30,7 @@ public class PEA_NetworkManager : MonoBehaviourPunCallbacks
     public void OnClickQuickMatch()
     {
         RoomOptions roomOption = new RoomOptions();
-        roomOption.MaxPlayers = 3;
+        roomOption.MaxPlayers = 2;
         PhotonNetwork.JoinOrCreateRoom("WitchIt", roomOption, TypedLobby.Default);
     }
 
