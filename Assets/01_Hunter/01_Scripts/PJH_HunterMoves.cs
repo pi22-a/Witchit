@@ -70,23 +70,28 @@ public class PJH_HunterMoves : MonoBehaviourPun, IPunObservable
     {
         if (photonView.IsMine)
         {
+            
             switch (state)
             {
                 case State.Move:
-                    Move(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+                    h = Input.GetAxis("Horizontal");
+                    v = Input.GetAxis("Vertical");
+                    Move();
                     break;
                 case State.Confusion:
-                    Move(h, v);
+                    Move();
                     break;
             }
         }
         //나의 Player 가 아니라면
         else
         {
+            cc.enabled = false;
             //위치 보정
             transform.position = Vector3.Lerp(transform.position, receivePos, lerpSpeed * Time.deltaTime);
             //회전 보정
-            transform.rotation = Quaternion.Lerp(transform.rotation, receiveRot, lerpSpeed * Time.deltaTime);            
+            transform.rotation = Quaternion.Lerp(transform.rotation, receiveRot, lerpSpeed * Time.deltaTime);
+            cc.enabled = true;
         }
 
         anim.SetFloat("Horizontal", h);
@@ -98,9 +103,20 @@ public class PJH_HunterMoves : MonoBehaviourPun, IPunObservable
             Mushroom();
         }
     }
+    void OnTriggerEnter(Collider other)
+    {
+        if(photonView.IsMine)
+        {
+            if (other.transform.tag == "Mushroom")
+            {
+                state = State.Confusion;
+                Mushroom();
+            }
+        }
+        
+    }
 
-
-    void Move(float h, float v)
+    void Move()
     {
         //W, S, A, D 키를 누르면 앞뒤좌우로 움직이고 싶다.
         //1. 사용자의 입력을 받자.
@@ -149,41 +165,15 @@ public class PJH_HunterMoves : MonoBehaviourPun, IPunObservable
         //yVelocity 값을 dir 의 y 값에 셋팅
         dir.y = yVelocity;
 
-        //좌 Ctrl 클릭시 바디슬램
-
-        //if (Input.GetKeyDown(KeyCode.LeftControl))
-        //{
-        //    //bool a;
-        //    //엉덩이에 col 넣고 그게 뭐든 부딫히면 그때 근처 탐색하고, 데미지 부여 형식
-        //    //
-        //    if (gameObject.transform.position.y > 3)
-        //    {
-        //        anim.SetTrigger("BodySlam");
-        //        //잠깐 멈추고 빠르게 떨어진다. (애니메이션 적용)
-        //        this.GetComponent<Rigidbody>().isKinematic = true;
-        //        yVelocity = -20; //여기 수정 일정 높이 이상인걸 따야함.
-        //        //일정 높이 이상일때 발동한다. (애니메이션으로 구별)
-        //        //높이에 비례해서 공격 범위가 늘어난다 (프로토때 미적용)
-        //        // 반경 3M 안의 충돌체중에 마녀를 찾는다.
-        //        int layerMask = (1 << witchLayer);
-        //        Collider[] cols = Physics.OverlapSphere(transform.position, 3, layerMask);
-        //        for (int i = 0; i < cols.Length; i++)
-        //        {
-        //            // 데미지를 n 만큼 주고싶다.
-        //            int n = 5;
-        //            cols[i].GetComponent<PEA_WitchHP>().Damage(n);
-        //        }
-        //    }
-        //   
-        //
-        //}
-
-
         //3. 그방향으로 움직이자.
         //transform.position += dir * speed * Time.deltaTime;
+        //anim.SetFloat("Horizontal", h);
+        //photonView.RPC(nameof(SetTriggerRpc), RpcTarget.All, "Horizontal",h);
+        //anim.SetFloat("Vertical", v);
+        //photonView.RPC(nameof(SetTriggerRpc), RpcTarget.All, "Vertical", v);
         cc.Move(dir * speed * Time.deltaTime);
-
         
+
     }
 
     public void Mushroom()
@@ -225,7 +215,6 @@ public class PJH_HunterMoves : MonoBehaviourPun, IPunObservable
             stream.SendNext(transform.position);
             //나의 회전값을 보낸다.
             stream.SendNext(transform.rotation);
-            stream.SendNext(hunterBody.rotation);
             //h 값 보낸다.
             stream.SendNext(h);
             //v 값 보낸다.
@@ -238,7 +227,6 @@ public class PJH_HunterMoves : MonoBehaviourPun, IPunObservable
             receivePos = (Vector3)stream.ReceiveNext();
             //회전값을 받자.
             receiveRot = (Quaternion)stream.ReceiveNext();
-            receiveHunterRot = (Quaternion)stream.ReceiveNext();
             //h 값 받자.
             h = (float)stream.ReceiveNext();
             //v 값 받자.

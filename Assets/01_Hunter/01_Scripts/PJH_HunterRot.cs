@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class PJH_HunterRot : MonoBehaviourPun
+public class PJH_HunterRot : MonoBehaviourPun, IPunObservable
 {
     //누적된 회전 값
     float rotX;
@@ -36,7 +36,7 @@ public class PJH_HunterRot : MonoBehaviourPun
         if (photonView.IsMine == false) return;
 
         //만약에 마우스 커서가 활성화 되어 있으면 함수를 나가자
-        if (Cursor.visible == true) return;
+        //if (Cursor.visible == true) return;
 
         // 카메라 1인칭 / 3인칭 변환
         if (Input.GetKeyDown(KeyCode.T))
@@ -52,17 +52,6 @@ public class PJH_HunterRot : MonoBehaviourPun
                 trCam1.SetActive(false);
             }
         }
-    }
-
-    // Update is called once per frame
-    void LateUpdate()
-    {
-        
-
-
-        //마우스의 움직임따라 플레이어를 좌우 회전하고
-        //카메라를 위아래 회전하고 싶다.
-
         //1. 마우스 입력을 받자.    
         float mx = Input.GetAxis("Mouse X");
         float my = Input.GetAxis("Mouse Y");
@@ -72,15 +61,31 @@ public class PJH_HunterRot : MonoBehaviourPun
         rotY += my * rotSpeed * Time.deltaTime;
 
         rotY = Mathf.Clamp(rotY, -55, 55);
+    }
 
-        //3. 누적된 값만큼 회전 시키자.
+    // Update is called once per frame
+    void LateUpdate()
+    {
         transform.localEulerAngles = new Vector3(0, rotX, 0);
-        trSpine.transform.localEulerAngles = new Vector3 (
-            trSpine.transform.localEulerAngles.x, trSpine.transform.localEulerAngles.y, rotY);
-        trCam.transform.localEulerAngles = new Vector3(-rotY ,0,0);
-
+        trSpine.transform.localEulerAngles = new Vector3(trSpine.transform.localEulerAngles.x, trSpine.transform.localEulerAngles.y, rotY);
+        trCam.transform.localEulerAngles = new Vector3(-rotY, 0, 0);
 
     }
 
-   
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(rotX);
+            stream.SendNext(rotY);
+            stream.SendNext(transform.localEulerAngles);
+            stream.SendNext(trSpine.transform.localEulerAngles);
+            stream.SendNext(trCam.transform.localEulerAngles);
+        }
+        else if (stream.IsReading)
+        {
+            rotX = (float)stream.ReceiveNext();
+            rotY = (float)stream.ReceiveNext();
+        }
+    }
 }
