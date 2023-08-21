@@ -4134,7 +4134,7 @@ GameObject:
   - component: {fileID: 7031575647819767328}
   m_Layer: 6
   m_Name: ProbBody
-  m_TagString: Untagged
+  m_TagString: Witch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4166,7 +4166,7 @@ GameObject:
   - component: {fileID: 7031575647878484582}
   m_Layer: 6
   m_Name: Witch_Body
-  m_TagString: Untagged
+  m_TagString: Witch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

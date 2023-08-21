@@ -35,7 +35,15 @@ public class PJH_Bullet : MonoBehaviourPun
         {
             // 데미지를 n 만큼 주고싶다.
             int n = 5;
-            other.transform.parent.parent.GetComponent<PEA_WitchHP>().Damage(n);
+            if(other.transform.parent.TryGetComponent<PEA_WitchHP>(out PEA_WitchHP witchHP))
+            {
+                witchHP.Damage(n);
+            }
+            else if(other.transform.parent.parent.TryGetComponent<PEA_WitchHP>(out PEA_WitchHP hp))
+            {
+                hp.Damage(n);
+            }
+            //other.transform.parent.parent.GetComponent<PEA_WitchHP>().Damage(n);
             print("데미지를 주었습니다.");
         }
         /*

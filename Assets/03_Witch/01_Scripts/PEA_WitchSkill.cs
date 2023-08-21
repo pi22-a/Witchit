@@ -216,6 +216,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
         prob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX & RigidbodyConstraints.FreezePositionZ;
         prob.GetComponent<Rigidbody>().useGravity = false;
         prob.GetComponent<Collider>().enabled = false;
+        prob.tag = "Witch";
 
         probCollider.transform.localScale = prob.transform.lossyScale;
         probCollider.sharedMesh = prob.GetComponent<MeshFilter>().mesh;
@@ -269,6 +270,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
         prob.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX & RigidbodyConstraints.FreezePositionZ;
         prob.GetComponent<Rigidbody>().useGravity = false;
         prob.GetComponent<Collider>().enabled = false;
+        prob.tag = "Witch";
 
         probCollider.transform.localScale = prob.transform.lossyScale;
         probCollider.sharedMesh = prob.GetComponent<MeshFilter>().mesh;
@@ -286,6 +288,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
         if (curTime >= returnTime && isChanged)
         {
             photonView.RPC(nameof(ReturnOrigin), RpcTarget.All);
+            pea_camera.SetCamPos(isChanged);
         }
     }
 
@@ -307,7 +310,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
                 coroutine = StartCoroutine(Dissolve(true));
                 witchCollider.enabled = true;
                 isChanged = false;
-                pea_camera.SetCamPos(isChanged);
+                //pea_camera.SetCamPos(isChanged);
                 PlaySoundEffect(SoundEffect.Return);
             }
         }
