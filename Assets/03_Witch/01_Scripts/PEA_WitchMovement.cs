@@ -19,7 +19,7 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
     private Vector3 moveDir = Vector3.zero;
 
     // 점프 관련 변수
-    private float jumpPower = 6f;
+    private float jumpPower = 10f;
     private bool isJumping = false;
 
     // 회전 관련 변수
