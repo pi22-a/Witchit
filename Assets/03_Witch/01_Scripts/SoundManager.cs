@@ -16,7 +16,13 @@ public class SoundManager : MonoBehaviour
         End
     }
 
+    public enum Effect
+    {
+        Button_Click
+    }
+
     public AudioClip[] bgms;
+    public AudioClip[] effects;
 
     private void Awake()
     {
@@ -45,5 +51,10 @@ public class SoundManager : MonoBehaviour
     public void StopBGM()
     {
         audioSource.Stop();
+    }
+
+    public void PlayEffect(Effect effect)
+    {
+        audioSource.PlayOneShot(effects[(int)effect]);
     }
 }

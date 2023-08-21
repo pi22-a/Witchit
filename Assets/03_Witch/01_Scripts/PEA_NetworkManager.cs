@@ -44,6 +44,8 @@ public class PEA_NetworkManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedLobby();
 
+        SoundManager.instance.PlayBGM(SoundManager.BGM.Lobby);
+
         print("로비 입장");
     }
 
