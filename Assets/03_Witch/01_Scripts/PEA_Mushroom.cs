@@ -7,6 +7,7 @@ public class PEA_Mushroom : MonoBehaviour
     private float throwPower = 10f;
     private Vector3 throwDir = Vector3.zero;
     private Rigidbody rig = null;
+    private AudioSource audioSource;
 
     public GameObject mushroom;
     public GameObject sphere;
@@ -14,6 +15,8 @@ public class PEA_Mushroom : MonoBehaviour
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         throwDir = transform.forward + transform.up;
         throwDir.Normalize();
         rig = GetComponent<Rigidbody>();
@@ -59,6 +62,15 @@ public class PEA_Mushroom : MonoBehaviour
                 mushroom3.transform.forward = -transform.forward;
             }
 
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("Hunter"))
+        {
+            audioSource.PlayOneShot(audioSource.clip);
+            Destroy(gameObject);
         }
     }
 }

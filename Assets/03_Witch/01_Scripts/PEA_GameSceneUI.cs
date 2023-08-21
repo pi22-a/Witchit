@@ -12,7 +12,7 @@ public class PEA_GameSceneUI : MonoBehaviour
     private int minutes = 0;
     private int seconds = 0;
     private readonly float hideTime = 10f;
-    private readonly float seekTime = 11f;
+    private readonly float seekTime = 180f;
     private readonly float overTime = 10f;
     private readonly float hideEmphasisTime = 5f;
     private readonly float seekEmphasisTime = 10f;
@@ -35,6 +35,7 @@ public class PEA_GameSceneUI : MonoBehaviour
     public TMP_Text witchCountText;
     public TMP_Text hunterCountText;
     public TMP_Text countDownText;
+    public TMP_Text aliveWitchCountText;
 
     private void Awake()
     {
@@ -62,6 +63,7 @@ public class PEA_GameSceneUI : MonoBehaviour
     public void OnClickMenu()
     {
         GameManager.instance.LeaveRoom();
+        SoundManager.instance.PlayEffect(SoundManager.Effect.Button_Click);
     }
 
     public void OnClickWitchTeam()
@@ -70,6 +72,7 @@ public class PEA_GameSceneUI : MonoBehaviour
         selectTeam.SetActive(false);
         witchTeam.SetActive(true);
         menu.SetActive(false);
+        SoundManager.instance.PlayEffect(SoundManager.Effect.Button_Click);
         //SetTeamCountText(GameManager.instance.TeamToWitch());
     }
 
@@ -79,6 +82,7 @@ public class PEA_GameSceneUI : MonoBehaviour
         selectTeam.SetActive(false);
         hunterTeam.SetActive(true);
         menu.SetActive(false);
+        SoundManager.instance.PlayEffect(SoundManager.Effect.Button_Click);
         //SetTeamCountText(GameManager.instance.TeamToHunter());
     }
 
@@ -92,6 +96,7 @@ public class PEA_GameSceneUI : MonoBehaviour
     {
         GameManager.instance.OnClickReady();
         readyText.SetActive(GameManager.instance.IsReady);
+        SoundManager.instance.PlayEffect(SoundManager.Effect.Button_Click);
     }
 
     public void OnClickChangeTeam()
@@ -101,6 +106,7 @@ public class PEA_GameSceneUI : MonoBehaviour
         hunterTeam.SetActive(false);
 
         SetTeamCountText(GameManager.instance.OnClickChangeTeam());
+        SoundManager.instance.PlayEffect(SoundManager.Effect.Button_Click);
     }
 
     public void GameStart()
@@ -118,6 +124,11 @@ public class PEA_GameSceneUI : MonoBehaviour
         {
             coroutine = StartCoroutine( ICountDown(countTime));
         }
+    }
+
+    public void SetAliveWitchCountText(int aliveWitchCount)
+    {
+        aliveWitchCountText.text = "Witch : " + aliveWitchCount;
     }
 
     public void GameOver()
@@ -193,6 +204,7 @@ public class PEA_GameSceneUI : MonoBehaviour
             {
                 hideText.SetActive(false);
                 seekText.SetActive(true);
+                GameManager.instance.HunterGo();
                 yield return coroutine = StartCoroutine(ICountDown(seekTime));
             }
             else

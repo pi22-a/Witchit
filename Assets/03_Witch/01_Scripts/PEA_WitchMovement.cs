@@ -15,11 +15,11 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
     // 이동 관련 변수
     private float x = 0f;
     private float z = 0f;
-    private float speed = 5f;
+    private float speed = 8f;
     private Vector3 moveDir = Vector3.zero;
 
     // 점프 관련 변수
-    private float jumpPower = 6f;
+    private float jumpPower = 10f;
     private bool isJumping = false;
 
     // 회전 관련 변수

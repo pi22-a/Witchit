@@ -52,10 +52,10 @@ public class PEA_ProbMoveTxet : MonoBehaviour
         }
 
         //angularSpeed = Vector3.Lerp(angularSpeed, new Vector3(moveDir.z, 0, -moveDir.x) * maxAngularSpeed, 10 * Time.deltaTime);
-        print(angularSpeed);
 
         //transform.localEulerAngles += angularSpeed * Time.deltaTime;
         //transform.localEulerAngles += transform.parent.localEulerAngles + (angularSpeed * Time.deltaTime);
-        rig.angularVelocity = new Vector3(moveDir.z, 0 , -moveDir.x)* angularSpeed;
+        //rig.angularVelocity = new Vector3(moveDir.z, 0 , -moveDir.x)* angularSpeed;
+        //transform.Rotate((Camera.main.transform.right * moveDir.z + Camera.main.transform.forward * moveDir.x) * maxAngularSpeed * Time.deltaTime);
     }
 }

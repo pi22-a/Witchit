@@ -6,6 +6,13 @@ using Photon.Pun;
 
 public class PEA_WitchSkill : MonoBehaviourPun
 {
+    public enum SoundEffect
+    {
+        Disguise,
+        Return,
+        Mushroom
+    }
+
     // 디졸브 관련 변수
     private float t = 0f;
     private float cutoff = 0f;
@@ -41,6 +48,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
 
     private PEA_WitchMovement witchMovement;
     private GameObject[] changableObjects;
+    private AudioSource audioSource;
 
     // 에디터에서 연결해줄 변수
     public GameObject witchBody;                                               // 마녀 모습 몸체
@@ -52,6 +60,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
     public Image returnWitchImage;
     public PEA_SkillCooltime possessCooltime;
     public PEA_SkillCooltime mushroomCooltime;
+    public AudioClip[] soundEffects;
 
     public bool IsChanged
     {
@@ -68,6 +77,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
         witchMovement = GetComponent<PEA_WitchMovement>();
         witchMP = GetComponent<PEA_WitchMP>();
         changableObjects = GameObject.FindGameObjectsWithTag("Changable");
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -90,6 +100,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
         // 마우스 좌클릭 - 변장
         if (Input.GetMouseButtonDown(0) && curRayProb != null)
         {
+            pea_camera.SetCamPos(isChanged);
             photonView.RPC(nameof(Disguise), RpcTarget.All, curRayProbIndex);
             //Disguise();
         }
@@ -210,6 +221,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
         probCollider.sharedMesh = prob.GetComponent<MeshFilter>().mesh;
         GetComponent<Rigidbody>().useGravity = false;
         probCollider.GetComponent<Rigidbody>().useGravity = true;
+        PlaySoundEffect(SoundEffect.Disguise);
 
         //witchMovement.SetProbRigidbody(prob.GetComponent<Rigidbody>());
     }
@@ -262,6 +274,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
         probCollider.sharedMesh = prob.GetComponent<MeshFilter>().mesh;
         GetComponent<Rigidbody>().useGravity = false;
         probCollider.GetComponent<Rigidbody>().useGravity = true;
+        PlaySoundEffect(SoundEffect.Disguise);
 
         //witchMovement.SetProbRigidbody(prob.GetComponent<Rigidbody>());
     }
@@ -295,6 +308,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
                 witchCollider.enabled = true;
                 isChanged = false;
                 pea_camera.SetCamPos(isChanged);
+                PlaySoundEffect(SoundEffect.Return);
             }
         }
     }
@@ -315,6 +329,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
         }
 
         Instantiate(mushRoom, firePos, fireRot);
+        PlaySoundEffect(SoundEffect.Mushroom);
     }
 
     [PunRPC ]
@@ -336,6 +351,11 @@ public class PEA_WitchSkill : MonoBehaviourPun
             isDecoying = true;
             decoyProb = curRayProb;
         }
+    }
+
+    private void PlaySoundEffect(SoundEffect soundEffect)
+    {
+        audioSource.PlayOneShot(soundEffects[(int)soundEffect]);
     }
 
     public void WitchDissolve(bool visible)

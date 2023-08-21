@@ -39,7 +39,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     // 게임 시작 전 준비단계에 필요한 변수들
     public GameObject readyUI;
-    public Transform spawnPoint;
+    public PEA_Door hunterDoor;
+    public Transform witchSpawnPoint;
+    public Transform hunterSpawnPoint;
     //public GameObject selectTeam;
     //public GameObject witchTeam;
     //public GameObject hunterTeam;
@@ -60,6 +62,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.SerializationRate = 30;
         PEA_GameSceneUI.instance.SetTeamCountText(PhotonNetwork.CurrentRoom.CustomProperties);
+        SoundManager.instance.PlayBGM(SoundManager.BGM.Ready);
     }
 
     void Update()
@@ -176,9 +179,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             GameStart();
         }
-        else if(((string)propertiesThatChanged["Room_State"]).Equals("Playing") && (int)propertiesThatChanged["Witch_Alive"] == 0)
+        else if(((string)propertiesThatChanged["Room_State"]).Equals("Playing"))
         {
-            HunterWin();
+            PEA_GameSceneUI.instance.SetAliveWitchCountText((int)propertiesThatChanged["Witch_Alive"]);
+            if ((int)propertiesThatChanged["Witch_Alive"] == 0)
+            {
+                HunterWin();
+            }
         }
     }
 
@@ -191,16 +198,21 @@ public class GameManager : MonoBehaviourPunCallbacks
         switch (team)
         {
             case Team.Witch:
-                PhotonNetwork.Instantiate("Witch", spawnPoint.position, spawnPoint.rotation);
+                PhotonNetwork.Instantiate("Witch", witchSpawnPoint.position, witchSpawnPoint.rotation);
                 break;
             case Team.Hunter:
-                PhotonNetwork.Instantiate("Hunter", spawnPoint.position, spawnPoint.rotation);
+                PhotonNetwork.Instantiate("Hunter", hunterSpawnPoint.position, hunterSpawnPoint.rotation);
                 break;
         }
 
         PEA_GameSceneUI.instance.GameStart();
         room_State = Room_State.Playing;
         SoundManager.instance.StopBGM();
+    }
+
+    public void HunterGo()
+    {
+        hunterDoor.enabled = true;
     }
 
     public void WitchDie()
@@ -230,7 +242,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         room_State = Room_State.Over;
         PEA_GameSceneUI.instance.GameOver();
-        SoundManager.instance.PlayBGM(SoundManager.BGM.Lobby);
+        SoundManager.instance.PlayBGM(SoundManager.BGM.Ready);
     }
 
     public void Restart()
@@ -246,34 +258,4 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
     }
-
-    //private void OnApplicationQuit()
-    //{
-    //    print("1111");
-    //    if (PhotonNetwork.IsConnected)
-    //    {
-    //        print("22222");
-    //        if (team != Team.None)
-    //        {
-    //            ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
-
-    //            if (team == Team.Witch)
-    //            {
-    //                hash["Witch_Count"] = (int)hash["Witch_Count"] - 1;
-    //            }
-    //            else
-    //            {
-    //                hash["Hunter_Count"] = (int)hash["Hunter_Count"] - 1;
-    //            }
-
-    //            if (isReady)
-    //            {
-    //                hash["Ready_Cout"] = (int)hash["Ready_Count"] - 1;
-    //            }
-
-    //            PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
-    //            print((int)PhotonNetwork.CurrentRoom.CustomProperties["Witch_Count"]);
-    //        }
-    //    }
-    //}
 }
