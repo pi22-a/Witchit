@@ -63,6 +63,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.SerializationRate = 30;
         PEA_GameSceneUI.instance.SetTeamCountText(PhotonNetwork.CurrentRoom.CustomProperties);
         //SoundManager.instance.PlayBGM(SoundManager.BGM.Ready);
+
+        ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
+        playerProperty["Team"] = "None";
+        PhotonNetwork.SetPlayerCustomProperties(playerProperty);
     }
 
     void Update()
@@ -79,21 +83,26 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (team != Team.Witch)
         {
-            ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
+            ExitGames.Client.Photon.Hashtable playerProperty =  PhotonNetwork.LocalPlayer.CustomProperties;
 
-            hash["Witch_Count"] = (int)hash["Witch_Count"] + 1;
+            playerProperty["Team"] = "Witch";
+
+            PhotonNetwork.SetPlayerCustomProperties(playerProperty);
+
+            ExitGames.Client.Photon.Hashtable roomProperty = PhotonNetwork.CurrentRoom.CustomProperties;
+
+            roomProperty["Witch_Count"] = (int)roomProperty["Witch_Count"] + 1;
 
             if (team == Team.Hunter)
             {
-                hash["Hunter_Count"] = (int)hash["Hunter_Count"] - 1;
+                roomProperty["Hunter_Count"] = (int)roomProperty["Hunter_Count"] - 1;
             }
 
-            PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
             team = Team.Witch;
             //selectTeam.SetActive(false);
             //witchTeam.SetActive(true);
-            print("∏∂≥‡∆¿ : " + (int)hash["Witch_Count"] + ", «Â≈Õ∆¿ : " + (int)hash["Hunter_Count"]);
-
+            print("∏∂≥‡∆¿ : " + (int)roomProperty["Witch_Count"] + ", «Â≈Õ∆¿ : " + (int)roomProperty["Hunter_Count"]);
         }
         else
         {
@@ -105,6 +114,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if(team != Team.Hunter)
         {
+            ExitGames.Client.Photon.Hashtable playerProperty = PhotonNetwork.LocalPlayer.CustomProperties;
+
+            playerProperty["Team"] = "Hunter";
+
+            PhotonNetwork.SetPlayerCustomProperties(playerProperty);
+
             ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
 
             hash["Hunter_Count"] = (int)hash["Hunter_Count"] + 1;
@@ -199,15 +214,18 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             case Team.Witch:
                 PhotonNetwork.Instantiate("Witch", witchSpawnPoint.position, witchSpawnPoint.rotation);
+                Camera.main.cullingMask = ~(1 << LayerMask.NameToLayer("HunterNickname"));
                 break;
             case Team.Hunter:
                 PhotonNetwork.Instantiate("Hunter", hunterSpawnPoint.position, hunterSpawnPoint.rotation);
+                Camera.main.cullingMask = ~(1 << LayerMask.NameToLayer("WitchNickname"));
                 break;
         }
 
         PEA_GameSceneUI.instance.GameStart();
         room_State = Room_State.Playing;
         SoundManager.instance.PlayBGM(SoundManager.BGM.Ready);
+        print("playing");
         //SoundManager.instance.StopBGM();
     }
 
@@ -219,6 +237,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void WitchDie()
     {
         print("pppppp");
+        ExitGames.Client.Photon.Hashtable playerProperty = PhotonNetwork.LocalPlayer.CustomProperties;
+        playerProperty["Team"] = "Watch";
+        PhotonNetwork.SetPlayerCustomProperties(playerProperty);
+
         ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
         hash["Witch_Alive"] = (int)hash["Witch_Alive"] - 1;
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
@@ -259,5 +281,20 @@ public class GameManager : MonoBehaviourPunCallbacks
         hash["Ready_Count"] = 0;
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+
+        List<string> players = new List<string>();
+        List<string> teams = new List<string>();
+        foreach(Player player in PhotonNetwork.PlayerList)
+        {
+            players.Add(player.NickName);
+            teams.Add((string)player.CustomProperties["Team"]);
+        }
+
+        PEA_GameSceneUI.instance.SetPlayerList(players.ToArray(), teams.ToArray());
     }
 }

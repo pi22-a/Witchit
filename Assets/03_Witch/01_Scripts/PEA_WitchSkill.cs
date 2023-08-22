@@ -192,6 +192,8 @@ public class PEA_WitchSkill : MonoBehaviourPun
     //변장 - 마녀의 외형이 바뀜
     private void Disguise(int probIndex)
     {
+        probCollider.transform.localPosition = Vector3.zero;
+        probCollider.transform.localRotation = Quaternion.identity;
         if (!isChanged)
         {
             isChanged = true;
@@ -231,6 +233,8 @@ public class PEA_WitchSkill : MonoBehaviourPun
     // 빙의 - 마녀 <-> 프랍 바꾸기
     private void Possess(int probIndex)
     {
+        probCollider.transform.localPosition = Vector3.zero;
+        probCollider.transform.localRotation = Quaternion.identity;
         if(witchMP.MP < possessMP || !possessCooltime.Available)
         {
             return;

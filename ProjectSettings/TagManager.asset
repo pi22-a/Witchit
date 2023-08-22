@@ -9,6 +9,10 @@ TagManager:
   - Mushroom
   - Hunter
   - Witch
+  - ButtonPicture
+  - UINameHolder
+  - Compass
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -17,8 +21,8 @@ TagManager:
   - Water
   - UI
   - Witch
-  - 
-  - 
+  - WitchNickname
+  - HunterNickname
   - 
   - 
   - 

@@ -36,7 +36,7 @@ public class PEA_Mushroom : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.CompareTag("Mushroom"))
+        if (collision.transform.CompareTag("Mushroom") || collision.transform.CompareTag("Witch"))
             return;
 
         transform.GetChild(0).gameObject.SetActive(false);
