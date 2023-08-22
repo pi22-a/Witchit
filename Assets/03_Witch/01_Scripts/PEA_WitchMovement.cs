@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using TMPro;
 
 public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
 {
@@ -47,6 +48,7 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
     private Animator anim = null;
 
     // 에디터에서 연결해줄 변수
+    public GameObject nickname;
     public Transform witchBody;
     public Transform probBody;
     private Transform cameraAnchor;
@@ -64,6 +66,12 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
             cameraAnchor = new GameObject("CameraAnchor").transform;
             cameraAnchor.gameObject.AddComponent<PEA_Camera>().SetPlayer(transform);
             Camera.main.transform.SetParent(cameraAnchor);
+            photonView.RPC(nameof(SetNickname), RpcTarget.All);
+            nickname.SetActive(false);
+        }
+        else
+        {
+            nickname.SetActive(true);
         }
     }
 
@@ -105,6 +113,12 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
                 probBody.GetChild(1).rotation = Quaternion.Lerp(probBody.GetChild(1).rotation, receiveProbRot, receiveLerpSpeed * Time.deltaTime);
             }
         }
+    }
+
+    [PunRPC]
+    private void SetNickname()
+    {
+        nickname.GetComponentInChildren<TMP_Text>().text = PhotonNetwork.NickName;
     }
 
     // 앞뒤좌우 이동
@@ -220,12 +234,7 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
             }
         }
 
-        //probBodyRidigbody.angularVelocity = new Vector3(moveDir.z, 0, -moveDir.x) * angularSpeed;
-        //probCollider.transform.rotation = probBodyRidigbody.transform.rotation;
-        //probBodyRidigbody.transform.position = transform.position;
-
-        //probBodyRidigbody.transform.Rotate(((transform.forward * -moveDir.x) + (transform.right * moveDir.z).normalized) * maxAngularSpeed * Time.deltaTime);
-        probBodyRidigbody.transform.Rotate(moveDir * maxAngularSpeed * Time.deltaTime);
+        probBodyRidigbody.angularVelocity = ((transform.forward * -moveDir.x) + (transform.right * moveDir.z)).normalized * maxAngularSpeed;
         transform.position = probBodyRidigbody.transform.position;
         probBodyRidigbody.transform.localPosition = Vector3.zero;
         probBody.GetChild(1).localPosition = Vector3.zero;
@@ -354,6 +363,11 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
                 receiveProbRot = (Quaternion)stream.ReceiveNext();
             }
         }
+    }
+
+    private void OnDisable()
+    {
+        nickname.SetActive(false);
     }
 }
 

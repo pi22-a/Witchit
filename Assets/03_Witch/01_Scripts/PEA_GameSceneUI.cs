@@ -36,6 +36,12 @@ public class PEA_GameSceneUI : MonoBehaviour
     public TMP_Text hunterCountText;
     public TMP_Text countDownText;
     public TMP_Text aliveWitchCountText;
+    public Transform witchPlayerList;
+    public Transform watchPlayerList;
+    public Transform hunterPlayerList;
+    public GameObject player;
+    public GameObject playerList;
+    public GameObject countdownUI;
 
     private void Awake()
     {
@@ -56,7 +62,17 @@ public class PEA_GameSceneUI : MonoBehaviour
 
     void Update()
     {
-        
+        if(GameManager.instance.RoomState == GameManager.Room_State.Playing)
+        {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                ActivePlayerList(true);
+            }
+            else if (Input.GetKeyUp(KeyCode.Tab))
+            {
+                ActivePlayerList(false);
+            }
+        }
     }
 
     // 준비 단계에서 사용되는 함수들
@@ -129,6 +145,53 @@ public class PEA_GameSceneUI : MonoBehaviour
     public void SetAliveWitchCountText(int aliveWitchCount)
     {
         aliveWitchCountText.text = "Witch : " + aliveWitchCount;
+    }
+
+    private void ActivePlayerList(bool isActive)
+    {
+        playerList.SetActive(isActive);
+        countdownUI.SetActive(!isActive);
+    }
+
+    public void RemovePlayerList()
+    {
+        foreach(Transform tr in witchPlayerList)
+        {
+            Destroy(tr.gameObject);
+        }  
+
+        foreach(Transform tr in watchPlayerList)
+        {
+            Destroy(tr.gameObject);
+        }
+
+        foreach(Transform tr in hunterPlayerList)
+        {
+            Destroy(tr.gameObject);
+        }
+    }
+
+    public void SetPlayerList(string[] players, string[] teams)
+    {
+        RemovePlayerList();
+        for (int i = 0; i < players.Length; i++)
+        {
+            GameObject player = Instantiate(this.player);
+            switch (teams[i])
+            {
+                case "Witch":
+                    player.transform.SetParent(witchPlayerList);
+                    break;
+                case "Watch":
+                    player.transform.SetParent(watchPlayerList);
+                    break;
+                case "Hunter":
+                    player.transform.SetParent(hunterPlayerList);
+                    break;
+            }
+            player.transform.localScale = Vector3.one;
+            player.GetComponentInChildren<TMP_Text>().text = players[i];
+        }
     }
 
     public void GameOver()

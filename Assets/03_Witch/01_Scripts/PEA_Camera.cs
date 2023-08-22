@@ -8,10 +8,13 @@ public class PEA_Camera : MonoBehaviour
     private float posLerpSpeed = 10f;
 
     // 카메러 회전 관련 변수
+    private float mx = 0f;
+    private float my = 0f;
     private float mouseX = 0f;
     private float mouseY = 0f;
-    private readonly float rotMinY = 30f;
-    private readonly float rotMaxY = -30f;
+    private readonly float rotMinY = -45f;
+    private readonly float rotMaxY = 45f;
+    private readonly float rotSpeed = 150f;
 
     // 플레이어 상태에 관한 변수
     private Vector3 defaultCamPos = new Vector3(1.5f, 3f, -5f);                    // 마녀 모습일 때 각 축의 플레이어와 카메라의 거리
@@ -52,7 +55,6 @@ public class PEA_Camera : MonoBehaviour
         if (!isChanged)
         {
             Camera.main.transform.localPosition = defaultCamPos;
-            print(defaultCamPos);
         }
         else
         {
@@ -70,11 +72,11 @@ public class PEA_Camera : MonoBehaviour
         mouseX = Input.GetAxis("Mouse X");
         mouseY = Input.GetAxis("Mouse Y");
 
-        transform.localEulerAngles += new Vector3(-mouseY, mouseX, 0);
+        mx += mouseX * rotSpeed * Time.deltaTime;
+        my += mouseY * rotSpeed * Time.deltaTime;
 
-        //Vector3 camEuler = transform.localRotation.eulerAngles + new Vector3(-mouseY, mouseX, 0);
-        ////print(camEuler.x);
-        //camEuler.x = Mathf.Clamp(camEuler.x, rotMinY, rotMaxY);
-        //transform.localRotation = Quaternion.Euler(camEuler);
+        my = Mathf.Clamp(my, rotMinY, rotMaxY);
+
+        transform.rotation = Quaternion.Euler(new Vector3(-my, mx, 0));
     }
 }
