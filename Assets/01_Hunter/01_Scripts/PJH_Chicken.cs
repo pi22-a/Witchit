@@ -7,8 +7,9 @@ public class PJH_Chicken : MonoBehaviourPun
 {
     public float speed = 15;            //닭 스피드
     public float deathTime = 8;         //닭 수명
-                                        // SimpleSonarShader_Object kkokkioFactory;
+    public GameObject kkokkioFactory;    // SimpleSonarShader_Object kkokkioFactory;
 
+    GameObject Chicken;
     Collision col;
     Rigidbody rb;
     // Start is called before the first frame update
@@ -26,7 +27,6 @@ public class PJH_Chicken : MonoBehaviourPun
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * speed, ForceMode.Impulse);
         Invoke("DeathChicken", deathTime); // deathTime초 후에 닭 파괴
-
         Invoke("FindWitch", 1);
 
     }
@@ -68,7 +68,7 @@ public class PJH_Chicken : MonoBehaviourPun
         bool isWitch = false;
         // 반경 3M 안의 충돌체중에 마녀가 있다면
         int layer = 1 << LayerMask.NameToLayer("Witch");
-        Collider[] cols = Physics.OverlapSphere(transform.position, 3, layer);
+        Collider[] cols = Physics.OverlapSphere(transform.position, 8, layer);
         if (cols.Length > 0)
         {
             // 마녀가 있다.
@@ -77,22 +77,7 @@ public class PJH_Chicken : MonoBehaviourPun
 
         if (isWitch)
         {
-
-            //닭 울음소리 이펙트    
-            // 시끄럽게 울고싶다.
-            Ray ray = new Ray(transform.position, Vector3.down);
-            RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo))
-            {
-                SimpleSonarShader_Object kkokkioFactory = hitInfo.transform.GetComponentInParent<SimpleSonarShader_Object>();
-                if (kkokkioFactory)
-                {
-                    for(int i=0; i<4; i++)
-                    kkokkioFactory.StartSonarRing(hitInfo.point, 20);
-                }
-                    
-            }
-
+            Chicken = Instantiate(kkokkioFactory);
         }
     }
 }
