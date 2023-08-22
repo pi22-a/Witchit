@@ -2471,7 +2471,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 844441529}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0.00237, y: 0.00167, z: 0.003}
+  m_LocalPosition: {x: -0.00237, y: 0.00165, z: 0.003}
   m_LocalScale: {x: 0.01, y: 0.0100000035, z: 0.0100000035}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4175,6 +4175,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 180, y: -90, z: 0}
+--- !u!1 &1437667466 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d2b79f3f6a6889a4da26690102ab5e67, type: 3}
+  m_PrefabInstance: {fileID: 1005067840}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1437667467
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437667466}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e36b06f5ee9449c4982c1edd43cf580b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1450461193
 GameObject:
   m_ObjectHideFlags: 0
@@ -15622,7 +15648,6 @@ GameObject:
   - component: {fileID: 7247241209408423052}
   - component: {fileID: 8859197121399543104}
   - component: {fileID: 8859197121399543108}
-  - component: {fileID: 8859197121399543109}
   - component: {fileID: 8859197121399543110}
   - component: {fileID: 8859197121399543111}
   m_Layer: 0
@@ -34001,25 +34026,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7038322970746150746, guid: 89239666ab7085446bdb7f963e262af6, type: 3}
---- !u!54 &8859197121399543109
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3217084325814555023}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &8859197121399543110
 MonoBehaviour:
   m_ObjectHideFlags: 0
