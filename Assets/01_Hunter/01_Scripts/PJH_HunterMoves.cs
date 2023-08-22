@@ -25,7 +25,7 @@ public class PJH_HunterMoves : MonoBehaviourPun, IPunObservable
     //Character Controller 담을 변수
     CharacterController cc;
     //점프 파워
-    float jumpPower = 5;
+    float jumpPower = 3;
     //중력
     float gravity = -9.81f;
     //y 속력
