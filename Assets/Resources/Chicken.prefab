@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26ba070499da31f43b75971d4b4d441d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 15
   deathTime: 8
   kkokkioFactory: {fileID: 1874023094031593170}
 --- !u!65 &2952701372440595404
