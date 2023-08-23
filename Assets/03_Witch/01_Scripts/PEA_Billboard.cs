@@ -11,6 +11,6 @@ public class PEA_Billboard : MonoBehaviour
 
     void Update()
     {
-        transform.forward = Camera.main.transform.forward;d
+        transform.forward = Camera.main.transform.forward;
     }
 }
