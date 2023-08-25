@@ -8,7 +8,7 @@ public class PJH_Bullet : MonoBehaviourPun
     //총알 속력
     public float speed = 20;
     private PEA_WitchHP witchHp;
-
+    public string nickname;
     void Start()
     {
         /*
@@ -37,11 +37,11 @@ public class PJH_Bullet : MonoBehaviourPun
             int n = 5;
             if(other.gameObject.TryGetComponent<PEA_WitchHP>(out witchHp))
             {
-                witchHp.Damage(n);
+                witchHp.Damage(n, nickname);
             }
             else if (other.transform.parent.TryGetComponent<PEA_WitchHP>(out witchHp))
             {
-                witchHp.Damage(n);
+                witchHp.Damage(n, nickname);
             }
             //other.transform.parent.parent.GetComponent<PEA_WitchHP>().Damage(n);
             print("데미지를 주었습니다.");
@@ -64,14 +64,15 @@ public class PJH_Bullet : MonoBehaviourPun
             int n = 5;
             if(other.transform.parent.TryGetComponent<PEA_WitchHP>(out PEA_WitchHP witchHP))
             {
-                witchHP.Damage(n);
+                witchHP.Damage(n, nickname);
             }
             else if(other.transform.parent.parent.TryGetComponent<PEA_WitchHP>(out PEA_WitchHP hp))
             {
-                hp.Damage(n);
+                hp.Damage(n, nickname);
             }
             //other.transform.parent.parent.GetComponent<PEA_WitchHP>().Damage(n);
             print("데미지를 주었습니다.");
+            print(nickname);
         }
         /*
         //내가 쏜 총알만 

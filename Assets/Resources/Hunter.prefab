@@ -1084,6 +1084,7 @@ MonoBehaviour:
   vacuumTrapUIFactory: {fileID: 5139719952146942390, guid: 4933d064767817040ba7478ada29a960, type: 3}
   chickenUIFactory: {fileID: 5139719952146942390, guid: 92195033659639d4589bc6bb3d5d8ad4, type: 3}
   images_Gauge: {fileID: 6556783373074803558}
+  nickname: 
 --- !u!114 &6556783374274156220
 MonoBehaviour:
   m_ObjectHideFlags: 0
