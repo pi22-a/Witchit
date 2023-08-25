@@ -313,7 +313,8 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
         }
         else
         {
-            probCollider.transform.rotation = Quaternion.Lerp(probCollider.transform.rotation, probBody.transform.rotation, lerpSpeed * Time.deltaTime);
+            //probCollider.transform.rotation = Quaternion.Lerp(probCollider.transform.rotation, probBody.transform.rotation, lerpSpeed * Time.deltaTime);
+            probCollider.transform.rotation = Quaternion.Lerp(probCollider.transform.rotation, Quaternion.LookRotation(Vector3.up, probBody.transform.right), lerpSpeed * Time.deltaTime);
         }
         transform.position = new Vector3(transform.position.x, probCollider.transform.position.y, transform.position.z);
         probBodyRidigbody.transform.localPosition = Vector3.zero;
@@ -368,6 +369,15 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
     private void OnDisable()
     {
         nickname.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        print(other.tag);
+        if (other.CompareTag("WitchSphere"))
+        {
+            Camera.main.GetComponent<PEA_CameraShake>().ShakeCamera();
+        }
     }
 }
 

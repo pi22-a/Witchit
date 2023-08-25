@@ -20,6 +20,9 @@ public class PEA_Camera : MonoBehaviour
     private Vector3 defaultCamPos = new Vector3(1.5f, 3f, -5f);                    // 마녀 모습일 때 각 축의 플레이어와 카메라의 거리
     private Vector3 probModeCamPos = new Vector3(0f, 3f, -5f);                     // 프랍으로 변신했을 때 각 축의 플레이어와 카메라의 거리
 
+    private PEA_Grayscale grayScale = null;
+    private float graySpeed = 5f;
+
     // 에디터에서 연결해줄 변수
     public Transform player;
     public PEA_WitchHP witchHP;
@@ -29,6 +32,7 @@ public class PEA_Camera : MonoBehaviour
     {
         Camera.main.transform.localPosition = defaultCamPos;
         Camera.main.transform.localEulerAngles = new Vector3(15f, 0f, 0f);
+        grayScale =  Camera.main.GetComponent<PEA_Grayscale>();
     }
 
     void Update()
@@ -78,5 +82,30 @@ public class PEA_Camera : MonoBehaviour
         my = Mathf.Clamp(my, rotMinY, rotMaxY);
 
         transform.rotation = Quaternion.Euler(new Vector3(-my, mx, 0));
+    }
+
+    public void Die()
+    {
+        StartCoroutine(IDie());
+    }
+
+    IEnumerator IDie()
+    {
+        while(grayScale.grayscale < 1)
+        {
+            grayScale.grayscale += graySpeed * Time.deltaTime;
+            yield return  new WaitForSeconds(Time.deltaTime);
+        }
+
+        yield return new WaitForSeconds(2f);
+
+        while(grayScale.grayscale > 0)
+        {
+            grayScale.grayscale -= graySpeed * Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        Camera.main.gameObject.AddComponent<PEA_WatchCamera>();
+        yield return null;
     }
 }

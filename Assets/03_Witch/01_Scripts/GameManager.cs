@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -45,6 +46,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     //public GameObject selectTeam;
     //public GameObject witchTeam;
     //public GameObject hunterTeam;
+
+    public GameObject message;
+    public Transform messageWindow;
 
     private void Awake()
     {
@@ -159,6 +163,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             OnClickReady();
         }
 
+        ExitGames.Client.Photon.Hashtable playerProperty = PhotonNetwork.LocalPlayer.CustomProperties;
+
+        playerProperty["Team"] = "Watch";
+
+        PhotonNetwork.SetPlayerCustomProperties(playerProperty);
+
         ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
 
         switch (team)
@@ -218,7 +228,8 @@ public class GameManager : MonoBehaviourPunCallbacks
                 break;
             case Team.Hunter:
                 PhotonNetwork.Instantiate("Hunter", hunterSpawnPoint.position, hunterSpawnPoint.rotation);
-                Camera.main.cullingMask = ~(1 << LayerMask.NameToLayer("WitchNickname"));
+                Destroy(Camera.main);
+                //Camera.main.cullingMask = ~(1 << LayerMask.NameToLayer("WitchNickname"));
                 break;
         }
 
@@ -229,6 +240,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         //SoundManager.instance.StopBGM();
     }
 
+    public void ShowDieMessage(string hunterNickname, string witchNickname)
+    {
+        GameObject msg = Instantiate(message, messageWindow);
+        msg.GetComponent<TMP_Text>().text = hunterNickname + " killed " + witchNickname;
+    }
+
     public void HunterGo()
     {
         hunterDoor.enabled = true;
@@ -236,7 +253,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void WitchDie()
     {
-        print("pppppp");
         ExitGames.Client.Photon.Hashtable playerProperty = PhotonNetwork.LocalPlayer.CustomProperties;
         playerProperty["Team"] = "Watch";
         PhotonNetwork.SetPlayerCustomProperties(playerProperty);
@@ -244,7 +260,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
         hash["Witch_Alive"] = (int)hash["Witch_Alive"] - 1;
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
-        print((int)hash["Witch_Alive"]);
     }
 
     public void WitchWin()
@@ -283,18 +298,57 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
     }
 
+    private void SetPlayerList()
+    {
+        string myTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+        List<string> players = new List<string>();
+        List<string> teams = new List<string>();
+        List<string> myTeams = new List<string>();
+
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            players.Add(player.NickName);
+            teams.Add((string)player.CustomProperties["Team"]);
+            if (((string)player.CustomProperties["Team"]).Equals(myTeam))
+            {
+                myTeams.Add(player.NickName);
+            }
+        }
+
+        if (room_State == Room_State.Waiting)
+        {
+            PEA_GameSceneUI.instance.SetMyTeamList(myTeam.Equals("Witch") ? true : false, myTeams.ToArray());
+        }
+
+        PEA_GameSceneUI.instance.SetPlayerList(players.ToArray(), teams.ToArray());
+    }
+
+    private void ShowPlayerInOutMessage(string playerNickname, bool isPlayerIn)
+    {
+        GameObject msg = Instantiate(message, messageWindow);
+        msg.GetComponent<TMP_Text>().text = playerNickname + (isPlayerIn ? " entered Room" : " left Room");
+    }
+
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
 
-        List<string> players = new List<string>();
-        List<string> teams = new List<string>();
-        foreach(Player player in PhotonNetwork.PlayerList)
-        {
-            players.Add(player.NickName);
-            teams.Add((string)player.CustomProperties["Team"]);
-        }
+        SetPlayerList();
+    }
 
-        PEA_GameSceneUI.instance.SetPlayerList(players.ToArray(), teams.ToArray());
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+
+        ShowPlayerInOutMessage(newPlayer.NickName, true);
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+
+        ShowPlayerInOutMessage(otherPlayer.NickName, false);
+
+        SetPlayerList();
     }
 }

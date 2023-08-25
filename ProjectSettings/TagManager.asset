@@ -13,6 +13,7 @@ TagManager:
   - UINameHolder
   - Compass
   - Bullet
+  - WitchSphere
   layers:
   - Default
   - TransparentFX

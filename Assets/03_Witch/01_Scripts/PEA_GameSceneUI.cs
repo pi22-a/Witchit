@@ -42,6 +42,8 @@ public class PEA_GameSceneUI : MonoBehaviour
     public GameObject player;
     public GameObject playerList;
     public GameObject countdownUI;
+    public Transform readyWitchList;
+    public Transform readyHunterList;
 
     private void Awake()
     {
@@ -100,6 +102,26 @@ public class PEA_GameSceneUI : MonoBehaviour
         menu.SetActive(false);
         SoundManager.instance.PlayEffect(SoundManager.Effect.Button_Click);
         //SetTeamCountText(GameManager.instance.TeamToHunter());
+    }
+
+    public void RemoveMyTeamList(bool isWitchTeam)
+    {
+        foreach (Transform tr in isWitchTeam? readyWitchList : readyHunterList)
+        {
+            Destroy(tr.gameObject);
+        }
+    }
+
+    public void SetMyTeamList(bool isWitchTeam, string[] nicknames)
+    {
+        RemoveMyTeamList(isWitchTeam);
+        for (int i = 0; i < nicknames.Length; i++)
+        {
+            GameObject playerInfo = Instantiate(player);
+            playerInfo.transform.SetParent(isWitchTeam ? readyWitchList : readyHunterList);
+            playerInfo.transform.localScale = Vector3.one;
+            playerInfo.GetComponentInChildren<TMP_Text>().text = nicknames[i];
+        }
     }
 
     public void SetTeamCountText(ExitGames.Client.Photon.Hashtable hash)
