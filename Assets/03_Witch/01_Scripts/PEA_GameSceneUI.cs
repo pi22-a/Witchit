@@ -126,8 +126,11 @@ public class PEA_GameSceneUI : MonoBehaviour
 
     public void SetTeamCountText(ExitGames.Client.Photon.Hashtable hash)
     {
-        witchCountText.text = "Player : " + (int)hash["Witch_Count"];
-        hunterCountText.text = "Player : " + (int)hash["Hunter_Count"];
+        if(hash != null)
+        {
+            witchCountText.text = "Player : " + (int)hash["Witch_Count"];
+            hunterCountText.text = "Player : " + (int)hash["Hunter_Count"];
+        }
     }
 
     public void OnClickReady()

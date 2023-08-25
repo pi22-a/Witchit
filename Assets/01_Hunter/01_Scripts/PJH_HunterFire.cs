@@ -55,11 +55,9 @@ public class PJH_HunterFire : MonoBehaviourPun
         anim = GetComponentInChildren<Animator>();
         // Witch레이어 설정
         witchLayer = LayerMask.NameToLayer("Witch");
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
         StartCoroutine(PotatoGauge());
-
-
     }
 
     IEnumerator PotatoGauge()

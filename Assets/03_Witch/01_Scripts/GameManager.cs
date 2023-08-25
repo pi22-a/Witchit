@@ -229,15 +229,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             case Team.Hunter:
                 PhotonNetwork.Instantiate("Hunter", hunterSpawnPoint.position, hunterSpawnPoint.rotation);
                 Destroy(Camera.main);
-                //Camera.main.cullingMask = ~(1 << LayerMask.NameToLayer("WitchNickname"));
                 break;
         }
 
         PEA_GameSceneUI.instance.GameStart();
         room_State = Room_State.Playing;
         SoundManager.instance.PlayBGM(SoundManager.BGM.Ready);
-        print("playing");
-        //SoundManager.instance.StopBGM();
     }
 
     public void ShowDieMessage(string hunterNickname, string witchNickname)

@@ -72,15 +72,18 @@ public class PEA_WitchHP : MonoBehaviourPun
         if (hp <= 0 && !isDead)
         {
             //Die();
-            cam.Die();
+            if(photonView.IsMine)
+            {
+                cam.Die();
+            }
             photonView.RPC(nameof(Die), RpcTarget.All);
             GameManager.instance.WitchDie();
             Camera.main.transform.SetParent(null);
             Camera.main.transform.position = transform.position;
             // Camera.main.gameObject.AddComponent<PEA_WatchCamera>();
 
-            print(hunterNickname + " 이/가 " + PhotonNetwork.NickName + "을/를 죽였습니다");
-            photonView.RPC(nameof(DieMessage), RpcTarget.All, hunterNickname, PhotonNetwork.NickName);
+            print(hunterNickname + " 이/가 " + photonView.Owner.NickName + "을/를 죽였습니다");
+            photonView.RPC(nameof(DieMessage), RpcTarget.All, hunterNickname, photonView.Owner.NickName);
         }
         else
         {

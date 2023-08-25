@@ -9,6 +9,7 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
     // 내가 아닌 플레이어 관련 변수
     private float receiveLerpSpeed = 50f;
     private Vector3 receivePos;
+    private Vector3 receiveProbPos;
     private Quaternion receiveRot;
     private Quaternion receiveWitchRot;
     private Quaternion receiveProbRot;
@@ -111,6 +112,7 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
             if (witchSkill != null && witchSkill.IsChanged)
             {
                 probBody.GetChild(1).rotation = Quaternion.Lerp(probBody.GetChild(1).rotation, receiveProbRot, receiveLerpSpeed * Time.deltaTime);
+                probBody.GetChild(1).localPosition = Vector3.Lerp(probBody.GetChild(1).localPosition, receivePos, receiveLerpSpeed * Time.deltaTime);
             }
         }
     }
@@ -352,6 +354,7 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
             if (witchSkill != null && witchSkill.IsChanged)
             {
                 stream.SendNext(probBody.GetChild(1).rotation);
+                stream.SendNext(probBody.GetChild(1).localPosition);
             }
         }
         else
@@ -362,6 +365,7 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
             if (witchSkill != null && witchSkill.IsChanged)
             {
                 receiveProbRot = (Quaternion)stream.ReceiveNext();
+                receiveProbPos = (Vector3)stream.ReceiveNext();
             }
         }
     }
