@@ -12,6 +12,7 @@ public class PEA_WitchHP : MonoBehaviourPun
 
     private readonly int maxHp = 50;
 
+    private PEA_WitchMovement witchMove;
     private PEA_WitchSkill witchSkill = null;
     private AudioSource audioSource = null;
 
@@ -49,6 +50,8 @@ public class PEA_WitchHP : MonoBehaviourPun
         {
             witchUI.SetActive(false);
         }
+
+        print(photonView.Owner.NickName);
     }
 
     void Update()
@@ -83,7 +86,9 @@ public class PEA_WitchHP : MonoBehaviourPun
             // Camera.main.gameObject.AddComponent<PEA_WatchCamera>();
 
             print(hunterNickname + " 이/가 " + photonView.Owner.NickName + "을/를 죽였습니다");
-            photonView.RPC(nameof(DieMessage), RpcTarget.All, hunterNickname, photonView.Owner.NickName);
+            string nickname = photonView.Owner.NickName;
+            //photonView.RPC(nameof(DieMessage), RpcTarget.All, hunterNickname , nickname);
+            DieMessage(hunterNickname, nickname);
         }
         else
         {
@@ -91,7 +96,7 @@ public class PEA_WitchHP : MonoBehaviourPun
         }
     }
 
-    [PunRPC]
+    //[PunRPC]
     private void DieMessage(string hunterNickname, string witchNickname )
     {
         GameManager.instance.ShowDieMessage(hunterNickname, witchNickname);
