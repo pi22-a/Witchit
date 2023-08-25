@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
         PhotonNetwork.SerializationRate = 30;
         PEA_GameSceneUI.instance.SetTeamCountText(PhotonNetwork.CurrentRoom.CustomProperties);
         //SoundManager.instance.PlayBGM(SoundManager.BGM.Ready);
@@ -229,12 +230,17 @@ public class GameManager : MonoBehaviourPunCallbacks
             case Team.Hunter:
                 PhotonNetwork.Instantiate("Hunter", hunterSpawnPoint.position, hunterSpawnPoint.rotation);
                 Destroy(Camera.main);
+                //Camera.main.cullingMask = ~(1 << LayerMask.NameToLayer("WitchNickname"));
                 break;
         }
 
         PEA_GameSceneUI.instance.GameStart();
         room_State = Room_State.Playing;
         SoundManager.instance.PlayBGM(SoundManager.BGM.Ready);
+        print("playing");
+
+        Cursor.visible = false;
+        //SoundManager.instance.StopBGM();
     }
 
     public void ShowDieMessage(string hunterNickname, string witchNickname)
@@ -279,6 +285,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         room_State = Room_State.Over;
         PEA_GameSceneUI.instance.GameOver();
         SoundManager.instance.PlayBGM(SoundManager.BGM.Lobby);
+        Cursor.visible = true;
     }
 
     public void Restart()

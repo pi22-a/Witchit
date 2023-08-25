@@ -32,6 +32,8 @@ public class PJH_HunterFire : MonoBehaviourPun
     PJH_SkillItem item1;
     PJH_SkillItem1 item2;
 
+    public string nickname;
+
     private void Awake()
     {
         GameObject ui1 = Instantiate(vacuumTrapUIFactory, scrollRectSkill.content);
@@ -55,9 +57,10 @@ public class PJH_HunterFire : MonoBehaviourPun
         anim = GetComponentInChildren<Animator>();
         // Witch레이어 설정
         witchLayer = LayerMask.NameToLayer("Witch");
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        
         StartCoroutine(PotatoGauge());
+        nickname = photonView.Owner.NickName;
+
     }
 
     IEnumerator PotatoGauge()
@@ -106,7 +109,7 @@ public class PJH_HunterFire : MonoBehaviourPun
                 Vector3 forward = firePosition.forward;
 
                 photonView.RPC(nameof(FirePotatoByRPC), RpcTarget.All, pos, forward);
-
+                
                 
             }
         }
@@ -157,6 +160,7 @@ public class PJH_HunterFire : MonoBehaviourPun
         GameObject potato = Instantiate(potatoFactory);
         potato.transform.position = firePos;
         potato.transform.forward = fireFoward;
+        potato.GetComponent<PJH_Bullet>().nickname = nickname;
     }
 
     [PunRPC]
