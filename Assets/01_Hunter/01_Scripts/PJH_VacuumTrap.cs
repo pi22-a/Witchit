@@ -21,9 +21,9 @@ public class PJH_VacuumTrap : MonoBehaviour
         // Witch레이어 설정
         witchLayer = LayerMask.NameToLayer("Witch");
         // deathTime초 후에 흡수 파괴
-        Invoke("DeathVacuumTrap", deathTime); 
-        // 흡수하는 함수 호출
-        Invoke("FindWitch",1);
+        Invoke(nameof(DeathVacuumTrap), deathTime);
+        // 흡수이펙트 호출
+        Invoke(nameof(FindWitch), 1);
 
     }
 
@@ -36,7 +36,7 @@ public class PJH_VacuumTrap : MonoBehaviour
             for (int i = 0; i < cols.Length; i++)
             {
                 // 마녀를 흡수 위치로 당긴다.
-                cols[i].transform.position = Vector3.MoveTowards(cols[i].transform.position, gameObject.transform.position, 0.1f);
+                cols[i].transform.root.position = Vector3.MoveTowards(cols[i].transform.root.position, gameObject.transform.position, 0.1f);
             }
 
         }
@@ -49,10 +49,9 @@ public class PJH_VacuumTrap : MonoBehaviour
     }
 
     public void FindWitch()
-    {
-        
+    {        
         // 반경 3M 안의 충돌체중에 마녀가 있다면
-        int layer = 1 << LayerMask.NameToLayer("Witch");
+        int layer = 1 << witchLayer;
         cols = Physics.OverlapSphere(transform.position, range, layer);
         if (cols.Length > 0)
         {

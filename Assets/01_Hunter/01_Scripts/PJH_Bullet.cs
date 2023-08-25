@@ -27,7 +27,33 @@ public class PJH_Bullet : MonoBehaviourPun
 
     }
 
-    
+    private void OnCollisionEnter(Collision other)
+    {
+        // tag가 Witch일때
+        if (other.transform.CompareTag("Witch"))
+        {
+            // 데미지를 n 만큼 주고싶다.
+            int n = 5;
+            if (other.transform.parent.TryGetComponent<PEA_WitchHP>(out PEA_WitchHP witchHP))
+            {
+                witchHP.Damage(n);
+            }
+            else if (other.transform.parent.parent.TryGetComponent<PEA_WitchHP>(out PEA_WitchHP hp))
+            {
+                hp.Damage(n);
+            }
+            //other.transform.parent.parent.GetComponent<PEA_WitchHP>().Damage(n);
+            print("데미지를 주었습니다.");
+        }
+        /*
+        //내가 쏜 총알만 
+        if (photonView.IsMine)
+        {
+            //나를 파괴하자
+            PhotonNetwork.Destroy(gameObject);
+        }*/
+        Destroy(gameObject);
+    }
     private void OnTriggerEnter(Collider other)
     {
         // tag가 Witch일때

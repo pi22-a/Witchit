@@ -1,20 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
-public class PJH_Chicken : MonoBehaviourPun
+public class PJH_Chicken : MonoBehaviour
 {
+           
+    public GameObject kkokkioFactory;   //닭 울음 이펙트
     public float speed = 15;            //닭 스피드
     public float deathTime = 8;         //닭 수명
-    public GameObject kkokkioFactory;    // SimpleSonarShader_Object kkokkioFactory;
-
-    GameObject Chicken;
-    Collision col;
+    public float range = 5;             //울음 범위
+    bool isWitch = false;
     Rigidbody rb;
-    // Start is called before the first frame update
+    Collider[] cols;
+    bool b;
+    LayerMask witchLayer;
+    GameObject Chicken;
+    
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
+        rb.AddForce(transform.forward * speed, ForceMode.Impulse);
+        // Witch레이어 설정
+        witchLayer = LayerMask.NameToLayer("Witch");
+        // deathTime초 후에 닭 파괴
+        Invoke(nameof(DeathChicken), deathTime);
+        // 닭 울음 이펙트 호출
+        Invoke(nameof(FindWitch), 1);
+
         //kkokkioFactory = GameObject.FindFirstObjectByType<SimpleSonarShader_Object>();
         //내가 만든 Player 가 아닐때
         /*
@@ -24,10 +36,6 @@ public class PJH_Chicken : MonoBehaviourPun
             this.enabled = false;
         }
         */
-        rb = GetComponent<Rigidbody>();
-        rb.AddForce(transform.forward * speed, ForceMode.Impulse);
-        Invoke("DeathChicken", deathTime); // deathTime초 후에 닭 파괴
-        Invoke("FindWitch", 1);
 
     }
     /*
@@ -61,23 +69,24 @@ public class PJH_Chicken : MonoBehaviourPun
         Destroy(gameObject);
     }
 
-    
+
     // 마녀가 근처에 있으면 운다.
-    void FindWitch()
+    public void FindWitch()
     {
-        bool isWitch = false;
         // 반경 3M 안의 충돌체중에 마녀가 있다면
-        int layer = 1 << LayerMask.NameToLayer("Witch");
-        Collider[] cols = Physics.OverlapSphere(transform.position, 8, layer);
+        int layer = 1 << witchLayer;
+        cols = Physics.OverlapSphere(transform.position, range, layer);
         if (cols.Length > 0)
         {
             // 마녀가 있다.
             isWitch = true;
-        }
 
+        }
         if (isWitch)
         {
-            Chicken = Instantiate(kkokkioFactory);
+            Chicken = Instantiate(kkokkioFactory, gameObject.transform);
+
         }
+    
     }
 }
