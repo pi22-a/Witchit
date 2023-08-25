@@ -7,7 +7,7 @@ public class PJH_Bullet : MonoBehaviourPun
 {
     //총알 속력
     public float speed = 20;
-
+    private PEA_WitchHP witchHp;
 
     void Start()
     {
@@ -32,15 +32,16 @@ public class PJH_Bullet : MonoBehaviourPun
         // tag가 Witch일때
         if (other.transform.CompareTag("Witch"))
         {
+
             // 데미지를 n 만큼 주고싶다.
             int n = 5;
-            if (other.transform.parent.TryGetComponent<PEA_WitchHP>(out PEA_WitchHP witchHP))
+            if(other.gameObject.TryGetComponent<PEA_WitchHP>(out witchHp))
             {
-                witchHP.Damage(n);
+                witchHp.Damage(n);
             }
-            else if (other.transform.parent.parent.TryGetComponent<PEA_WitchHP>(out PEA_WitchHP hp))
+            else if (other.transform.parent.TryGetComponent<PEA_WitchHP>(out witchHp))
             {
-                hp.Damage(n);
+                witchHp.Damage(n);
             }
             //other.transform.parent.parent.GetComponent<PEA_WitchHP>().Damage(n);
             print("데미지를 주었습니다.");
