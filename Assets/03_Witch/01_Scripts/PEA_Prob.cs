@@ -8,10 +8,12 @@ public class PEA_Prob : MonoBehaviour
     private Color hitColor = new Color(1, 0.5f, 0.5f, 1f);
     private Material material;
     private Coroutine coroutine;
+    private Rigidbody rig;
 
     void Start()
     {
         material = GetComponent<MeshRenderer>().materials[0];
+        rig = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -39,6 +41,11 @@ public class PEA_Prob : MonoBehaviour
         if (collision.transform.CompareTag("Bullet"))
         {
             OnHitPotato();
+        }
+
+        if (!collision.transform.CompareTag("Ground"))
+        {
+            rig.constraints = RigidbodyConstraints.None;
         }
     }
 

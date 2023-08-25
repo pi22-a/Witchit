@@ -24,6 +24,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
     private bool isChanged = false;                                             // 변신한 상태인지 확인
     private SkinnedMeshRenderer skinnedMeshRenderer;                            // 마녀 모습을 그려주는 메쉬렌더러
     private GameObject disguiseProb;
+    private Color witchOutlineColor = new Color(0, 1, 1, 1);                    // 마녀끼리 보일 아웃라인색(민트색)
 
     // 유인 관련 변수
     private GameObject decoyProb;
@@ -61,6 +62,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
     public PEA_SkillCooltime possessCooltime;
     public PEA_SkillCooltime mushroomCooltime;
     public AudioClip[] soundEffects;
+    public ParticleSystem witchEffect;
 
     public bool IsChanged
     {
@@ -207,7 +209,12 @@ public class PEA_WitchSkill : MonoBehaviourPun
         }
         else
         {
+            if (!photonView.IsMine && ((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"]).Equals("Hunter"))
+            {
+                probBody.GetChild(1).GetComponent<Outline>().enabled = false;
+            }
             probBody.GetChild(1).GetComponent<PEA_ProbDissolve>().ProbDissolve();
+            //probBody.GetChild(1).SetParent(null);
         }
 
         //curRayProb.GetComponent<Outline>().enabled = false;
@@ -226,6 +233,13 @@ public class PEA_WitchSkill : MonoBehaviourPun
         probCollider.GetComponent<Rigidbody>().useGravity = true;
         PlaySoundEffect(SoundEffect.Disguise);
 
+        if (!photonView.IsMine && !((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"]).Equals("Hunter"))
+        {
+            prob.GetComponent<Outline>().OutlineColor = witchOutlineColor;
+            prob.GetComponent<Outline>().enabled = true;
+        }
+
+        witchEffect.Play();
         //witchMovement.SetProbRigidbody(prob.GetComponent<Rigidbody>());
     }
     
@@ -262,6 +276,10 @@ public class PEA_WitchSkill : MonoBehaviourPun
         // 변장중일 때
         else
         {
+            if (!photonView.IsMine && ((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"]).Equals("Hunter"))
+            {
+                probBody.GetChild(1).GetComponent<Outline>().enabled = false;
+            }
             probBody.GetChild(1).GetComponent<PEA_ProbDissolve>().ProbDissolve(5f);
             probBody.GetChild(1).SetParent(null);
         }
@@ -282,6 +300,14 @@ public class PEA_WitchSkill : MonoBehaviourPun
         probCollider.GetComponent<Rigidbody>().useGravity = true;
         PlaySoundEffect(SoundEffect.Disguise);
 
+        if (!((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"]).Equals("Hunter"))
+        {
+            prob.GetComponent<Outline>().OutlineColor = witchOutlineColor;
+            prob.GetComponent<Outline>().enabled = true;
+        }
+
+        witchEffect.Play();
+
         //witchMovement.SetProbRigidbody(prob.GetComponent<Rigidbody>());
     }
 
@@ -301,10 +327,11 @@ public class PEA_WitchSkill : MonoBehaviourPun
     // 원상복귀 - 마녀의 모습으로 돌아감
     private void ReturnOrigin()
     {
-        //curTime += Time.deltaTime;
-        //returnWitchImage.fillAmount = (curTime / returnTime);
-        //if(curTime >= returnTime)
         {
+            if (!photonView.IsMine && ((string)PhotonNetwork.LocalPlayer.CustomProperties["Team"]).Equals("Hunter"))
+            {
+                probBody.GetChild(1).GetComponent<Outline>().enabled = false;
+            }
             probBody.GetChild(1).GetComponent<PEA_ProbDissolve>().ProbDissolve();
             probCollider.sharedMesh = null;
             probCollider.GetComponent<Rigidbody>().useGravity = false;
@@ -318,6 +345,8 @@ public class PEA_WitchSkill : MonoBehaviourPun
                 PlaySoundEffect(SoundEffect.Return);
             }
         }
+
+        witchEffect.Play();
     }
 
     [PunRPC]

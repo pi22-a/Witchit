@@ -9,6 +9,7 @@ public class PEA_CameraTest : MonoBehaviour
     private float mouseX = 0f;
     private float mouseY = 0f;
     private float rotSpeed = 200f;
+    private Material cameraMaterial;
 
     public float offsetX;
     public float offsetY;
@@ -18,7 +19,10 @@ public class PEA_CameraTest : MonoBehaviour
 
     void Start()
     {
-        
+        cameraMaterial = new Material(Shader.Find("Custom/Grayscale"));
+        cameraMaterial.SetFloat("_Grayscale", 1f);
+        Graphics.Blit(Camera.main.activeTexture, cameraMaterial);
+        //gameObject.AddComponent<Material>();
     }
 
     void Update()
