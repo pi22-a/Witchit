@@ -4,13 +4,8 @@ using UnityEngine;
 
 public class PEA_Billboard : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
-        transform.forward = Camera.main.transform.forward;d
+        transform.forward = Camera.main.transform.forward;
     }
 }

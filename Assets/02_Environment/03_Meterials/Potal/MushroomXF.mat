@@ -43,7 +43,7 @@ Material:
     - _BUILTIN_QueueOffset: 0
     - _Fresnel_Power: 2.33
     - _fill: 0.01
-    - _offset: 3
+    - _offset: 15
     - _speed: 0.5
     m_Colors:
     - _Emission: {r: 1, g: 0, b: 0.7666349, a: 0}
