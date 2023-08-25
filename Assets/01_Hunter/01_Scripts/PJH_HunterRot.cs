@@ -88,4 +88,13 @@ public class PJH_HunterRot : MonoBehaviourPun, IPunObservable
             rotY = (float)stream.ReceiveNext();
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("WitchSphere"))
+        {
+            trCam1.GetComponent<PEA_CameraShake>().ShakeCamera();
+            trCam2.GetComponent<PEA_CameraShake>().ShakeCamera();
+        }
+    }
 }

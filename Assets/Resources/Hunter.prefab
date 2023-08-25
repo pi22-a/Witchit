@@ -410,6 +410,7 @@ GameObject:
   - component: {fileID: 6556783373234424250}
   - component: {fileID: 6556783373234424249}
   - component: {fileID: 6556783373234424248}
+  - component: {fileID: 4266444767172970118}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -484,6 +485,18 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6556783373234424255}
   m_Enabled: 1
+--- !u!114 &4266444767172970118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6556783373234424255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6548407dedf4eef478abc584f1a21932, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6556783373493361815
 GameObject:
   m_ObjectHideFlags: 0
@@ -1306,6 +1319,7 @@ GameObject:
   - component: {fileID: 6556783374784169242}
   - component: {fileID: 6556783374784169220}
   - component: {fileID: 6556783374784169243}
+  - component: {fileID: 2647775343930388584}
   m_Layer: 0
   m_Name: TPS Camera
   m_TagString: Untagged
@@ -1379,6 +1393,18 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6556783374784169241}
   m_Enabled: 1
+--- !u!114 &2647775343930388584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6556783374784169241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6548407dedf4eef478abc584f1a21932, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7248132597154305889
 GameObject:
   m_ObjectHideFlags: 0
