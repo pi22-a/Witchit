@@ -143,7 +143,8 @@ public class PJH_HunterFire : MonoBehaviourPun
         //V클릭시 앞범위 공격
         if (Input.GetKeyDown(KeyCode.V))
         {
-            anim.SetTrigger("MeleeAttack");
+            photonView.RPC(nameof(SetAnimTrigger), RpcTarget.All, "MeleeAttack");
+            //anim.SetTrigger("MeleeAttack");
             
         }
     }
