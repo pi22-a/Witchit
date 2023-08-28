@@ -111,7 +111,16 @@ public class PEA_WitchSkill : MonoBehaviourPun
         if (Input.GetMouseButtonDown(1) && curRayProb != null)
         {
             pea_camera.SetCamPos(isChanged);
-            photonView.RPC(nameof(Possess), RpcTarget.All, curRayProbIndex);
+            if(witchMP.MP < possessMP || !possessCooltime.Available)
+            {
+                return;
+            }
+            else
+            {
+                witchMP.UseMP(possessMP);
+                possessCooltime.UseSkill();
+                photonView.RPC(nameof(Possess), RpcTarget.All, curRayProbIndex);
+            }
             //Possess();
         }
 
@@ -135,7 +144,16 @@ public class PEA_WitchSkill : MonoBehaviourPun
         // Q - ¹ö¼¸ ´øÁö±â
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            photonView.RPC(nameof(ThrowMushRoom), RpcTarget.All, transform.position + Camera.main.transform.forward * 2, transform.rotation);
+            if(witchMP.MP < mushroomMP || !mushroomCooltime.Available)
+            {
+                return;
+            }
+            else
+            {
+                witchMP.UseMP(mushroomMP);
+                mushroomCooltime.UseSkill();
+                photonView.RPC(nameof(ThrowMushRoom), RpcTarget.All, transform.position + Camera.main.transform.forward * 2, transform.rotation);
+            }
             //ThrowMushRoom();
         }
     }
@@ -249,15 +267,6 @@ public class PEA_WitchSkill : MonoBehaviourPun
     {
         probCollider.transform.localPosition = Vector3.zero;
         probCollider.transform.localRotation = Quaternion.identity;
-        if(witchMP.MP < possessMP || !possessCooltime.Available)
-        {
-            return;
-        }
-        else
-        {
-            witchMP.UseMP(possessMP);
-            possessCooltime.UseSkill();
-        }
 
         // º¯ÀåÁßÀÌ ¾Æ´Ò ‹š
         if (!isChanged)
@@ -353,17 +362,7 @@ public class PEA_WitchSkill : MonoBehaviourPun
     // ¹ö¼¸ ´øÁö±â - ¹áÀ¸¸é Á¤½ÅÀÌ È¥¹ÌÇØÁö´Â ¹ö¼¸À» ´øÁü
     private void ThrowMushRoom(Vector3 firePos, Quaternion fireRot)
     {
-        print(name);
-        if(witchMP.MP < mushroomMP || !mushroomCooltime.Available)
-        {
-            return;
-        }
-        else
-        {
-            witchMP.UseMP(mushroomMP);
-            mushroomCooltime.UseSkill();
-        }
-
+        print("mushroom");
         Instantiate(mushRoom, firePos, fireRot);
         PlaySoundEffect(SoundEffect.Mushroom);
     }
