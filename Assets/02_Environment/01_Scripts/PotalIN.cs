@@ -5,7 +5,7 @@ using UnityEngine;
 public class PotalIN : MonoBehaviour
 {
     public Transform PotalPosition;
-    public Transform player;
+    //public Transform player;
 
     private List<Collider> overlappingColliders = new List<Collider>();
 
