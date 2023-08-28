@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.lockState = CursorLockMode.Confined;
         PhotonNetwork.SerializationRate = 30;
         PEA_GameSceneUI.instance.SetTeamCountText(PhotonNetwork.CurrentRoom.CustomProperties);
         //SoundManager.instance.PlayBGM(SoundManager.BGM.Ready);

@@ -55,6 +55,11 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
     private Transform cameraAnchor;
     public Rigidbody probBodyRidigbody;
     public MeshCollider probCollider;
+    
+    public string Nickname
+    {
+        get { return nickname.GetComponent<TMP_Text>().text; }
+    }
 
     void Start()
     {
