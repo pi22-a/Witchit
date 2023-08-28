@@ -68,7 +68,7 @@ MonoBehaviour:
   kkokkioFactory: {fileID: 4727266071729423292, guid: 88100a8026e9b3d479a85b0c3542c405, type: 3}
   speed: 15
   deathTime: 8
-  range: 5
+  range: 10
 --- !u!65 &2952701372440595404
 BoxCollider:
   m_ObjectHideFlags: 0

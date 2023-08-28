@@ -66,7 +66,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Grayscale: 0
-    - _LerpVal: 0
+    - _LerpVal: -0.2881915
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
