@@ -117,7 +117,7 @@ public class PEA_WitchMovement : MonoBehaviourPun, IPunObservable
             if (witchSkill != null && witchSkill.IsChanged)
             {
                 probBody.GetChild(1).rotation = Quaternion.Lerp(probBody.GetChild(1).rotation, receiveProbRot, receiveLerpSpeed * Time.deltaTime);
-                probBody.GetChild(1).localPosition = Vector3.Lerp(probBody.GetChild(1).localPosition, receivePos, receiveLerpSpeed * Time.deltaTime);
+                probBody.GetChild(1).localPosition = Vector3.Lerp(probBody.GetChild(1).localPosition, receiveProbPos, receiveLerpSpeed * Time.deltaTime);
             }
         }
     }
