@@ -64,6 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26ba070499da31f43b75971d4b4d441d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wingFactory: {fileID: 5117186206172002911, guid: abcdc6e44b64aa34f8f37b2999715edd, type: 3}
   kkokkioFactory: {fileID: 4727266071729423292, guid: 88100a8026e9b3d479a85b0c3542c405, type: 3}
   speed: 15
   deathTime: 8

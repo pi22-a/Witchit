@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PJH_Chicken : MonoBehaviour
 {
-           
+    public GameObject wingFactory;      //³¯°³Áþ ÀÌÆåÆ®          
     public GameObject kkokkioFactory;   //´ß ¿ïÀ½ ÀÌÆåÆ®
     public float speed = 15;            //´ß ½ºÇÇµå
     public float deathTime = 8;         //´ß ¼ö¸í
@@ -15,7 +15,8 @@ public class PJH_Chicken : MonoBehaviour
     bool b;
     LayerMask witchLayer;
     GameObject Chicken;
-    
+    GameObject Chicken1;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -36,6 +37,7 @@ public class PJH_Chicken : MonoBehaviour
             this.enabled = false;
         }
         */
+        Chicken1 = Instantiate(wingFactory, gameObject.transform);
 
     }
     /*
