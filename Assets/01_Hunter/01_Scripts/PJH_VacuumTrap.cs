@@ -36,7 +36,7 @@ public class PJH_VacuumTrap : MonoBehaviour
             for (int i = 0; i < cols.Length; i++)
             {
                 // 마녀를 흡수 위치로 당긴다.
-                cols[i].transform.root.position = Vector3.MoveTowards(cols[i].transform.root.position, gameObject.transform.position, 0.1f);
+                cols[i].transform.root.position = Vector3.MoveTowards(cols[i].transform.root.position, gameObject.transform.position, 0.5f);
             }
 
         }
