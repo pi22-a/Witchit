@@ -14,6 +14,8 @@ public class PEA_Prob : MonoBehaviour
     {
         material = GetComponent<MeshRenderer>().materials[0];
         rig = GetComponent<Rigidbody>();
+        rig.useGravity = false;
+        rig.constraints = RigidbodyConstraints.FreezeAll;
     }
 
     void Update()
@@ -45,6 +47,7 @@ public class PEA_Prob : MonoBehaviour
 
         if (!collision.transform.CompareTag("Ground"))
         {
+            rig.useGravity = true;
             rig.constraints = RigidbodyConstraints.None;
         }
     }
